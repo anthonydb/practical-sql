@@ -1,0 +1,134 @@
+﻿----------------------------------------------
+-- Dig Through Data With SQL
+-- by Anthony DeBarros
+
+-- Chapter 2 Code Examples
+----------------------------------------------
+
+-------------------------------------------
+-- 2-1: Querying all rows and columns from the teachers table
+
+SELECT * FROM teachers;
+
+-------------------------------------------
+-- 2-2: Querying a subset of columns
+
+SELECT first_name, last_name, salary FROM teachers;
+
+-------------------------------------------
+-- 2-3: Querying distinct values in the school column
+
+SELECT DISTINCT school 
+FROM teachers;
+
+-------------------------------------------
+-- 2-4: Querying distinct pairs of values in the scool and salary columns
+
+SELECT DISTINCT school, salary 
+FROM teachers;
+
+-------------------------------------------
+-- 2-5: Sorting a column with ORDER BY
+
+SELECT first_name, last_name, salary 
+FROM teachers
+ORDER BY salary DESC;
+
+-------------------------------------------
+-- 2-6: Sorting multiple columns with ORDER BY
+
+SELECT last_name, school, hire_date 
+FROM teachers
+ORDER BY school ASC, hire_date DESC;
+
+-------------------------------------------
+-- 2-7: Filtering rows using WHERE
+
+SELECT first_name, last_name, school 
+FROM teachers
+WHERE school = 'Myers Middle School';
+
+
+-------------------------------------------
+-- WHERE comparison operators
+
+/* teachers with first name of Janet  */
+
+SELECT first_name, last_name, school
+FROM teachers
+WHERE first_name = 'Janet';
+
+/* school names not equal to F.D. Roosevelt HS */
+
+SELECT school
+FROM teachers
+WHERE school != 'F.D. Roosevelt HS';
+
+/* teachers hired before Jan. 1, 2000 */
+
+SELECT first_name, last_name, hire_date
+FROM teachers
+WHERE hire_date < '1/1/2000';
+
+/* teachers earning 43,500 or more */
+
+SELECT first_name, last_name, salary
+FROM teachers
+WHERE salary >= 43500;
+
+/* Teachers who earn between $30,000 and $40,000  */
+
+SELECT first_name, last_name, school, salary
+FROM teachers
+WHERE salary BETWEEN 30000 AND 40000;
+
+----------------------------------------
+-- 2-8: Filtering with LIKE AND ILIKE
+
+SELECT first_name
+FROM teachers
+WHERE first_name LIKE 'sam%';
+
+SELECT first_name
+FROM teachers
+WHERE first_name ILIKE 'sam%';
+
+
+-------------------------------------------
+-- 2-9: SELECT statement with WHERE and ORDER BY
+
+SELECT first_name, last_name, school, hire_date, salary
+FROM teachers
+WHERE school LIKE '%Roos%'
+ORDER BY hire_date DESC;
+
+
+------------------------------------------------
+-- Try it Yourself
+
+-- 1. Write a query that lists the schools in alphabetical order along with teachers ordered by last name A-Z.
+
+SELECT school, first_name, last_name
+FROM teachers
+ORDER BY school, last_name;
+
+-- 2. Explore how PostgreSQL sorts characters.
+
+CREATE TABLE sort_test (
+values varchar(10)
+);
+
+INSERT INTO sort_test
+VALUES
+('Alvin'),
+('alex'),
+('1990'),
+('@twitter');
+
+SELECT values FROM sort_test ORDER BY values;
+
+-- 3. Find the one teacher whose name both starts with the letter S and who earns more than $40,000.
+
+SELECT first_name, last_name, school, salary
+FROM teachers
+WHERE first_name LIKE 'S%' AND salary > 40000;
