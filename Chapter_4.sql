@@ -5,25 +5,25 @@
 -- Chapter 4 Code Examples
 ----------------------------------------------
 
--- 4-1: Using COPY to import data (example syntax)
+-- Listing 4-1: Using COPY to import data (example syntax)
 
-COPY table_name
+COPY table_name 
 FROM 'C:\YourDirectory\your_file.csv'
 WITH (FORMAT CSV, HEADER);
 
 
--- 4-2: Create a table for Census import
+-- Listing 4-2: Create a table for Census import
 -- Full data dictionary available at: http://www.census.gov/prod/cen2010/doc/pl94-171.pdf
 
 CREATE TABLE us_counties_2010 (
-    NAME varchar(90),   -- Name of the county
+    NAME varchar(90),   -- Name of the county 
     STUSAB varchar(2), 	-- State/U.S. abbreviation
     SUMLEV varchar(3), 	-- Summary Level
-    REGION smallint,   -- Region
+    REGION smallint,   -- Region 
     DIVISION smallint,	-- Division
     STATE varchar(2), 	-- State FIPS code
     COUNTY varchar(3), 	-- County code
-    AREALAND bigint, 	-- Area (Land) in square meters
+    AREALAND bigint, 	-- Area (Land) in square meters 
     AREAWATR bigint, 	-- Area (Water) in square meters
     POP100 integer, 	-- Population count (100%)
     HU100 integer, 	-- Housing Unit count (100%)
@@ -43,7 +43,7 @@ CREATE TABLE us_counties_2010 (
     P0010011 integer, 		-- White; Black or African American
     P0010012 integer, 		-- White; American Indian and Alaska Native
     P0010013 integer, 		-- White; Asian
-    P0010014 integer,		-- White; Native Hawaiian and Other Pacific Islander
+    P0010014 integer,		-- White; Native Hawaiian and Other Pacific Islander 
     P0010015 integer, 		-- White; Some Other Race
     P0010016 integer, 		-- Black or African American; American Indian and Alaska Native
     P0010017 integer, 		-- Black or African American; Asian
@@ -72,7 +72,7 @@ CREATE TABLE us_counties_2010 (
     P0020010 integer, 		-- Some Other Race alone
     P0020011 integer, 	-- Two or More Races
     P0020012 integer, 	-- Population of two races
-    P0020028 integer,	-- Population of three races
+    P0020028 integer,	-- Population of three races 	
     P0020049 integer, 	-- Population of four races
     P0020065 integer,	-- Population of five races
     P0020072 integer, 	-- Population of six races
@@ -91,7 +91,7 @@ CREATE TABLE us_counties_2010 (
     P0030047 integer, 	-- Population of four races
     P0030063 integer, 	-- Population of five races
     P0030070 integer, 	-- Population of six races
-    -- This section is referred to as P4. HISPANIC OR LATINO, AND NOT HISPANIC OR LATINO BY RACE
+    -- This section is referred to as P4. HISPANIC OR LATINO, AND NOT HISPANIC OR LATINO BY RACE 
     -- FOR THE POPULATION 18 YEARS AND OVER
     P0040001 integer, 	-- Total
     P0040002 integer, 	-- Hispanic or Latino
@@ -103,13 +103,13 @@ CREATE TABLE us_counties_2010 (
     P0040008 integer, 	-- Asian alone
     P0040009 integer, 	-- Native Hawaiian and Other Pacific Islander alone
     P0040010 integer, 	-- Some Other Race alone
-    P0040011 integer,	-- Two or More Races
+    P0040011 integer,	-- Two or More Races 
     P0040012 integer, 	-- Population of two races
     P0040028 integer, 	-- Population of three races
     P0040049 integer, 	-- Population of four races
-    P0040065 integer,	-- Population of five races
+    P0040065 integer,	-- Population of five races 
     P0040072 integer, 	-- Population of six races
-    -- This section is referred to as H1. OCCUPANCY STATUS
+    -- This section is referred to as H1. OCCUPANCY STATUS  
     H0010001 integer, 	-- Total housing units
     H0010002 integer, 	-- Occupied
     H0010003 integer	-- Vacant
@@ -117,10 +117,11 @@ CREATE TABLE us_counties_2010 (
 
 SELECT * from us_counties_2010;
 
--- 4-3: Import Census data using COPY
+-- Listing 4-3: Import Census data using COPY
 
 COPY us_counties_2010
 FROM 'C:\YourDirectory\us_counties_2010.csv'
+--FROM '/Users/adebarros/Dropbox/DataMonky/Book-Writing/DigThroughDataWithSQL/Data/us_counties_2010.csv'
 WITH (FORMAT CSV, HEADER);
 
 -- Checking the data
@@ -136,7 +137,7 @@ FROM us_counties_2010
 ORDER BY INTPTLON DESC;
 
 
--- 4-4: Creating a table to track supervisor salaries
+-- Listing 4-4: Creating a table to track supervisor salaries
 
 CREATE TABLE supervisor_salaries (
     town varchar(30),
@@ -147,16 +148,17 @@ CREATE TABLE supervisor_salaries (
     benefits money
 );
 
--- 4-5: Importing salaries data from CSV to three table fields
+-- Listing 4-5: Importing salaries data from CSV to three table fields
 
 COPY supervisor_salaries (town, supervisor, salary)
+--FROM '/Users/adebarros/Dropbox/DataMonky/Book-Writing/DigThroughDataWithSQL/Data/supervisor_salaries.csv'
 FROM 'C:\YourDirectory\Data\salaries.csv'
 WITH (FORMAT CSV, HEADER);
 
 -- Check the data
 SELECT * FROM supervisor_salaries LIMIT 2;
 
--- 4-6 Use a temporary table to add a default value to a field during import
+-- Listing 4-6 Use a temporary table to add a default value to a field during import
 
 DELETE FROM supervisor_salaries;
 
@@ -164,6 +166,7 @@ CREATE TEMPORARY TABLE supervisor_salaries_temp (LIKE supervisor_salaries);
 
 COPY supervisor_salaries_temp (town, supervisor, salary)
 FROM '/Users/adebarros/Dropbox/DataMonky/Book-Writing/DigThroughDataWithSQL/Data/supervisor_salaries.csv'
+--FROM 'C:\SQLforDataJournalism\Data\salaries.csv'
 WITH (FORMAT CSV, HEADER);
 
 INSERT INTO supervisor_salaries (town, county, supervisor, salary)
@@ -175,22 +178,26 @@ DROP TABLE supervisor_salaries_temp;
 -- Check the data
 SELECT * FROM supervisor_salaries LIMIT 2;
 
--- 4-7: Export an entire table with COPY
+-- Listing 4-7: Export an entire table with COPY
 
 COPY us_counties_2010
+--TO  '/Users/adebarros/Dropbox/DataMonky/Book-Writing/DigThroughDataWithSQL/Data/us_counties_export.txt'
 TO 'C:\YourDirectory\us_counties_export.txt'
 WITH (FORMAT CSV, HEADER, DELIMITER '|')
 
--- 4.8: Export selected fields from a table with COPY
+
+-- Listing 4-8: Export selected fields from a table with COPY
 
 COPY us_counties_2010 (NAME, INTPTLAT, INTPTLON)
+--TO  '/Users/adebarros/Dropbox/DataMonky/Book-Writing/DigThroughDataWithSQL/Data/us_counties_latlon_export.txt'
 TO 'C:\YourDirectory\us_counties_latlon_export.txt'
 WITH (FORMAT CSV, HEADER, DELIMITER '|')
 
--- 4-9: Export query results with COPY
+-- Listing 4-9: Export query results with COPY
 
 COPY (SELECT NAME, STUSAB FROM us_counties_2010 WHERE NAME ILIKE '%MILL%')
 TO  '/Users/adebarros/Dropbox/DataMonky/Book-Writing/DigThroughDataWithSQL/Data/us_counties_mill_export.txt'
+--TO 'C:\YourDirectory\us_counties_mill_export.txt'
 WITH (FORMAT CSV, HEADER, DELIMITER '|')
 
 
@@ -205,7 +212,8 @@ WITH (FORMAT CSV, HEADER, DELIMITER ':', QUOTE '%')
 -- 2. Using the table us_counties_2010, write SQL to export to CSV the 20 counties in the United States that have the most housing units. Make sure you export each county's name, state and number of housing units. Hint: Housing units are totaled for each county in the field HU100.
 
 COPY (SELECT NAME, STUSAB, HU100 FROM us_counties_2010 ORDER BY HU100 DESC LIMIT 20)
-TO 'C:\YourDirectory\us_counties_mill_export.txt'
+TO  '/Users/adebarros/Dropbox/DataMonky/Book-Writing/DigThroughDataWithSQL/Data/county_housing_export.txt'
+--TO 'C:\YourDirectory\us_counties_mill_export.txt'
 WITH (FORMAT CSV, HEADER)
 
 -- 3. You're importing a file that contains a field with values such as these:
@@ -214,5 +222,6 @@ WITH (FORMAT CSV, HEADER)
       -- 18976.335
 -- Will a field in your target table with data type decimal(3,8) work for these values? Why or why not?
 
-No, it won't -- in fact, you won't even be able to create a field with that data type because the
-precision must be larger than the scale. The correct type is decimal(8,3)
+No, it won't -- in fact, you won't even be able to create a field with that data type because the 
+precision must be larger than the scale. The correct type is decimal(8,3) 
+

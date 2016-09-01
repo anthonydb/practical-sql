@@ -6,13 +6,13 @@
 ----------------------------------------------
 
 -------------------------------------------
--- 1-1: Create a database
+-- Listing 1-1: Create a database
 
 CREATE DATABASE analysis;
 
 
 -------------------------------------------
--- 1-2: Create a table
+-- Listing 1-2: Create a table
 
 CREATE TABLE teachers (
     id serial,
@@ -26,7 +26,7 @@ CREATE TABLE teachers (
 -- DROP TABLE teachers;
 
 -------------------------------------------
--- 1-3 Insert rows into a table
+-- Listing 1-3 Insert rows into a table
 
 INSERT INTO teachers (first_name, last_name, school, hire_date, salary) 
 VALUES ('Janet', 'Smith', 'F.D. Roosevelt HS', '2011-10-30', 36200),
