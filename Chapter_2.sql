@@ -18,33 +18,33 @@ SELECT first_name, last_name, salary FROM teachers;
 -------------------------------------------
 -- Listing 2-3: Querying distinct values in the school column
 
-SELECT DISTINCT school 
+SELECT DISTINCT school
 FROM teachers;
 
 -------------------------------------------
 -- Listing 2-4: Querying distinct pairs of values in the scool and salary columns
 
-SELECT DISTINCT school, salary 
+SELECT DISTINCT school, salary
 FROM teachers;
 
 -------------------------------------------
 -- Listing 2-5: Sorting a column with ORDER BY
 
-SELECT first_name, last_name, salary 
+SELECT first_name, last_name, salary
 FROM teachers
 ORDER BY salary DESC;
 
 -------------------------------------------
 -- Listing 2-6: Sorting multiple columns with ORDER BY
 
-SELECT last_name, school, hire_date 
+SELECT last_name, school, hire_date
 FROM teachers
 ORDER BY school ASC, hire_date DESC;
 
 -------------------------------------------
 -- Listing 2-7: Filtering rows using WHERE
 
-SELECT first_name, last_name, school 
+SELECT first_name, last_name, school
 FROM teachers
 WHERE school = 'Myers Middle School';
 
@@ -101,34 +101,3 @@ SELECT first_name, last_name, school, hire_date, salary
 FROM teachers
 WHERE school LIKE '%Roos%'
 ORDER BY hire_date DESC;
-
-
-------------------------------------------------
--- Try it Yourself
-
--- 1. Write a query that lists the schools in alphabetical order along with teachers ordered by last name A-Z.
-
-SELECT school, first_name, last_name
-FROM teachers
-ORDER BY school, last_name;
-
--- 2. Explore how PostgreSQL sorts characters.
-
-CREATE TABLE sort_test (
-values varchar(10)
-);
-
-INSERT INTO sort_test
-VALUES
-('Alvin'),
-('alex'),
-('1990'),
-('@twitter');
-
-SELECT values FROM sort_test ORDER BY values;
-
--- 3. Find the one teacher whose name both starts with the letter S and who earns more than $40,000.
-
-SELECT first_name, last_name, school, salary
-FROM teachers
-WHERE first_name LIKE 'S%' AND salary > 40000;
