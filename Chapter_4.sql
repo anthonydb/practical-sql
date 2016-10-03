@@ -147,7 +147,7 @@ CREATE TABLE supervisor_salaries (
     benefits money
 );
 
--- Listing 4-5: Importing salaries data from CSV to three table fields
+-- Listing 4-5: Importing salaries data from CSV to three table columns
 
 COPY supervisor_salaries (town, supervisor, salary)
 FROM 'C:\YourDirectory\Data\salaries.csv'
@@ -167,7 +167,7 @@ FROM 'C:\YourDirectory\Data\salaries.csv'
 WITH (FORMAT CSV, HEADER);
 
 INSERT INTO supervisor_salaries (town, county, supervisor, salary)
-SELECT town, 'Some County', supervisor, salary
+SELECT town, 'Westchester County', supervisor, salary
 FROM supervisor_salaries_temp;
 
 DROP TABLE supervisor_salaries_temp;
@@ -182,7 +182,7 @@ TO 'C:\YourDirectory\us_counties_export.txt'
 WITH (FORMAT CSV, HEADER, DELIMITER '|')
 
 
--- Listing 4-8: Export selected fields from a table with COPY
+-- Listing 4-8: Export selected columns from a table with COPY
 
 COPY us_counties_2010 (NAME, INTPTLAT, INTPTLON)
 TO 'C:\YourDirectory\us_counties_latlon_export.txt'

@@ -88,7 +88,7 @@ WHERE first_name LIKE 'S%' AND salary > 40000;
 --------------
 
 -- 1. Assuming no driver would ever travel more than 999 miles in a day,
--- what would be an appropriate data type for the mileage field in your
+-- what would be an appropriate data type for the mileage column in your
 -- table. Why?
 
 decimal(5,1)
@@ -97,12 +97,12 @@ decimal(5,1)
 
 -- 2. In the table listing each driver in your company, what are appropriate
 -- data types for the drivers’ first and last names? Why is it a good idea to
--- separate first and last names into two fields rather than having one
--- larger name field?
+-- separate first and last names into two columns rather than having one
+-- larger name column?
 varchar(50)
 -- Separating first and last names will allow you later to sort on each.
 
--- 3. Assume you have a text field that includes strings formatted as dates.
+-- 3. Assume you have a text column that includes strings formatted as dates.
 -- One of the strings is written as '4//2017'. What will happen when you try
 -- to convert that string to the data type of timestamp?
 SELECT CAST('4//2017' AS timestamp);
@@ -113,8 +113,8 @@ SELECT CAST('4//2017' AS timestamp);
 -- Chapter 4
 --------------
 
--- 1. Write a WITH statement to include with COPY to handle the import of a
--- text file that has a first couple of rows that look like this:
+-- 1. Write a WITH statement to include with COPY to handle the import of an
+-- imaginary text file that has a first couple of rows that look like this:
 -- id:movie:actor
 -- 50:%Mission: Impossible%:Tom Cruise
 
@@ -129,7 +129,7 @@ COPY (SELECT NAME, STUSAB, HU100 FROM us_counties_2010 ORDER BY HU100 DESC LIMIT
 TO 'C:\YourDirectory\us_counties_mill_export.txt'
 WITH (FORMAT CSV, HEADER)
 
--- 3. You're importing a file that contains a field with values such as these:
+-- 3. Imagine you're importing a file that contains a field with values such as these:
       -- 17519.668
       -- 20084.461
       -- 18976.335
