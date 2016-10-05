@@ -56,12 +56,12 @@ FROM us_counties_2010;
 
 -- Listing 5-6: Check Census race column totals
 
-SELECT name, 
-       STUSAB, 
+SELECT name,
+       STUSAB,
        P0010001 AS "Total",
-       P0010003 + P0010004 + P0010005 + P0010006 + P0010007 
+       P0010003 + P0010004 + P0010005 + P0010006 + P0010007
            + P0010008 + P0010009 AS "All Races",
-       (P0010003 + P0010004 + P0010005 + P0010006 + P0010007 
+       (P0010003 + P0010004 + P0010005 + P0010006 + P0010007
            + P0010008 + P0010009) - P0010001 AS "Difference"
 FROM us_counties_2010
 ORDER BY "Difference" DESC;
@@ -83,8 +83,8 @@ CREATE TABLE percent_change (
     spend_2017 integer
 );
 
-INSERT INTO percent_change 
-VALUES 
+INSERT INTO percent_change
+VALUES
     ('Building', 250000, 289000),
     ('Assessor', 178556, 179500),
     ('Library', 87777, 90001),
@@ -94,8 +94,8 @@ VALUES
 
 SELECT department,
        spend_2014,
-       spend_2017,	
-       round( (CAST(spend_2017 AS DECIMAL(10,1)) - spend_2014) / 
+       spend_2017,
+       round( (CAST(spend_2017 AS DECIMAL(10,1)) - spend_2014) /
                     spend_2014 * 100, 1 )
 FROM percent_change;
 
@@ -107,13 +107,13 @@ FROM percent_change;
 SELECT sum(P0010001) AS "County Sum",
        round(avg(P0010001), 0) AS "County Average"
 FROM us_counties_2010;
-	
+
 
 -- 5.9: Create a MEDIAN() aggregate function
 
 CREATE OR REPLACE FUNCTION _final_median(anyarray)
    RETURNS float8 AS
-$$ 
+$$
   WITH q AS
   (
      SELECT val
@@ -126,15 +126,15 @@ $$
     SELECT COUNT(*) AS c FROM q
   )
   SELECT AVG(val)::float8
-  FROM 
+  FROM
   (
     SELECT val FROM q
     LIMIT  2 - MOD((SELECT c FROM cnt), 2)
-    OFFSET GREATEST(CEIL((SELECT c FROM cnt) / 2.0) - 1,0)  
+    OFFSET GREATEST(CEIL((SELECT c FROM cnt) / 2.0) - 1,0)
   ) q2;
 $$
 LANGUAGE sql IMMUTABLE;
- 
+
 CREATE AGGREGATE median(anyelement) (
   SFUNC=array_append,
   STYPE=anyarray,
@@ -173,40 +173,3 @@ SELECT sum(P0010001) AS "County Sum",
        percentile_cont(.5)
        WITHIN GROUP (ORDER BY P0010001) AS "50th Percentile"
 FROM us_counties_2010;
-
-
--- Try It Yourself
-
--- 1. Write a SQL statement for calculating the area of a circle whose radius is 5 inches?
--- Do you need parentheses in your calculation? Why or why not?
-
--- Answer:
-SELECT 3.14 * 5 ^ 2;
--- Formula is pi * radius squared
--- You do not need parentheses because exponents and roots take precedence over multiplication.
-
--- 2. Using  2010 Census county data, find the county in New York state that has the highest
--- percentage of the population that identified as "American Indian/Alaska Native Alone." What
--- can you learn about that county that explains the relatively high American Indian population
--- compared with other New York counties?
-
--- Answer:
-SELECT name,
-       STUSAB,
-       (CAST (P0010005 AS DECIMAL(8,1)) / P0010001) * 100 AS "Pct Am Indian/Alaska Native Alone"
-FROM us_counties_2010
-WHERE stusab = 'NY'
-ORDER BY "Pct Am Indian/Alaska Native Alone" DESC;
--- Franklin County, N.Y., with 7.4%. The county contain the St. Regis Mohawk Reservation.
-
--- 3. Is median county population higher in California or New York? 
-
--- Answer:
-SELECT median(P0010001)
-FROM us_counties_2010
-WHERE stusab = 'NY';
-
-SELECT median(P0010001)
-FROM us_counties_2010
-WHERE stusab = 'CA';
--- California has a median county population of 179,140.5, almost double that of New York, at 91,301.
