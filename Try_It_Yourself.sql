@@ -1,4 +1,4 @@
-﻿----------------------------------------------
+----------------------------------------------
 -- Dig Through Data with SQL
 -- by Anthony DeBarros
 
@@ -177,3 +177,66 @@ SELECT median(P0010001)
 FROM us_counties_2010
 WHERE stusab = 'CA';
 -- California has a median county population of 179,140.5, almost double that of New York, at 91,301.
+
+--------------
+-- Chapter 6
+--------------
+
+-- 1. The table us_counties_2010 contains 3,143 rows, while us_counties_2000 has 3,141.
+-- That reflects the ongoing adjustments to county-level geographies that typically result
+-- from government decision-making. Using appropriate joins and the NULL value, identify
+-- which counties don't exist in both tables.
+
+-- Answers:
+
+-- Exist in 2010 data but not 2000:
+SELECT c2010.name,
+       c2010.stusab,
+       c2000.geography
+FROM us_counties_2010 c2010 LEFT JOIN us_counties_2000 c2000
+ON c2010.state = c2000.state AND c2010.county = c2000.county
+WHERE c2000.geography IS NULL;
+
+-- Exist in 2000 data but not 2010:
+SELECT c2010.name,
+       c2000.state,
+       c2000.county,
+       c2000.geography
+FROM us_counties_2010 c2010 RIGHT JOIN us_counties_2000 c2000
+ON c2010.state = c2000.state AND c2010.county = c2000.county
+WHERE c2010.name IS NULL;
+
+-- 2. Using either the median() or percentile_cont() functions from Chapter 5,
+-- determine the median percent change in county population.
+
+-- Answer: 3.2%
+
+-- Using median():
+SELECT median(round( (CAST(c2010.P0010001 AS DECIMAL(8,1)) - c2000.P0010001)
+           / c2000.P0010001 * 100, 1 )) AS "Median Pct. change"
+FROM us_counties_2010 c2010 INNER JOIN us_counties_2000 c2000
+ON c2010.state = c2000.state AND c2010.county = c2000.county;
+
+-- Using percentile_cont():
+SELECT percentile_cont(.5)
+       WITHIN GROUP (ORDER BY round( (CAST(c2010.P0010001 AS DECIMAL(8,1)) - c2000.P0010001)
+           / c2000.P0010001 * 100, 1 )) AS "50th Percentile"
+FROM us_counties_2010 c2010 INNER JOIN us_counties_2000 c2000
+ON c2010.state = c2000.state AND c2010.county = c2000.county;
+
+
+-- 3. Which county had the greatest percentage loss of population between 2000 and 2010?
+-- Any idea why? Hint: A weather event that happened in 2005.
+
+-- Answer: St. Bernard Parish, La.
+
+SELECT c2010.name,
+       c2010.stusab,
+       c2010.P0010001 AS "2010 pop",
+       c2000.P0010001 AS "2000 pop",
+       c2010.P0010001 - c2000.P0010001 AS "Raw change",
+       round( (CAST(c2010.P0010001 AS DECIMAL(8,1)) - c2000.P0010001)
+           / c2000.P0010001 * 100, 1 ) AS "Pct. change"
+FROM us_counties_2010 c2010 INNER JOIN us_counties_2000 c2000
+ON c2010.state = c2000.state AND c2010.county = c2000.county
+ORDER BY "Pct. change" ASC;
