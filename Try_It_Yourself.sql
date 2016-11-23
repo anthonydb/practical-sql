@@ -240,3 +240,82 @@ SELECT c2010.name,
 FROM us_counties_2010 c2010 INNER JOIN us_counties_2000 c2000
 ON c2010.state = c2000.state AND c2010.county = c2000.county
 ORDER BY "Pct. change" ASC;
+
+--------------
+-- Chapter 7
+--------------
+
+-- Consider the following two tables, part of a database you’re making to keep track of your vinyl LP collection.
+-- You start by sketching out these CREATE TABLE statements:
+
+CREATE TABLE albums (
+    album_id bigserial,
+    album_catalog_code varchar(100),
+    album_title text,
+    album_artist text,
+    album_time interval,
+    album_release_date date,
+    album_genre varchar(40),
+    album_description text
+);
+
+CREATE TABLE songs (
+    song_id bigserial,
+    song_title text,
+    song_artist text,
+    album_id bigint
+);
+
+-- Use the tables to answer these questions:
+
+-- 1. Modify these CREATE TABLE statements to include primary and foreign keys
+-- plus additional constraints on both tables. Explain why you made your choices.
+
+CREATE TABLE albums (
+    album_id bigserial,
+    album_catalog_code varchar(100),
+    album_title text NOT NULL,
+    album_artist text NOT NULL,
+    album_release_date date,
+    album_genre varchar(40),
+    album_description text,
+    CONSTRAINT album_id_key PRIMARY KEY (album_id),
+    CONSTRAINT release_date_check CHECK (album_release_date > '1/1/1925')
+);
+
+CREATE TABLE songs (
+    song_id bigserial,
+    song_title text NOT NULL,
+    song_artist text NOT NULL,
+    album_id bigint REFERENCES albums (album_id),
+    CONSTRAINT song_id_key PRIMARY KEY (song_id)
+);
+
+-- Both tables get a primary key using the surrogate key id values that are
+-- auto-generated via serial data types. The songs table references albums
+-- via a foreign key constraint. In both tables, the title and artist columns
+-- cannot be empty. We assume that every album and song should at minimum have
+-- that information. Finally, we place a CHECK constraint on the
+-- album_release_date column in albums because it would be likely impossible
+-- for us to own an LP made before 1925.
+
+
+-- 2. Instead of using album_id as a surrogate key for your primary key, would any
+-- columns in albums potentially be useful as a natural key? What would you have to
+-- know to decide?
+
+-- We could consider the album_catalog_code. We would have to answer yes to these
+-- questions:
+-- -- Is it going to be unique across all albums released by all companies?
+-- -- Will we always have one?
+-- -- Will it never change for a particular album?
+
+
+-- 3. To speed up queries, which columns are good candidates for indexes?
+
+-- Primary key columns get indexes by default, but we should add an index
+-- to the album_id foreign key column in the songs table because we'll use
+-- it in table joins. It's likely that we'll query these tables to search
+-- by titles and artists, so those columns in both tables should get indexes
+-- too. The album_release_date in albums also is a candidate if we expect
+-- to perform many queries that include date ranges.
