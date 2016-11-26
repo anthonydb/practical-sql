@@ -1,4 +1,4 @@
-----------------------------------------------
+﻿----------------------------------------------
 -- Dig Through Data with SQL
 -- by Anthony DeBarros
 
@@ -154,8 +154,8 @@ SELECT 3.14 * 5 ^ 2;
 
 -- 2. Using  2010 Census county data, find the county in New York state that has the highest
 -- percentage of the population that identified as "American Indian/Alaska Native Alone." What
--- can you learn about that county that explains the relatively high American Indian population
--- compared with other New York counties?
+-- can you learn about that county from online research that explains the relatively high 
+-- American Indian population compared with other New York counties?
 
 -- Answer:
 SELECT name,
@@ -164,7 +164,7 @@ SELECT name,
 FROM us_counties_2010
 WHERE stusab = 'NY'
 ORDER BY "Pct Am Indian/Alaska Native Alone" DESC;
--- Franklin County, N.Y., with 7.4%. The county contain the St. Regis Mohawk Reservation.
+-- Franklin County, N.Y., with 7.4%. The county contains the St. Regis Mohawk Reservation.
 
 -- 3. Is median county population higher in California or New York?
 
