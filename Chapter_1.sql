@@ -15,12 +15,12 @@ CREATE DATABASE analysis;
 -- Listing 1-2: Create a table
 
 CREATE TABLE teachers (
-    id serial,
+    id bigserial,
     first_name varchar(25),
     last_name varchar(50),
     school varchar(50),
     hire_date date,
-    salary decimal
+    salary numeric
 );
 
 -- DROP TABLE teachers;

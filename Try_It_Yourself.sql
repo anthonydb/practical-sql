@@ -16,14 +16,14 @@
 -- include some of the columns you need. Why did you include the columns you chose?
 
 CREATE TABLE animal_types (
-   animal_type_id serial,
+   animal_type_id bigserial,
    common_name varchar(100),
    scientific_name varchar(100),
    conservation_status varchar(50)
 );
 
 CREATE TABLE menagerie (
-   animal_id serial,
+   animal_id bigserial,
    animal_type_id integer,
    date_acquired date,
    gender char(1),
@@ -32,8 +32,8 @@ CREATE TABLE menagerie (
    notes text
 );
 
--- 2. Now create INSERT statements to load sample data into the tables. How does
--- the SQL syntax differ for handling text, numbers and dates?
+-- 2. Now create INSERT statements to load sample data into the tables.
+-- How can you view the data via the pgAdmin tool?
 
 INSERT INTO animal_types (common_name, scientific_name, conservation_status)
 VALUES ('Bengal Tiger', 'Panthera tigris tigris', 'Endangered'),
@@ -45,6 +45,13 @@ VALUES
 (1, '3/12/1996', 'F', 'Dhaka Zoo', 'Ariel', 'Healthy coat at last exam.'),
 (2, '9/30/2000', 'F', 'National Zoo', 'Freddy', 'Strong appetite.');
 
+
+-- 3. Create an additional INSERT statement for one of your tables. On purpose, leave out
+-- one of the required commas separating the entries in the VALUES clause of the query. What
+-- is the error message? Does it help you find the error in the code?
+
+INSERT INTO animal_types (common_name, scientific_name, conservation_status)
+VALUES ('Javan Rhino', 'Rhinoceros sondaicus' 'Critically Endangered');
 
 --------------
 -- Chapter 2
@@ -154,7 +161,7 @@ SELECT 3.14 * 5 ^ 2;
 
 -- 2. Using  2010 Census county data, find the county in New York state that has the highest
 -- percentage of the population that identified as "American Indian/Alaska Native Alone." What
--- can you learn about that county from online research that explains the relatively high 
+-- can you learn about that county from online research that explains the relatively high
 -- American Indian population compared with other New York counties?
 
 -- Answer:
