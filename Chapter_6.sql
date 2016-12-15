@@ -1,11 +1,47 @@
-----------------------------------------------
+﻿----------------------------------------------
 -- Dig Through Data with SQL
 -- by Anthony DeBarros
 
 -- Chapter 6 Code Examples
 ----------------------------------------------
 
--- Listing 6-1: Creating two tables to explore JOIN types
+-- Listing 6-1: CREATE departments and employees tables
+
+CREATE TABLE departments (
+    dept_id bigserial,
+    dept varchar(100),
+    city varchar(100),
+    CONSTRAINT dept_key PRIMARY KEY (dept_id)
+);
+
+CREATE TABLE employees (
+    emp_id bigserial,
+    first_name varchar(100),
+    last_name varchar(100),
+    salary integer,
+    dept_id integer,
+    CONSTRAINT emp_key PRIMARY KEY (emp_id)
+);
+
+INSERT INTO departments (dept, city)
+VALUES
+    ('Tax', 'Atlanta'),
+    ('IT', 'Boston');
+
+INSERT INTO employees (first_name, last_name, salary, dept_id)
+VALUES
+    ('Nancy', 'Jones', 62500, 1),
+    ('Lee', 'Smith', 59300, 1),
+    ('Soo', 'Nguyen', 83000, 2),
+    ('Janet', 'King', 95000, 2);
+
+-- Listing 6-2: Basic JOIN
+
+SELECT *
+FROM employees JOIN departments
+ON employees.dept_id = departments.dept_id;
+
+-- Listing 6-3: Creating two tables to explore JOIN types
 
 CREATE TABLE schools_left (
     id integer CONSTRAINT left_id_key PRIMARY KEY,
@@ -30,53 +66,54 @@ INSERT INTO schools_right (id, right_school) VALUES
     (4, 'Chase Magnet Academy'),
     (6, 'Jefferson High School');
 
--- Listing 6-2: INNER JOIN
+-- Listing 6-4: JOIN
 
 SELECT *
-FROM schools_left INNER JOIN schools_right
+FROM schools_left JOIN schools_right
 ON schools_left.id = schools_right.id;
 
--- Listing 6-3: LEFT JOIN
+-- Listing 6-5: LEFT JOIN
 
 SELECT *
 FROM schools_left LEFT JOIN schools_right
 ON schools_left.id = schools_right.id;
 
--- Listing 6-4: RIGHT JOIN
+-- Listing 6-6: RIGHT JOIN
 
 SELECT *
 FROM schools_left RIGHT JOIN schools_right
 ON schools_left.id = schools_right.id;
 
--- Listing 6-5: Filtering to show missing values with IS NULL
+
+-- Listing 6-7: FULL OUTER JOIN
+
+SELECT *
+FROM schools_left FULL OUTER JOIN schools_right
+ON schools_left.id = schools_right.id;
+
+-- Listing 6-8: CROSS JOIN
+
+SELECT *
+FROM schools_left CROSS JOIN schools_right;
+
+-- Listing 6-9: Filtering to show missing values with IS NULL
 
 SELECT *
 FROM schools_left LEFT JOIN schools_right
 ON schools_left.id = schools_right.id
 WHERE schools_right.id IS NULL;
 
--- Listing 6-6: FULL OUTER JOIN
-
-SELECT *
-FROM schools_left FULL OUTER JOIN schools_right
-ON schools_left.id = schools_right.id;
-
--- Listing 6-7: CROSS JOIN
-
-SELECT *
-FROM schools_left CROSS JOIN schools_right;
-
--- Listing 6-8: Querying specific columns in a join
+-- Listing 6-10: Querying specific columns in a join
 SELECT schools_left.id AS "left_id", schools_left.left_school, schools_right.right_school
 FROM schools_left LEFT JOIN schools_right
 ON schools_left.id = schools_right.id;
 
--- Listing 6-9: Simplifying code with table aliases
+-- Listing 6-11: Simplifying code with table aliases
 SELECT l.id, l.left_school, r.right_school
 FROM schools_left l LEFT JOIN schools_right r
 ON l.id = r.id;
 
--- Listing 6-10: Joining multiple tables
+-- Listing 6-12: Joining multiple tables
 CREATE TABLE schools_enrollment (
 	id integer,
 	enrollment integer
@@ -107,7 +144,7 @@ FROM schools_left l LEFT JOIN schools_enrollment en
 LEFT JOIN schools_grades gr
     ON l.id = gr.id;
 
--- Listing 6-11: Performing math on joined Census tables
+-- Listing 6-13: Performing math on joined Census tables
 
 CREATE TABLE us_counties_2000 (
     state varchar(2), 	   -- State FIPS code
@@ -134,7 +171,7 @@ SELECT c2010.name,
        c2010.P0010001 AS "2010 pop",
        c2000.P0010001 AS "2000 pop",
        c2010.P0010001 - c2000.P0010001 AS "Raw change",
-       round( (CAST(c2010.P0010001 AS DECIMAL(8,1)) - c2000.P0010001) 
+       round( (CAST(c2010.P0010001 AS DECIMAL(8,1)) - c2000.P0010001)
            / c2000.P0010001 * 100, 1 ) AS "Pct. change"
 FROM us_counties_2010 c2010 INNER JOIN us_counties_2000 c2000
 ON c2010.state = c2000.state AND c2010.county = c2000.county
