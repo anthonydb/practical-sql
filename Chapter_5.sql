@@ -16,13 +16,13 @@ SELECT 3 * 4;    -- multiplication
 SELECT 11 / 6;   -- integer division
 SELECT 11 % 6;   -- modulo division
 SELECT 11.0 / 6; -- decimal division
-SELECT CAST (11 AS DECIMAL(3,1)) / 6;
+SELECT CAST (11 AS decimal(3,1)) / 6;
 
 -- Listing 5-3: Exponents, roots and factorials with SQL
 
 SELECT 3 ^ 4;    -- exponentiation
 SELECT |/ 10;    -- square root (operator)
-SELECT SQRT(10); -- square root (function)
+SELECT sqrt(10); -- square root (function)
 SELECT ||/ 10;   -- cube root
 SELECT 4 !;      -- factorial
 
@@ -70,7 +70,7 @@ ORDER BY "Difference" DESC;
 
 SELECT name,
        STUSAB,
-       (CAST (P0010006 AS DECIMAL(8,1)) / P0010001) * 100 AS "Pct Asian"
+       (CAST (P0010006 AS decimal(8,1)) / P0010001) * 100 AS "Pct Asian"
 FROM us_counties_2010
 ORDER BY "Pct Asian" DESC;
 
@@ -95,7 +95,7 @@ VALUES
 SELECT department,
        spend_2014,
        spend_2017,
-       round( (CAST(spend_2017 AS DECIMAL(10,1)) - spend_2014) /
+       round( (CAST(spend_2017 AS decimal(10,1)) - spend_2014) /
                     spend_2014 * 100, 1 )
 FROM percent_change;
 
