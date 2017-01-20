@@ -431,3 +431,45 @@ SELECT pls14.libname, pls14.city, pls14.stabr, pls14.statstru, pls14.c_admin, pl
 FROM pls_fy2014_pupld14a pls14 FULL OUTER JOIN pls_fy2009_pupld09a pls09
 ON pls14.fscskey = pls09.fscskey
 WHERE pls14.libname IS NULL;
+
+--------------
+-- Chapter 9
+--------------
+
+-- This chapter’s exercise focuses on turning this simple table into useful
+-- information. We want to answer two simple questions: How many of the
+-- companies in the table process meat, and how many process poultry?
+
+-- Create two new columns in your table: meat_processing and poultry_processing.
+-- Each can be of the type varchar(1).
+-- Update the meat_processing column to contain a Y (for yes) on any row where the
+-- activities column contains the text Meat Processing. Do the same update on the
+-- poultry_processing column, this time looking for the text Poultry Processing
+-- in activities.
+
+-- Use the data in the new, updated columns to count how many companies perform
+-- each type of activity. As a bonus, count how many companies perform both activities.
+
+
+-- Add the columns
+ALTER TABLE meat_poultry_egg_inspect ADD COLUMN meat_processing varchar(1);
+ALTER TABLE meat_poultry_egg_inspect ADD COLUMN poultry_processing varchar(1);
+
+-- Update the columns
+UPDATE meat_poultry_egg_inspect
+SET meat_processing = 'Y'
+WHERE activities ILIKE '%meat processing%';
+
+UPDATE meat_poultry_egg_inspect
+SET poultry_processing = 'Y'
+WHERE activities ILIKE '%poultry processing%';
+
+-- Count meat and poultry processors
+SELECT count(meat_processing), count(poultry_processing)
+FROM meat_poultry_egg_inspect;
+
+-- Count those who do both
+SELECT count(*)
+FROM meat_poultry_egg_inspect
+WHERE meat_processing = 'Y' AND
+      poultry_processing = 'Y';
