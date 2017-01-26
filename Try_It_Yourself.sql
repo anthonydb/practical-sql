@@ -64,30 +64,20 @@ SELECT school, first_name, last_name
 FROM teachers
 ORDER BY school, last_name;
 
--- 2. Explore how PostgreSQL sorts characters. Create a table called sort_test
--- with a varchar(10) column called values. Insert the following strings:
--- Alvin, alex, 1990, @twitter. When you query the column and sort values
--- ascending, what order will the strings appear? Why?
-
-CREATE TABLE sort_test (
-values varchar(10)
-);
-
-INSERT INTO sort_test
-VALUES
-('Alvin'),
-('alex'),
-('1990'),
-('@twitter');
-
-SELECT values FROM sort_test ORDER BY values;
-
--- 3. Find the one teacher whose name both starts with the letter
--- S and who earns more than $40,000.
+-- 2. Find the one teacher whose name both starts with the letter
+-- 'S' and who earns more than $40,000.
 
 SELECT first_name, last_name, school, salary
 FROM teachers
-WHERE first_name LIKE 'S%' AND salary > 40000;
+WHERE first_name LIKE 'S%' 
+      AND salary > 40000;
+
+-- 3. Rank teachers hired since Jan. 1, 2010, ordered by highest paid to lowest
+
+SELECT last_name, first_name, school, hire_date, salary
+FROM teachers
+WHERE hire_date >= '2010-01-01' 
+ORDER BY salary DESC;
 
 
 --------------
