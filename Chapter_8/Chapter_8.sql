@@ -85,8 +85,7 @@ CREATE TABLE pls_fy2014_pupld14a (
 CREATE INDEX libname2014_idx ON pls_fy2014_pupld14a (libname);
 
 COPY pls_fy2014_pupld14a
---FROM 'C:\YourDirectory\pls_fy2014_pupld14a.csv'
-FROM '/Users/adebarros/Dropbox/DataMonky/Book-Writing/DigThroughDataWithSQL/Data/Libraries/PLS_FY2014_Data-Files_csv/pls_fy2014_pupld14a.csv'
+FROM 'C:\YourDirectory\pls_fy2014_pupld14a.csv'
 WITH (FORMAT CSV, HEADER);
 --DROP TABLE pls_fy2014_pupld14a;
 
@@ -166,8 +165,7 @@ CREATE TABLE pls_fy2009_pupld09a (
 CREATE INDEX libname2009_idx ON pls_fy2009_pupld09a (libname);
 
 COPY pls_fy2009_pupld09a
---FROM 'C:\YourDirectory\pls_fy2009_pupld09a.csv'
-FROM '/Users/adebarros/Dropbox/DataMonky/Book-Writing/DigThroughDataWithSQL/Data/Libraries/pupld09a_csv/pls_fy2009_pupld09a.csv'
+FROM 'C:\YourDirectory\pls_fy2009_pupld09a.csv'
 WITH (FORMAT CSV, HEADER);
 
 -- Listing 8-3: Using count() for table row counts

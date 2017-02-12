@@ -24,8 +24,7 @@ CREATE TABLE meat_poultry_egg_inspect (
 CREATE INDEX company_idx ON meat_poultry_egg_inspect (company);
 
 COPY meat_poultry_egg_inspect
--- FROM 'C:\YourDirectory\MPI_Directory_by_Establishment_Name.csv'
-FROM '/Users/adebarros/Dropbox/DataMonky/Book-Writing/DigThroughDataWithSQL/Data/FSIS/MPI_Directory_by_Establishment_Name.csv'
+FROM 'C:\YourDirectory\MPI_Directory_by_Establishment_Name.csv'
 WITH (FORMAT CSV, HEADER, DELIMITER ',');
 
 -- Count the rows imported:
@@ -159,8 +158,7 @@ CREATE TABLE state_regions (
 CREATE INDEX st_idx ON state_regions (st);
 
 COPY state_regions
--- FROM 'C:\YourDirectory\state_regions.csv'
-FROM '/Users/adebarros/Dropbox/DataMonky/Book-Writing/DigThroughDataWithSQL/Data/state_regions.csv'
+FROM 'C:\YourDirectory\state_regions.csv'
 WITH (FORMAT CSV, HEADER, DELIMITER ',');
 
 -- Listing 9-18: Add and UPDATE an inspection_date column
