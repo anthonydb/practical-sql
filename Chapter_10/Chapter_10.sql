@@ -161,7 +161,7 @@ SELECT
     property_crime,
     round(
         (property_crime::numeric / population) * 1000, 1
-         ) AS pc_per_1000,
-    rank() OVER (ORDER BY (property_crime::numeric / population) * 1000 DESC)
+        ) AS pc_per_1000
 FROM fbi_crime_data_2015
-WHERE population >= 500000;
+WHERE population >= 500000
+ORDER BY (property_crime::numeric / population) * 1000 DESC;

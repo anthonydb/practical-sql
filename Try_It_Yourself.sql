@@ -489,7 +489,7 @@ FROM acs_2011_2015_stats;
 
 -- 2. Which cities with a population of 500,000 or more have the highest rates of motor
 -- vehicle thefts (variable motor_vehicle_theft)? Which have the highest violent crime
--- rates (violent_crime)?  Include add a rank() function in your queries.
+-- rates (violent_crime)?
 
 SELECT
     city,
@@ -498,12 +498,11 @@ SELECT
     motor_vehicle_theft,
     round(
         (motor_vehicle_theft::numeric / population) * 100000, 1
-         ) AS vehicle_theft_per_100000,
-    rank() OVER (ORDER BY (motor_vehicle_theft::numeric / population) * 100000 DESC)
+        ) AS vehicle_theft_per_100000
 FROM fbi_crime_data_2015
 WHERE population >= 500000;
 
--- Milwaukee and Albuquerque are No. 1 and No. 2.
+-- Milwaukee and Albuquerque have the two highest rates of motor vehicle theft.
 
 SELECT
     city,
@@ -512,12 +511,12 @@ SELECT
     violent_crime,
     round(
         (violent_crime::numeric / population) * 100000, 1
-         ) AS violent_crime_per_100000,
-    rank() OVER (ORDER BY (violent_crime::numeric / population) * 100000 DESC)
+        ) AS violent_crime_per_100000
 FROM fbi_crime_data_2015
-WHERE population >= 500000;
+WHERE population >= 500000
+ORDER BY (violent_crime::numeric / population) * 100000 DESC;
 
--- Detroit and Memphis are No. 1 and No. 2.
+-- Detroit and Memphis have the two highest rates of violent crime.
 
 -- 3. As a bonus, revisit the libraries data (table pls_fy2014_pupld14a) from
 -- Chapter 8. Rank library agencies based on the rate of visits per 1,000 population
@@ -530,7 +529,7 @@ SELECT
     popu_lsa,
     round(
         (visits::numeric / popu_lsa) * 1000, 1
-         ) AS visits_per_1000,
+        ) AS visits_per_1000,
     rank() OVER (ORDER BY (visits::numeric / popu_lsa) * 1000 DESC)
 FROM pls_fy2014_pupld14a
 WHERE popu_lsa >= 250000;
