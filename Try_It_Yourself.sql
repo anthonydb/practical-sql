@@ -468,10 +468,10 @@ WHERE meat_processing = 'Y' AND
 -- Chapter 10
 --------------
 
--- 1. Using Listing 10-2, we saw that the correlation coefficient, or r-value, of
+-- 1. Using Listing 10-2, we saw that the correlation coefficient, or r value, of
 -- the variables pct_bachelors_higher and median_hh_income was about .68. Now
 -- write a query to show the correlation between pct_masters_higher and median_hh_income.
--- Is the r-value higher or lower? What might explain the difference?
+-- Is the r value higher or lower? What might explain the difference?
 
 SELECT
     round(
@@ -482,7 +482,7 @@ SELECT
     ) AS masters_income_r
 FROM acs_2011_2015_stats;
 
--- The r-value of pct_bachelors_higher and median_hh_income is about .57, which shows a
+-- The r value of pct_bachelors_higher and median_hh_income is about .57, which shows a
 -- smaller connection between percent master's degree or higher and income than
 -- percent bachelor's degree or higher and income. It may be that attaining a master's
 -- degree or higher has a more incremental impact on earnings than a four-year degree.
