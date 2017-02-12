@@ -69,14 +69,14 @@ ORDER BY school, last_name;
 
 SELECT first_name, last_name, school, salary
 FROM teachers
-WHERE first_name LIKE 'S%' 
+WHERE first_name LIKE 'S%'
       AND salary > 40000;
 
 -- 3. Rank teachers hired since Jan. 1, 2010, ordered by highest paid to lowest
 
 SELECT last_name, first_name, school, hire_date, salary
 FROM teachers
-WHERE hire_date >= '2010-01-01' 
+WHERE hire_date >= '2010-01-01'
 ORDER BY salary DESC;
 
 
@@ -297,8 +297,8 @@ CREATE TABLE songs (
 -- for us to own an LP made before 1925.
 
 
--- 2. Instead of using album_id as a surrogate key for your primary key, would any
--- columns in albums potentially be useful as a natural key? What would you have to
+-- 2. Instead of using album_id as a surrogate key for your primary key, are there
+-- any columns in albums that could be useful as a natural key? What would you have to
 -- know to decide?
 
 -- We could consider the album_catalog_code. We would have to answer yes to these
