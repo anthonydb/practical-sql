@@ -113,16 +113,19 @@ SELECT CAST('4//2017' AS timestamp);
 -- 1. Write a WITH statement to include with COPY to handle the import of an
 -- imaginary text file that has a first couple of rows that look like this:
 -- id:movie:actor
--- 50:%Mission: Impossible%:Tom Cruise
+-- 50:#Mission: Impossible#:Tom Cruise
 
-WITH (FORMAT CSV, HEADER, DELIMITER ':', QUOTE '%')
+WITH (FORMAT CSV, HEADER, DELIMITER ':', QUOTE '#')
 
 -- 2. Using the table us_counties_2010, write SQL to export to CSV the 20
 -- counties in the United States that have the most housing units. Make sure
 -- you export each county's name, state and number of housing units. Hint: H
 -- ousing units are totaled for each county in the field HU100.
 
-COPY (SELECT NAME, STUSAB, HU100 FROM us_counties_2010 ORDER BY HU100 DESC LIMIT 20)
+COPY (
+    SELECT geo_name, state_us_abbreviation, housing_unit_count_100_percent
+    FROM us_counties_2010 ORDER BY HU100 DESC LIMIT 20
+     )
 TO 'C:\YourDirectory\us_counties_mill_export.txt'
 WITH (FORMAT CSV, HEADER)
 
