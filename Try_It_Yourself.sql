@@ -538,3 +538,59 @@ FROM pls_fy2014_pupld14a
 WHERE popu_lsa >= 250000;
 
 -- Cuyahoga County Public Library tops the rankings with 12,963 visits per thousand people.
+
+--------------
+-- Chapter 11
+--------------
+
+-- 1. Using the New York City taxi data, calculate the length of each ride using the pickup and
+-- drop-off timestamps. Sort the query results from longest ride to shortest. Is there anything
+-- you notice about the longest or shortest trips that you would want to ask more about?
+
+SELECT
+    trip_id,
+    tpep_dropoff_datetime,
+    tpep_pickup_datetime,
+    tpep_dropoff_datetime - tpep_pickup_datetime AS length_of_ride
+FROM nyc_yellow_taxi_trips_2016_06_01
+ORDER BY tpep_dropoff_datetime - tpep_pickup_datetime DESC;
+
+-- Answer: More than 500 of the trips last more than 3 hours, which seems excessive. Two records have
+-- drop-off times before the pickup time, and several have pickup and drop-off times that are
+-- the same. It's worth asking whether these records have timestamp errors.
+
+-- 2. Using the AT TIME ZONE keywords, write a query that displays the date and time for London,
+-- Johannesburg, Moscow, and Melbourne when January 1, 2100, arrives in New York City.
+
+SELECT '2100-01-01 00:00:00-05' AT TIME ZONE 'US/Eastern' AS "New York",
+       '2100-01-01 00:00:00-05' AT TIME ZONE 'Europe/London' AS "London",
+       '2100-01-01 00:00:00-05' AT TIME ZONE 'Africa/Johannesburg' AS "Johannesburg",
+       '2100-01-01 00:00:00-05' AT TIME ZONE 'Europe/Moscow' AS "Moscow",
+       '2100-01-01 00:00:00-05' AT TIME ZONE 'Australia/Melbourne' AS "Melbourne";
+
+-- 3. Bonus: Using the statistics functions from Chapter 10, calculate the correlation coefficient and
+-- r-squared values using trip time and the total_amount column, which represents total amount
+-- charged to passengers. Do the same with trip_distance and total_amount. Limit the query to
+-- rides lasting 3 hours or less.
+
+SELECT
+    round(
+          corr(total_amount, (
+              date_part('epoch', tpep_dropoff_datetime) -
+              date_part('epoch', tpep_pickup_datetime)
+                ))::numeric, 2
+          ) AS amount_time_corr,
+    round(
+        regr_r2(total_amount, (
+              date_part('epoch', tpep_dropoff_datetime) -
+              date_part('epoch', tpep_pickup_datetime)
+        ))::numeric, 2
+    ) AS amount_time_r2,
+    round(
+          corr(total_amount, trip_distance)::numeric, 2
+          ) AS amount_distance_corr,
+    round(
+        regr_r2(total_amount, trip_distance)::numeric, 2
+    ) AS amount_distance_r2
+FROM nyc_yellow_taxi_trips_2016_06_01
+WHERE tpep_dropoff_datetime - tpep_pickup_datetime <= '3 hours'::interval;

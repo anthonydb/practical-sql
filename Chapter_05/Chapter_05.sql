@@ -109,7 +109,7 @@ SELECT sum(P0010001) AS "County Sum",
 FROM us_counties_2010;
 
 
--- 5.9: Create a MEDIAN() aggregate function
+-- Listing 5-10: Create a median() aggregate function
 
 CREATE OR REPLACE FUNCTION _final_median(anyarray)
    RETURNS float8 AS
@@ -142,14 +142,14 @@ CREATE AGGREGATE median(anyelement) (
   INITCOND='{}'
 );
 
--- Listing 5-10: Using sum(), avg() and median() aggregate functions
+-- Listing 5-11: Using sum(), avg() and median() aggregate functions
 
 SELECT sum(P0010001) AS "County Sum",
        round(AVG(P0010001), 0) AS "County Average",
        median(P0010001) AS "County Median"
 FROM us_counties_2010;
 
--- Listing 5-11: Testing SQL percentile functions
+-- Listing 5-12: Testing SQL percentile functions
 
 CREATE TABLE percentile_test (
     numbers integer
@@ -165,7 +165,7 @@ SELECT
     WITHIN GROUP (ORDER BY numbers)
 FROM percentile_test;
 
--- Listing 5-12: Using percentile_cont() with Census data
+-- Listing 5-13: Using percentile_cont() with Census data
 
 SELECT sum(P0010001) AS "County Sum",
        round(AVG(P0010001), 0) AS "County Average",
