@@ -1,4 +1,4 @@
-﻿----------------------------------------------
+----------------------------------------------
 -- Dig Through Data with SQL
 -- by Anthony DeBarros
 
@@ -16,7 +16,7 @@ SELECT 3 * 4;    -- multiplication
 SELECT 11 / 6;   -- integer division
 SELECT 11 % 6;   -- modulo division
 SELECT 11.0 / 6; -- decimal division
-SELECT CAST (11 AS numeric(3,1)) / 6;
+SELECT CAST(11 AS decimal(3,1)) / 6;
 
 -- Listing 5-3: Exponents, roots and factorials with SQL
 
@@ -70,7 +70,7 @@ ORDER BY "Difference" DESC;
 
 SELECT geo_name,
        state_us_abbreviation,
-       (CAST (p0010006 AS numeric(8,1)) / p0010001) * 100 AS "Pct Asian"
+       (CAST(p0010006 AS numeric(8,1)) / p0010001) * 100 AS "Pct Asian"
 FROM us_counties_2010
 ORDER BY "Pct Asian" DESC;
 
