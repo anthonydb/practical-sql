@@ -33,44 +33,44 @@ SELECT (7 + 8) * 9;	-- answer: 135
 
 -- Listing 5-4: Selecting Census population columns by race with aliases
 
-SELECT name,
-       STUSAB,
-       P0010001 AS "Total Population",
-       P0010003 AS "White Alone",
-       P0010004 AS "Black Alone",
-       P0010005 AS "Am Indian/Alaska Native Alone",
-       P0010006 AS "Asian Alone",
-       P0010007 AS "Native Hawaiian and Other Pacific Islander Alone",
-       P0010008 AS "Some Other Race Alone",
-       P0010009 AS "Two or More Races"
+SELECT geo_name,
+       state_us_abbreviation,
+       p0010001 AS "Total Population",
+       p0010003 AS "White Alone",
+       p0010004 AS "Black Alone",
+       p0010005 AS "Am Indian/Alaska Native Alone",
+       p0010006 AS "Asian Alone",
+       p0010007 AS "Native Hawaiian and Other Pacific Islander Alone",
+       p0010008 AS "Some Other Race Alone",
+       p0010009 AS "Two or More Races"
 FROM us_counties_2010;
 
 -- Listing 5-5: Adding two columns in Census data
 
-SELECT name,
-       STUSAB,
-       P0010003 AS "White Alone",
-       P0010004 AS "Black Alone",
-       P0010003 + P0010004 AS "Total White and Black"
+SELECT geo_name,
+       state_us_abbreviation,
+       p0010003 AS "White Alone",
+       p0010004 AS "Black Alone",
+       p0010003 + p0010004 AS "Total White and Black"
 FROM us_counties_2010;
 
 -- Listing 5-6: Check Census race column totals
 
-SELECT name,
-       STUSAB,
-       P0010001 AS "Total",
-       P0010003 + P0010004 + P0010005 + P0010006 + P0010007
-           + P0010008 + P0010009 AS "All Races",
-       (P0010003 + P0010004 + P0010005 + P0010006 + P0010007
-           + P0010008 + P0010009) - P0010001 AS "Difference"
+SELECT geo_name,
+       state_us_abbreviation,
+       p0010001 AS "Total",
+       p0010003 + p0010004 + p0010005 + p0010006 + p0010007
+           + p0010008 + p0010009 AS "All Races",
+       (p0010003 + p0010004 + p0010005 + p0010006 + p0010007
+           + p0010008 + p0010009) - p0010001 AS "Difference"
 FROM us_counties_2010
 ORDER BY "Difference" DESC;
 
 -- Listing 5-7: Calculate percent of population that is Asian by county (percent of the whole)
 
-SELECT name,
-       STUSAB,
-       (CAST (P0010006 AS decimal(8,1)) / P0010001) * 100 AS "Pct Asian"
+SELECT geo_name,
+       state_us_abbreviation,
+       (CAST (p0010006 AS numeric(8,1)) / p0010001) * 100 AS "Pct Asian"
 FROM us_counties_2010
 ORDER BY "Pct Asian" DESC;
 
@@ -95,7 +95,7 @@ VALUES
 SELECT department,
        spend_2014,
        spend_2017,
-       round( (CAST(spend_2017 AS decimal(10,1)) - spend_2014) /
+       round( (CAST(spend_2017 AS numeric(10,1)) - spend_2014) /
                     spend_2014 * 100, 1 )
 FROM percent_change;
 
@@ -104,8 +104,8 @@ FROM percent_change;
 
 -- Listing 5-9: Using sum() and avg() aggregate functions
 
-SELECT sum(P0010001) AS "County Sum",
-       round(avg(P0010001), 0) AS "County Average"
+SELECT sum(p0010001) AS "County Sum",
+       round(avg(p0010001), 0) AS "County Average"
 FROM us_counties_2010;
 
 
@@ -144,9 +144,9 @@ CREATE AGGREGATE median(anyelement) (
 
 -- Listing 5-11: Using sum(), avg() and median() aggregate functions
 
-SELECT sum(P0010001) AS "County Sum",
-       round(AVG(P0010001), 0) AS "County Average",
-       median(P0010001) AS "County Median"
+SELECT sum(p0010001) AS "County Sum",
+       round(avg(p0010001), 0) AS "County Average",
+       median(p0010001) AS "County Median"
 FROM us_counties_2010;
 
 -- Listing 5-12: Testing SQL percentile functions
@@ -167,9 +167,9 @@ FROM percentile_test;
 
 -- Listing 5-13: Using percentile_cont() with Census data
 
-SELECT sum(P0010001) AS "County Sum",
-       round(AVG(P0010001), 0) AS "County Average",
-       median(P0010001) AS "County Median",
+SELECT sum(p0010001) AS "County Sum",
+       round(avg(p0010001), 0) AS "County Average",
+       median(p0010001) AS "County Median",
        percentile_cont(.5)
-       WITHIN GROUP (ORDER BY P0010001) AS "50th Percentile"
+       WITHIN GROUP (ORDER BY p0010001) AS "50th Percentile"
 FROM us_counties_2010;
