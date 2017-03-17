@@ -325,11 +325,11 @@ CREATE TABLE songs (
 -- Chapter 8
 --------------
 
--- 1. We saw that library visits have declined in most places. What about the use of technology
--- in libraries? Both the 2014 and 2009 library survey tables contain the columns gpterms
--- (the number of Internet computers used by the public) and pitusr (uses of public internet
--- computers per year). Modify the code in Listing 8-12 to calculate the percent change in the
--- sum of each column over time. (And watch out for negative values!)
+-- 1. We saw that library visits have declined in most places. What is the pattern in the use 
+-- of technology in libraries? Both the 2014 and 2009 library survey tables contain the 
+-- columns gpterms (the number of internet-connected computers used by the public) and pitusr 
+-- (uses of public internet computers per year). Modify the code in Listing 8-12 to calculate 
+-- the percent change in the sum of each column over time. Watch out for negative values!
 
 
 -- sum() gpterms (computer terminals) by state, add pct. change, and sort
@@ -338,12 +338,12 @@ SELECT pls14.stabr,
        sum(pls14.gpterms) AS "gpterms_2014",
        sum(pls09.gpterms) AS "gpterms_2009",
        round( (CAST(sum(pls14.gpterms) AS decimal(10,1)) - sum(pls09.gpterms)) /
-                    sum(pls09.gpterms) * 100, 2 ) AS "Pct. Chg."
+                    sum(pls09.gpterms) * 100, 2 ) AS "pct_change"
 FROM pls_fy2014_pupld14a pls14 JOIN pls_fy2009_pupld09a pls09
 ON pls14.fscskey = pls09.fscskey
 WHERE pls14.gpterms >= 0 AND pls09.gpterms >= 0
 GROUP BY pls14.stabr
-ORDER BY "Pct. Chg." DESC;
+ORDER BY pct_change DESC;
 
 -- sum() pitusr (uses of public internet computers per year) by state, add pct. change, and sort
 
@@ -351,21 +351,23 @@ SELECT pls14.stabr,
        sum(pls14.pitusr) AS "pitusr_2014",
        sum(pls09.pitusr) AS "pitusr_2009",
        round( (CAST(sum(pls14.pitusr) AS decimal(10,1)) - sum(pls09.pitusr)) /
-                    sum(pls09.pitusr) * 100, 2 ) AS "Pct. Chg."
+                    sum(pls09.pitusr) * 100, 2 ) AS "pct_change"
 FROM pls_fy2014_pupld14a pls14 JOIN pls_fy2009_pupld09a pls09
 ON pls14.fscskey = pls09.fscskey
 WHERE pls14.pitusr >= 0 AND pls09.pitusr >= 0
 GROUP BY pls14.stabr
-ORDER BY "Pct. Chg." DESC;
+ORDER BY pct_change DESC;
 
 
--- 2. Both library survey tables contain a column called obereg, a two-digit Bureau of Economic
--- Analysis Code that classifies each library agency according to a region of the United States:
--- New England, Rocky Mountains, etc. Just as we calculated the percent change in visits and
--- grouped by state, do the same for U.S. regions using obereg. To find the meaning of each
--- code, consult the survey documentation. For a bonus, create a new table with the obereg code
--- as the primary key and the region name as text, and join it to the summary query to
--- group by the region name rather than the code.
+-- 2. Both library survey tables contain a column called obereg, a two-digit 
+-- Bureau of Economic Analysis Code that classifies each library agency 
+-- according to a region of the United States, like New England, Rocky 
+-- Mountains, and so on. Just as we calculated the percent change in visits
+-- grouped by state, do the same to group percent changes in visits by US
+-- regions using obereg. Consult the survey documentation to find the meaning
+-- of each region code. For a bonus challenge, create a table with the obereg
+-- code as the primary key and the region name as text, and join it to the
+-- summary query to group by the region name rather than the code.
 
 -- sum() visits by region.
 
@@ -373,12 +375,12 @@ SELECT pls14.obereg,
        sum(pls14.visits) AS "visits_2014",
        sum(pls09.visits) AS "visits_2009",
        round( (CAST(sum(pls14.visits) AS decimal(10,1)) - sum(pls09.visits)) /
-                    sum(pls09.visits) * 100, 2 ) AS "Pct. Chg."
+                    sum(pls09.visits) * 100, 2 ) AS "pct_change"
 FROM pls_fy2014_pupld14a pls14 JOIN pls_fy2009_pupld09a pls09
 ON pls14.fscskey = pls09.fscskey
 WHERE pls14.visits >= 0 AND pls09.visits >= 0
 GROUP BY pls14.obereg
-ORDER BY "Pct. Chg." DESC;
+ORDER BY pct_change DESC;
 
 -- bonus of creating the lookup table and adding it to the query
 
@@ -404,20 +406,20 @@ SELECT obereg_codes.region,
        sum(pls14.visits) AS "visits_2014",
        sum(pls09.visits) AS "visits_2009",
        round( (CAST(sum(pls14.visits) AS decimal(10,1)) - sum(pls09.visits)) /
-                    sum(pls09.visits) * 100, 2 ) AS "Pct. Chg."
+                    sum(pls09.visits) * 100, 2 ) AS "pct_change"
 FROM pls_fy2014_pupld14a pls14 JOIN pls_fy2009_pupld09a pls09
    ON pls14.fscskey = pls09.fscskey
 JOIN obereg_codes
    ON pls14.obereg = obereg_codes.obereg
 WHERE pls14.visits >= 0 AND pls09.visits >= 0
 GROUP BY obereg_codes.region
-ORDER BY "Pct. Chg." DESC;
+ORDER BY pct_change DESC;
 
 
--- 3. Thinking back to the types of joins you learned in Chapter 6, which join type will
--- show you all the rows in both tables, including the ones where there’s no match? Write
--- such a query, and add an IS NULL filter in a WHERE clause to easily show agencies
--- not in one or the other table.
+-- 3. Thinking back to the types of joins you learned in Chapter 6, which join
+-- type will show you all the rows in both tables, including those without a
+-- match? Write such a query and add an IS NULL filter in a WHERE clause to
+-- show agencies not included in one or the other table.
 
 SELECT pls14.libname, pls14.city, pls14.stabr, pls14.statstru, pls14.c_admin, pls14.branlib,
        pls09.libname, pls09.city, pls09.stabr, pls09.statstru, pls09.c_admin, pls09.branlib
