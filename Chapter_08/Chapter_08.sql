@@ -225,24 +225,24 @@ GROUP BY city, stabr
 ORDER BY city, stabr;
 
 -- We can count some of the combos
-SELECT city, stabr, count(city)
+SELECT city, stabr, count(*)
 FROM pls_fy2014_pupld14a
 GROUP BY city, stabr
-ORDER BY count(city) DESC;
+ORDER BY count(*) DESC;
 
 -- Listing 8-9: GROUP BY with count() on the stabr column
 
-SELECT stabr, count(stabr)
+SELECT stabr, count(*)
 FROM pls_fy2014_pupld14a
 GROUP BY stabr
 ORDER BY count(stabr) DESC;
 
 -- Listing 8-10: GROUP BY with count() on the stabr and stataddr columns
 
-SELECT stabr, stataddr, count(stataddr)
+SELECT stabr, stataddr, count(*)
 FROM pls_fy2014_pupld14a
 GROUP BY stabr, stataddr 
-ORDER BY stabr ASC, count(stataddr) DESC;
+ORDER BY stabr ASC, count(*) DESC;
 
 -- Listing 8-11: Using sum() to total visits to libraries in 2009 and 2014
 

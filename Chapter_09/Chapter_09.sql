@@ -31,10 +31,10 @@ WITH (FORMAT CSV, HEADER, DELIMITER ',');
 SELECT count(*) FROM meat_poultry_egg_inspect;
 
 -- Listing 9-2: Find multiple companies at the same address
-SELECT company, street, city, st, count(street)
+SELECT company, street, city, st, count(*)
 FROM meat_poultry_egg_inspect
 GROUP BY company, street, city, st
-HAVING count(street) > 1
+HAVING count(*) > 1
 ORDER BY company, street, city, st;
 
 -- Listing 9-3: Group and count states
