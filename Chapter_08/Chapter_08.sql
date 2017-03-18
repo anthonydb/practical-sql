@@ -237,11 +237,11 @@ FROM pls_fy2014_pupld14a
 GROUP BY stabr
 ORDER BY count(stabr) DESC;
 
--- Listing 8-10: GROUP BY with count() on	 the stabr and stataddr columns
+-- Listing 8-10: GROUP BY with count() on the stabr and stataddr columns
 
 SELECT stabr, stataddr, count(stataddr)
 FROM pls_fy2014_pupld14a
-GROUP BY stabr, stataddr
+GROUP BY stabr, stataddr 
 ORDER BY stabr ASC, count(stataddr) DESC;
 
 -- Listing 8-11: Using sum() to total visits to libraries in 2009 and 2014
@@ -264,7 +264,6 @@ ON pls14.fscskey = pls09.fscskey
 WHERE pls14.visits >= 0 AND pls09.visits >= 0
 GROUP BY pls14.stabr
 ORDER BY pct_change DESC;
-
 
 -- Listing 8-13: Using HAVING to filter the results of an aggregate query
 
