@@ -431,19 +431,21 @@ WHERE pls14.libname IS NULL;
 -- Chapter 9
 --------------
 
--- This chapter’s exercise focuses on turning this simple table into useful
--- information. We want to answer two simple questions: How many of the
--- companies in the table process meat, and how many process poultry?
+-- In this exercise, you’ll turn our meat_poultry_egg_inspect table into useful
+-- information. We want to answer two questions: How many of the companies 
+-- in the table process meat, and how many process poultry?
 
--- Create two new columns in your table: meat_processing and poultry_processing.
+-- Create two new columns in your table called meat_processing and poultry_processing.
 -- Each can be of the type varchar(1).
+
 -- Update the meat_processing column to contain a Y (for yes) on any row where the
 -- activities column contains the text Meat Processing. Do the same update on the
 -- poultry_processing column, this time looking for the text Poultry Processing
 -- in activities.
 
--- Use the data in the new, updated columns to count how many companies perform
--- each type of activity. As a bonus, count how many companies perform both activities.
+-- Use the data from the new, updated columns to count how many companies perform
+-- each type of activity. For a bonus challenge, count how many companies perform 
+-- both activities.
 
 
 -- Add the columns

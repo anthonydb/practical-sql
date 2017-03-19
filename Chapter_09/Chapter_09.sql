@@ -37,34 +37,34 @@ GROUP BY company, street, city, st
 HAVING count(*) > 1
 ORDER BY company, street, city, st;
 
--- Listing 9-3: Group and count states
-SELECT st, count(st)
+-- Listing 9-3: Grouping and counting states
+SELECT st, count(*)
 FROM meat_poultry_egg_inspect
 GROUP BY st
 ORDER BY st;
 
--- Listing 9-4: Use IS NULL to find which rows are missing a state
+-- Listing 9-4: Using IS NULL to find missing values in the st column
 SELECT est_number, company, city, st, zip
 FROM meat_poultry_egg_inspect
 WHERE st IS NULL;
 
 -- Listing 9-5: GROUP BY and count() to find inconsistent company names
 
-SELECT company, count(company)
+SELECT company, count(*)
 FROM meat_poultry_egg_inspect
 GROUP BY company
 ORDER BY company ASC;
 
 -- Listing 9-6: Using length() and count() to test the zip column
 
-SELECT length(zip), count(length(zip))
+SELECT length(zip), count(*)
 FROM meat_poultry_egg_inspect
 GROUP BY length(zip)
 ORDER BY length(zip) ASC;
 
 -- Listing 9-7: Using length to find short zip values
 
-SELECT st, count(st)
+SELECT st, count(*)
 FROM meat_poultry_egg_inspect
 WHERE length(zip) < 5
 GROUP BY st
@@ -81,10 +81,9 @@ SELECT * INTO meat_poultry_egg_inspect_backup
 FROM meat_poultry_egg_inspect;
 
 -- Check number of records:
-SELECT COUNT(*) FROM meat_poultry_egg_inspect;
+SELECT count(*) FROM meat_poultry_egg_inspect;
 -- Check number of records:
-SELECT COUNT(*) FROM meat_poultry_egg_inspect_backup;
-
+SELECT count(*) FROM meat_poultry_egg_inspect_backup;
 
 -- Listing 9-9: Creating and filling the st_copy column with ALTER TABLE and UPDATE
 
@@ -155,16 +154,15 @@ CREATE TABLE state_regions (
     region varchar(20) NOT NULL
 );
 
-CREATE INDEX st_idx ON state_regions (st);
-
 COPY state_regions
 FROM 'C:\YourDirectory\state_regions.csv'
 WITH (FORMAT CSV, HEADER, DELIMITER ',');
 
 -- Listing 9-18: Add and UPDATE an inspection_date column
+ALTER TABLE meat_poultry_egg_inspect ADD COLUMN inspection_date date;
 
 UPDATE meat_poultry_egg_inspect m
-SET inspection_date = '12/1/2019'
+SET inspection_date = '2019-12-01'
 WHERE EXISTS (SELECT s.region
               FROM state_regions s
               WHERE m.st = s.st AND s.region = 'New England');
