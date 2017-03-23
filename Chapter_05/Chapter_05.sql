@@ -21,7 +21,7 @@ SELECT CAST(11 AS numeric(3,1)) / 6;
 -- Listing 5-3: Exponents, roots and factorials with SQL
 
 SELECT 3 ^ 4;    -- exponentiation
-SELECT |/ 10;    -- square root (operator)
+SELECT |/ 10;    -- square root (operator)  
 SELECT sqrt(10); -- square root (function)
 SELECT ||/ 10;   -- cube root
 SELECT 4 !;      -- factorial
@@ -34,7 +34,7 @@ SELECT (7 + 8) * 9;	-- answer: 135
 -- Listing 5-4: Selecting Census population columns by race with aliases
 
 SELECT geo_name,
-       state_us_abbreviation,
+       state_us_abbreviation AS "st",
        p0010001 AS "Total Population",
        p0010003 AS "White Alone",
        p0010004 AS "Black Alone",
@@ -48,7 +48,7 @@ FROM us_counties_2010;
 -- Listing 5-5: Adding two columns in Census data
 
 SELECT geo_name,
-       state_us_abbreviation,
+       state_us_abbreviation AS "st",
        p0010003 AS "White Alone",
        p0010004 AS "Black Alone",
        p0010003 + p0010004 AS "Total White and Black"
@@ -57,7 +57,7 @@ FROM us_counties_2010;
 -- Listing 5-6: Check Census race column totals
 
 SELECT geo_name,
-       state_us_abbreviation,
+       state_us_abbreviation AS "st",
        p0010001 AS "Total",
        p0010003 + p0010004 + p0010005 + p0010006 + p0010007
            + p0010008 + p0010009 AS "All Races",
@@ -69,7 +69,7 @@ ORDER BY "Difference" DESC;
 -- Listing 5-7: Calculate percent of population that is Asian by county (percent of the whole)
 
 SELECT geo_name,
-       state_us_abbreviation,
+       state_us_abbreviation AS "st",
        (CAST(p0010006 AS numeric(8,1)) / p0010001) * 100 AS "Pct Asian"
 FROM us_counties_2010
 ORDER BY "Pct Asian" DESC;
@@ -79,8 +79,8 @@ ORDER BY "Pct Asian" DESC;
 
 CREATE TABLE percent_change (
     department varchar(20),
-    spend_2014 integer,
-    spend_2017 integer
+    spend_2014 numeric(10,2),
+    spend_2017 numeric(10,2)
 );
 
 INSERT INTO percent_change
@@ -95,12 +95,9 @@ VALUES
 SELECT department,
        spend_2014,
        spend_2017,
-       round( (CAST(spend_2017 AS numeric(10,1)) - spend_2014) /
-                    spend_2014 * 100, 1 )
+       round( (spend_2017 - spend_2014) /
+                    spend_2014 * 100, 1 ) AS "pct_change"
 FROM percent_change;
-
--- DROP TABLE percent_change;
-
 
 -- Listing 5-9: Using sum() and avg() aggregate functions
 
