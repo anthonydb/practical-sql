@@ -105,8 +105,56 @@ SELECT sum(p0010001) AS "County Sum",
        round(avg(p0010001), 0) AS "County Average"
 FROM us_counties_2010;
 
+-- Listing 5-10: Testing SQL percentile functions
 
--- Listing 5-10: Create a median() aggregate function
+CREATE TABLE percentile_test (
+    numbers integer
+);
+
+INSERT INTO percentile_test (numbers) VALUES
+    (1), (2), (3), (4), (5), (6);
+
+SELECT
+    percentile_cont(.5)
+    WITHIN GROUP (ORDER BY numbers),
+    percentile_disc(.5)
+    WITHIN GROUP (ORDER BY numbers)
+FROM percentile_test;
+
+-- Listing 5-11: Using percentile_cont() with Census data
+
+SELECT sum(p0010001) AS "County Sum",
+       round(avg(p0010001), 0) AS "County Average",
+       percentile_cont(.5)
+       WITHIN GROUP (ORDER BY p0010001) AS "County Median"
+FROM us_counties_2010;
+
+-- Listing 5-12: Passing an array of values to percentile_cont()
+
+-- quartiles
+SELECT percentile_cont(array[.25,.5,.75])
+       WITHIN GROUP (ORDER BY p0010001) AS "quartiles"
+FROM us_counties_2010;
+
+-- quintiles
+SELECT percentile_cont(array[.2,.4,.6,.8])
+       WITHIN GROUP (ORDER BY p0010001) AS "quintiles"
+FROM us_counties_2010;
+
+-- deciles
+SELECT percentile_cont(array[.1,.2,.3,.4,.5,.6,.7,.8,.9])
+       WITHIN GROUP (ORDER BY p0010001) AS "deciles"
+FROM us_counties_2010;
+
+-- Listing 5-13: Using unnest() to turn an array into rows
+
+SELECT unnest(
+            percentile_cont(array[.25,.5,.75])
+            WITHIN GROUP (ORDER BY p0010001)
+            ) AS "quartiles"
+FROM us_counties_2010;
+
+-- Listing 5-14: Create a median() aggregate function
 
 CREATE OR REPLACE FUNCTION _final_median(anyarray)
    RETURNS float8 AS
@@ -139,34 +187,16 @@ CREATE AGGREGATE median(anyelement) (
   INITCOND='{}'
 );
 
--- Listing 5-11: Using sum(), avg() and median() aggregate functions
-
-SELECT sum(p0010001) AS "County Sum",
-       round(avg(p0010001), 0) AS "County Average",
-       median(p0010001) AS "County Median"
-FROM us_counties_2010;
-
--- Listing 5-12: Testing SQL percentile functions
-
-CREATE TABLE percentile_test (
-    numbers integer
-);
-
-INSERT INTO percentile_test (numbers) VALUES
-    (1), (2), (3), (4), (5), (6);
-
-SELECT
-    percentile_cont(.5)
-    WITHIN GROUP (ORDER BY numbers),
-    percentile_disc(.5)
-    WITHIN GROUP (ORDER BY numbers)
-FROM percentile_test;
-
--- Listing 5-13: Using percentile_cont() with Census data
+-- Listing 5-15: Using a median() aggregate function
 
 SELECT sum(p0010001) AS "County Sum",
        round(avg(p0010001), 0) AS "County Average",
        median(p0010001) AS "County Median",
        percentile_cont(.5)
-       WITHIN GROUP (ORDER BY p0010001) AS "50th Percentile"
+       WITHIN GROUP (ORDER BY P0010001) AS "50th Percentile"
+FROM us_counties_2010;
+
+-- Listing 5-16: Finding the most-frequent value with mode()
+
+SELECT mode() WITHIN GROUP (ORDER BY p0010001) 
 FROM us_counties_2010;
