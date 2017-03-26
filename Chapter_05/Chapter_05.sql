@@ -74,7 +74,6 @@ SELECT geo_name,
 FROM us_counties_2010
 ORDER BY "Pct Asian" DESC;
 
-
 -- Listing 5-8: Calculating percent change
 
 CREATE TABLE percent_change (
@@ -155,6 +154,7 @@ SELECT unnest(
 FROM us_counties_2010;
 
 -- Listing 5-14: Create a median() aggregate function
+-- Source: https://wiki.postgresql.org/wiki/Aggregate_Median
 
 CREATE OR REPLACE FUNCTION _final_median(anyarray)
    RETURNS float8 AS
