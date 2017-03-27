@@ -70,9 +70,9 @@ ORDER BY "Difference" DESC;
 
 SELECT geo_name,
        state_us_abbreviation AS "st",
-       (CAST(p0010006 AS numeric(8,1)) / p0010001) * 100 AS "Pct Asian"
+       (CAST(p0010006 AS numeric(8,1)) / p0010001) * 100 AS "pct_asian"
 FROM us_counties_2010
-ORDER BY "Pct Asian" DESC;
+ORDER BY "pct_asian" DESC;
 
 -- Listing 5-8: Calculating percent change
 
