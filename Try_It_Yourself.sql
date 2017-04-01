@@ -10,10 +10,11 @@
 -- Chapter 1
 --------------
 
--- 1. Imagine you're building a database to catalog all the animals at your local zoo.
--- You want one table for tracking all the kinds of animals and another table to track
--- the specifics on each animal. Write CREATE TABLE statements for each table that
--- include some of the columns you need. Why did you include the columns you chose?
+-- 1. Imagine you're building a database to catalog all the animals at your
+-- local zoo. You want one table for tracking all the kinds of animals and
+-- another table to track the specifics on each animal. Write CREATE TABLE
+-- statements for each table that include some of the columns you need. Why did
+-- you include the columns you chose?
 
 CREATE TABLE animal_types (
    animal_type_id bigserial,
@@ -46,9 +47,10 @@ VALUES
 (2, '9/30/2000', 'F', 'National Zoo', 'Freddy', 'Strong appetite.');
 
 
--- 3. Create an additional INSERT statement for one of your tables. On purpose, leave out
--- one of the required commas separating the entries in the VALUES clause of the query. What
--- is the error message? Does it help you find the error in the code?
+-- 3. Create an additional INSERT statement for one of your tables. On purpose,
+-- leave out one of the required commas separating the entries in the VALUES
+-- clause of the query. What is the error message? Does it help you find the
+-- error in the code?
 
 INSERT INTO animal_types (common_name, scientific_name, conservation_status)
 VALUES ('Javan Rhino', 'Rhinoceros sondaicus' 'Critically Endangered');
@@ -72,7 +74,7 @@ FROM teachers
 WHERE first_name LIKE 'S%'
       AND salary > 40000;
 
--- 3. Rank teachers hired since Jan. 1, 2010, ordered by highest paid to lowest
+-- 3. Rank teachers hired since Jan. 1, 2010, ordered by highest paid to lowest.
 
 SELECT last_name, first_name, school, hire_date, salary
 FROM teachers
@@ -112,6 +114,7 @@ SELECT CAST('4//2017' AS timestamp);
 
 -- 1. Write a WITH statement to include with COPY to handle the import of an
 -- imaginary text file that has a first couple of rows that look like this:
+
 -- id:movie:actor
 -- 50:#Mission: Impossible#:Tom Cruise
 
@@ -129,33 +132,38 @@ COPY (
 TO 'C:\YourDirectory\us_counties_mill_export.txt'
 WITH (FORMAT CSV, HEADER)
 
--- 3. Imagine you're importing a file that contains a field with values such as these:
+-- 3. Imagine you're importing a file that contains a field with values such as
+-- these:
       -- 17519.668
       -- 20084.461
       -- 18976.335
--- Will a field in your target table with data type decimal(3,8) work for these values? Why or why not?
+-- Will a field in your target table with data type decimal(3,8) work for these
+-- values? Why or why not?
 
 -- Answer:
--- No, it won't -- in fact, you won't even be able to create a field with that data type because the
--- precision must be larger than the scale. The correct type is decimal(8,3)
+-- No, it won't -- in fact, you won't even be able to create a field with that
+-- data type because the precision must be larger than the scale. The correct
+-- type is decimal(8,3)
 
 
 --------------
 -- Chapter 5
 --------------
 
--- 1. Write a SQL statement for calculating the area of a circle whose radius is 5 inches?
--- Do you need parentheses in your calculation? Why or why not?
+-- 1. Write a SQL statement for calculating the area of a circle whose radius is
+-- 5 inches? Do you need parentheses in your calculation? Why or why not?
 
 -- Answer:
 SELECT 3.14 * 5 ^ 2;
 -- Formula is pi * radius squared
--- You do not need parentheses because exponents and roots take precedence over multiplication.
+-- You do not need parentheses because exponents and roots take precedence over
+-- multiplication.
 
--- 2. Using  2010 Census county data, find the county in New York state that has the highest
--- percentage of the population that identified as "American Indian/Alaska Native Alone." What
--- can you learn about that county from online research that explains the relatively high
--- American Indian population compared with other New York counties?
+-- 2. Using  2010 Census county data, find the county in New York state that has
+-- the highest percentage of the population that identified as "American
+-- Indian/Alaska Native Alone." What can you learn about that county from online
+-- research that explains the relatively high American Indian population
+-- compared with other New York counties?
 
 -- Answer:
 SELECT name,
@@ -164,7 +172,8 @@ SELECT name,
 FROM us_counties_2010
 WHERE stusab = 'NY'
 ORDER BY "Pct Am Indian/Alaska Native Alone" DESC;
--- Franklin County, N.Y., with 7.4%. The county contains the St. Regis Mohawk Reservation.
+-- Franklin County, N.Y., with 7.4%. The county contains the St. Regis Mohawk
+-- Reservation.
 
 -- 3. Is median county population higher in California or New York?
 
@@ -176,16 +185,17 @@ WHERE stusab = 'NY';
 SELECT median(P0010001)
 FROM us_counties_2010
 WHERE stusab = 'CA';
--- California has a median county population of 179,140.5, almost double that of New York, at 91,301.
+-- California has a median county population of 179,140.5, almost double that of
+-- New York, at 91,301.
 
 --------------
 -- Chapter 6
 --------------
 
--- 1. The table us_counties_2010 contains 3,143 rows, while us_counties_2000 has 3,141.
--- That reflects the ongoing adjustments to county-level geographies that typically result
--- from government decision-making. Using appropriate joins and the NULL value, identify
--- which counties don't exist in both tables.
+-- 1. The table us_counties_2010 contains 3,143 rows, while us_counties_2000 has
+-- 3,141. That reflects the ongoing adjustments to county-level geographies that
+-- typically result from government decision-making. Using appropriate joins and
+-- the NULL value, identify which counties don't exist in both tables.
 
 -- Answers:
 
@@ -225,8 +235,8 @@ FROM us_counties_2010 c2010 INNER JOIN us_counties_2000 c2000
 ON c2010.state = c2000.state AND c2010.county = c2000.county;
 
 
--- 3. Which county had the greatest percentage loss of population between 2000 and 2010?
--- Any idea why? Hint: A weather event that happened in 2005.
+-- 3. Which county had the greatest percentage loss of population between 2000
+-- and 2010? Any idea why? Hint: A weather event that happened in 2005.
 
 -- Answer: St. Bernard Parish, La.
 
@@ -245,8 +255,9 @@ ORDER BY "Pct. change" ASC;
 -- Chapter 7
 --------------
 
--- Consider the following two tables, part of a database you’re making to keep track of your vinyl LP collection.
--- You start by sketching out these CREATE TABLE statements:
+-- Consider the following two tables, part of a database you’re making to keep
+-- track of your vinyl LP collection. You start by sketching out these
+-- CREATE TABLE statements:
 
 CREATE TABLE albums (
     album_id bigserial,
@@ -269,7 +280,8 @@ CREATE TABLE songs (
 -- Use the tables to answer these questions:
 
 -- 1. Modify these CREATE TABLE statements to include primary and foreign keys
--- plus additional constraints on both tables. Explain why you made your choices.
+-- plus additional constraints on both tables. Explain why you made your
+-- choices.
 
 CREATE TABLE albums (
     album_id bigserial,
@@ -300,12 +312,12 @@ CREATE TABLE songs (
 -- for us to own an LP made before 1925.
 
 
--- 2. Instead of using album_id as a surrogate key for your primary key, are there
--- any columns in albums that could be useful as a natural key? What would you have to
--- know to decide?
+-- 2. Instead of using album_id as a surrogate key for your primary key, are
+-- there any columns in albums that could be useful as a natural key? What would
+-- you have to know to decide?
 
--- We could consider the album_catalog_code. We would have to answer yes to these
--- questions:
+-- We could consider the album_catalog_code. We would have to answer yes to
+-- these questions:
 -- -- Is it going to be unique across all albums released by all companies?
 -- -- Will we always have one?
 -- -- Will it never change for a particular album?
@@ -325,11 +337,12 @@ CREATE TABLE songs (
 -- Chapter 8
 --------------
 
--- 1. We saw that library visits have declined in most places. What is the pattern in the use 
--- of technology in libraries? Both the 2014 and 2009 library survey tables contain the 
--- columns gpterms (the number of internet-connected computers used by the public) and pitusr 
--- (uses of public internet computers per year). Modify the code in Listing 8-12 to calculate 
--- the percent change in the sum of each column over time. Watch out for negative values!
+-- 1. We saw that library visits have declined in most places. What is the
+-- pattern in the use of technology in libraries? Both the 2014 and 2009 library
+-- survey tables contain the columns gpterms (the number of internet-connected
+-- computers used by the public) and pitusr (uses of public internet computers
+-- per year). Modify the code in Listing 8-12 to calculate the percent change in
+-- the sum of each column over time. Watch out for negative values!
 
 
 -- sum() gpterms (computer terminals) by state, add pct. change, and sort
@@ -345,7 +358,8 @@ WHERE pls14.gpterms >= 0 AND pls09.gpterms >= 0
 GROUP BY pls14.stabr
 ORDER BY pct_change DESC;
 
--- sum() pitusr (uses of public internet computers per year) by state, add pct. change, and sort
+-- sum() pitusr (uses of public internet computers per year) by state, add
+-- pct. change, and sort
 
 SELECT pls14.stabr,
        sum(pls14.pitusr) AS "pitusr_2014",
@@ -359,9 +373,9 @@ GROUP BY pls14.stabr
 ORDER BY pct_change DESC;
 
 
--- 2. Both library survey tables contain a column called obereg, a two-digit 
--- Bureau of Economic Analysis Code that classifies each library agency 
--- according to a region of the United States, like New England, Rocky 
+-- 2. Both library survey tables contain a column called obereg, a two-digit
+-- Bureau of Economic Analysis Code that classifies each library agency
+-- according to a region of the United States, like New England, Rocky
 -- Mountains, and so on. Just as we calculated the percent change in visits
 -- grouped by state, do the same to group percent changes in visits by US
 -- regions using obereg. Consult the survey documentation to find the meaning
@@ -432,20 +446,20 @@ WHERE pls14.libname IS NULL;
 --------------
 
 -- In this exercise, you’ll turn our meat_poultry_egg_inspect table into useful
--- information. We want to answer two questions: How many of the companies 
+-- information. We want to answer two questions: How many of the companies
 -- in the table process meat, and how many process poultry?
 
--- Create two new columns in your table called meat_processing and poultry_processing.
--- Each can be of the type varchar(1).
+-- Create two new columns in your table called meat_processing and
+-- poultry_processing. Each can be of the type varchar(1).
 
--- Update the meat_processing column to contain a Y (for yes) on any row where the
--- activities column contains the text Meat Processing. Do the same update on the
--- poultry_processing column, this time looking for the text Poultry Processing
--- in activities.
+-- Update the meat_processing column to contain a Y (for yes) on any row where
+-- the activities column contains the text Meat Processing. Do the same update
+-- on the poultry_processing column, this time looking for the text Poultry
+-- Processing in activities.
 
--- Use the data from the new, updated columns to count how many companies perform
--- each type of activity. For a bonus challenge, count how many companies perform 
--- both activities.
+-- Use the data from the new, updated columns to count how many companies
+-- perform each type of activity. For a bonus challenge, count how many
+-- companies perform both activities.
 
 
 -- Add the columns
@@ -475,10 +489,11 @@ WHERE meat_processing = 'Y' AND
 -- Chapter 10
 --------------
 
--- 1. Using Listing 10-2, we saw that the correlation coefficient, or r value, of
--- the variables pct_bachelors_higher and median_hh_income was about .68. Now
--- write a query to show the correlation between pct_masters_higher and median_hh_income.
--- Is the r value higher or lower? What might explain the difference?
+-- 1. In Listing 10-2, the correlation coefficient, or r value, of the
+-- variables pct_bachelors_higher and median_hh_income was about .68. Now
+-- write a query to show the correlation between pct_masters_higher and
+-- median_hh_income. Is the r value higher or lower? What might explain
+-- the difference?
 
 SELECT
     round(
@@ -489,14 +504,15 @@ SELECT
     ) AS masters_income_r
 FROM acs_2011_2015_stats;
 
--- The r value of pct_bachelors_higher and median_hh_income is about .57, which shows a
--- smaller connection between percent master's degree or higher and income than
--- percent bachelor's degree or higher and income. It may be that attaining a master's
--- degree or higher has a more incremental impact on earnings than a four-year degree.
+-- The r value of pct_bachelors_higher and median_hh_income is about .57, which
+-- shows a smaller connection between percent master's degree or higher and
+-- income than percent bachelor's degree or higher and income. Attaining a
+-- master's degree or higher may have a more incremental impact on earnings
+-- than just getting a four-year degree.
 
--- 2. Which cities with a population of 500,000 or more have the highest rates of motor
--- vehicle thefts (variable motor_vehicle_theft)? Which have the highest violent crime
--- rates (violent_crime)?
+-- 2. Which cities with a population of 500,000 or more have the highest rates
+-- of motor vehicle thefts (variable motor_vehicle_theft)? Which have the
+-- highest violent crime rates (variable violent_crime)?
 
 SELECT
     city,
@@ -525,9 +541,10 @@ ORDER BY (violent_crime::numeric / population) * 100000 DESC;
 
 -- Detroit and Memphis have the two highest rates of violent crime.
 
--- 3. As a bonus, revisit the libraries data (table pls_fy2014_pupld14a) from
--- Chapter 8. Rank library agencies based on the rate of visits per 1,000 population
--- (column popu_lsa), and limit the query to agencies serving 250,000 people or more.
+-- 3. As a bonus challenge, revisit the libraries data in table
+-- pls_fy2014_pupld14a from Chapter 8. Rank library agencies based on the rate
+-- of visits per 1,000 population (variable popu_lsa), and limit the query to
+-- agencies serving 250,000 people or more.
 
 SELECT
     libname,
@@ -541,15 +558,17 @@ SELECT
 FROM pls_fy2014_pupld14a
 WHERE popu_lsa >= 250000;
 
--- Cuyahoga County Public Library tops the rankings with 12,963 visits per thousand people.
+-- Cuyahoga County Public Library tops the rankings with 12,963 visits per
+-- thousand people.
 
 --------------
 -- Chapter 11
 --------------
 
--- 1. Using the New York City taxi data, calculate the length of each ride using the pickup and
--- drop-off timestamps. Sort the query results from longest ride to shortest. Is there anything
--- you notice about the longest or shortest trips that you would want to ask more about?
+-- 1. Using the New York City taxi data, calculate the length of each ride using
+-- the pickup and drop-off timestamps. Sort the query results from longest ride
+-- to shortest. Is there anything you notice about the longest or shortest trips
+-- that you would want to ask more about?
 
 SELECT
     trip_id,
@@ -559,12 +578,14 @@ SELECT
 FROM nyc_yellow_taxi_trips_2016_06_01
 ORDER BY tpep_dropoff_datetime - tpep_pickup_datetime DESC;
 
--- Answer: More than 500 of the trips last more than 3 hours, which seems excessive. Two records have
--- drop-off times before the pickup time, and several have pickup and drop-off times that are
--- the same. It's worth asking whether these records have timestamp errors.
+-- Answer: More than 500 of the trips last more than 3 hours, which seems
+-- excessive. Two records have drop-off times before the pickup time, and
+-- several have pickup and drop-off times that are the same. It's worth asking
+-- whether these records have timestamp errors.
 
--- 2. Using the AT TIME ZONE keywords, write a query that displays the date and time for London,
--- Johannesburg, Moscow, and Melbourne when January 1, 2100, arrives in New York City.
+-- 2. Using the AT TIME ZONE keywords, write a query that displays the date and
+-- time for London, Johannesburg, Moscow, and Melbourne when January 1, 2100,
+-- arrives in New York City.
 
 SELECT '2100-01-01 00:00:00-05' AT TIME ZONE 'US/Eastern' AS "New York",
        '2100-01-01 00:00:00-05' AT TIME ZONE 'Europe/London' AS "London",
@@ -572,10 +593,11 @@ SELECT '2100-01-01 00:00:00-05' AT TIME ZONE 'US/Eastern' AS "New York",
        '2100-01-01 00:00:00-05' AT TIME ZONE 'Europe/Moscow' AS "Moscow",
        '2100-01-01 00:00:00-05' AT TIME ZONE 'Australia/Melbourne' AS "Melbourne";
 
--- 3. Bonus: Using the statistics functions from Chapter 10, calculate the correlation coefficient and
--- r-squared values using trip time and the total_amount column, which represents total amount
--- charged to passengers. Do the same with trip_distance and total_amount. Limit the query to
--- rides lasting 3 hours or less.
+-- 3. Bonus: Using the statistics functions from Chapter 10, calculate the
+-- correlation coefficient and r-squared values using trip time and the
+-- total_amount column, which represents total amount charged to passengers. Do
+-- the same with trip_distance and total_amount. Limit the query to rides
+-- lasting 3 hours or less.
 
 SELECT
     round(
