@@ -164,4 +164,4 @@ SELECT
         ) AS pc_per_1000
 FROM fbi_crime_data_2015
 WHERE population >= 500000
-ORDER BY (property_crime::numeric / population) * 1000 DESC;
+ORDER BY (property_crime::numeric / population) DESC;
