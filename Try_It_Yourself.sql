@@ -66,7 +66,7 @@ SELECT school, first_name, last_name
 FROM teachers
 ORDER BY school, last_name;
 
--- 2. Find the one teacher whose name both starts with the letter
+-- 2. Find the one teacher whose first name both starts with the letter
 -- 'S' and who earns more than $40,000.
 
 SELECT first_name, last_name, school, salary
