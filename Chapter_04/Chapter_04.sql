@@ -1,9 +1,9 @@
-----------------------------------------------
--- Dig Through Data with SQL
+--------------------------------------------------------------
+-- Practical SQL: A Beginner's Guide to Storytelling with Data
 -- by Anthony DeBarros
 
 -- Chapter 4 Code Examples
-----------------------------------------------
+--------------------------------------------------------------
 
 -- Listing 4-1: Using COPY to import data (example syntax)
 
@@ -163,7 +163,8 @@ WITH (FORMAT CSV, HEADER);
 -- Check the data
 SELECT * FROM supervisor_salaries LIMIT 2;
 
--- Listing 4-6 Use a temporary table to add a default value to a field during import
+-- Listing 4-6 Use a temporary table to add a default value to a field during
+-- import
 
 DELETE FROM supervisor_salaries;
 

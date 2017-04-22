@@ -1,9 +1,9 @@
-﻿----------------------------------------------
--- Dig Through Data with SQL
+﻿--------------------------------------------------------------
+-- Practical SQL: A Beginner's Guide to Storytelling with Data
 -- by Anthony DeBarros
 
 -- Chapter 3 Code Examples
-----------------------------------------------
+--------------------------------------------------------------
 
 -- Listing 3-1: Character data types in action
 
@@ -76,7 +76,8 @@ FROM date_time_types;
 
 -- Listing 3-6: Three CAST() examples
 
-SELECT timestamp_column, CAST(timestamp_column AS varchar(10)) FROM date_time_types;
+SELECT timestamp_column, CAST(timestamp_column AS varchar(10))
+FROM date_time_types;
 
 SELECT numeric_column,
        CAST(numeric_column AS integer),

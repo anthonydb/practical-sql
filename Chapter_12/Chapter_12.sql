@@ -1,9 +1,9 @@
-----------------------------------------------
--- Dig Through Data With SQL
+--------------------------------------------------------------
+-- Practical SQL: A Beginner's Guide to Storytelling with Data
 -- by Anthony DeBarros
 
 -- Chapter 12 Code Examples
-----------------------------------------------
+--------------------------------------------------------------
 
 -- Listing 12-1: Using a subquery in a WHERE clause
 

@@ -1,9 +1,9 @@
-----------------------------------------------
--- Dig Through Data With SQL
+--------------------------------------------------------------
+-- Practical SQL: A Beginner's Guide to Storytelling with Data
 -- by Anthony DeBarros
 
 -- Chapter 10 Code Examples
-----------------------------------------------
+--------------------------------------------------------------
 
 -- Listing 10-1: Create Census 2015 ACS 5-Year stats table, import data
 
@@ -24,7 +24,8 @@ WITH (FORMAT CSV, HEADER, DELIMITER ',');
 
 SELECT * FROM acs_2011_2015_stats;
 
--- Listing 10-2: Using corr() to measure relationship between education and income
+-- Listing 10-2: Using corr() to measure relationship between education and
+-- income
 
 SELECT corr(median_hh_income, pct_bachelors_higher)
     AS bachelors_income_r
@@ -151,8 +152,8 @@ WITH (FORMAT CSV, HEADER, DELIMITER ',');
 SELECT * FROM fbi_crime_data_2015
 ORDER BY population DESC;
 
-
--- Listing 10-9: Find property crime rates per thousand in cities with 500,000 or more people
+-- Listing 10-9: Find property crime rates per thousand in cities with 500,000
+-- or more people
 
 SELECT
     city,

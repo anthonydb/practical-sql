@@ -1,9 +1,9 @@
-----------------------------------------------
--- Dig Through Data with SQL
+--------------------------------------------------------------
+-- Practical SQL: A Beginner's Guide to Storytelling with Data
 -- by Anthony DeBarros
 
 -- Chapter 8 Code Examples
-----------------------------------------------
+--------------------------------------------------------------
 
 -- Listing 8-1: Creating and filling the 2014 Public Libraries Survey table
 
@@ -241,7 +241,7 @@ ORDER BY count(stabr) DESC;
 
 SELECT stabr, stataddr, count(*)
 FROM pls_fy2014_pupld14a
-GROUP BY stabr, stataddr 
+GROUP BY stabr, stataddr
 ORDER BY stabr ASC, count(*) DESC;
 
 -- Listing 8-11: Using sum() to total visits to libraries in 2009 and 2014

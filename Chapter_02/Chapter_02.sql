@@ -1,9 +1,9 @@
-﻿----------------------------------------------
--- Dig Through Data With SQL
+﻿--------------------------------------------------------------
+-- Practical SQL: A Beginner's Guide to Storytelling with Data
 -- by Anthony DeBarros
 
 -- Chapter 2 Code Examples
-----------------------------------------------
+--------------------------------------------------------------
 
 -- Listing 2-1: Querying all rows and columns from the teachers table
 
@@ -18,7 +18,8 @@ SELECT last_name, first_name, salary FROM teachers;
 SELECT DISTINCT school
 FROM teachers;
 
--- Listing 2-4: Querying distinct pairs of values in the scool and salary columns
+-- Listing 2-4: Querying distinct pairs of values in the school and salary
+-- columns
 
 SELECT DISTINCT school, salary
 FROM teachers;

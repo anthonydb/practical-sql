@@ -1,9 +1,9 @@
-----------------------------------------------
--- Dig Through Data with SQL
+--------------------------------------------------------------
+-- Practical SQL: A Beginner's Guide to Storytelling with Data
 -- by Anthony DeBarros
 
 -- Chapter 5 Code Examples
-----------------------------------------------
+--------------------------------------------------------------
 
 -- Listing 5-1: Basic addition, subtraction and multiplication with SQL
 
@@ -21,7 +21,7 @@ SELECT CAST(11 AS numeric(3,1)) / 6;
 -- Listing 5-3: Exponents, roots and factorials with SQL
 
 SELECT 3 ^ 4;    -- exponentiation
-SELECT |/ 10;    -- square root (operator)  
+SELECT |/ 10;    -- square root (operator)
 SELECT sqrt(10); -- square root (function)
 SELECT ||/ 10;   -- cube root
 SELECT 4 !;      -- factorial
@@ -66,7 +66,8 @@ SELECT geo_name,
 FROM us_counties_2010
 ORDER BY "Difference" DESC;
 
--- Listing 5-7: Calculate percent of population that is Asian by county (percent of the whole)
+-- Listing 5-7: Calculate percent of population that is Asian by county
+-- (percent of the whole)
 
 SELECT geo_name,
        state_us_abbreviation AS "st",
@@ -198,5 +199,5 @@ FROM us_counties_2010;
 
 -- Listing 5-16: Finding the most-frequent value with mode()
 
-SELECT mode() WITHIN GROUP (ORDER BY p0010001) 
+SELECT mode() WITHIN GROUP (ORDER BY p0010001)
 FROM us_counties_2010;

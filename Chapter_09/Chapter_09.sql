@@ -1,13 +1,12 @@
-----------------------------------------------
--- Dig Through Data with SQL
+--------------------------------------------------------------
+-- Practical SQL: A Beginner's Guide to Storytelling with Data
 -- by Anthony DeBarros
 
 -- Chapter 9 Code Examples
-----------------------------------------------
+--------------------------------------------------------------
 
 -- Listing 9-1: Import the FSIS Meat, Poultry, and Egg Inspection Directory
 -- https://catalog.data.gov/dataset/meat-poultry-and-egg-inspection-directory-by-establishment-name
-
 
 CREATE TABLE meat_poultry_egg_inspect (
     est_number varchar(50) CONSTRAINT est_number_key PRIMARY KEY,

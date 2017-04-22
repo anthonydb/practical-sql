@@ -1,9 +1,9 @@
-﻿----------------------------------------------
--- Dig Through Data with SQL
+﻿--------------------------------------------------------------
+-- Practical SQL: A Beginner's Guide to Storytelling with Data
 -- by Anthony DeBarros
 
 -- Chapter 6 Code Examples
-----------------------------------------------
+--------------------------------------------------------------
 
 -- Listing 6-1: CREATE departments and employees tables
 
@@ -104,7 +104,9 @@ ON schools_left.id = schools_right.id
 WHERE schools_right.id IS NULL;
 
 -- Listing 6-10: Querying specific columns in a join
-SELECT schools_left.id AS "left_id", schools_left.left_school, schools_right.right_school
+SELECT schools_left.id AS "left_id",
+       schools_left.left_school,
+       schools_right.right_school
 FROM schools_left LEFT JOIN schools_right
 ON schools_left.id = schools_right.id;
 
@@ -147,17 +149,17 @@ LEFT JOIN schools_grades gr
 -- Listing 6-13: Performing math on joined Census tables
 
 CREATE TABLE us_counties_2000 (
-    state varchar(2), 	   -- State FIPS code
-    county varchar(3), 	   -- County code
+    state varchar(2),      -- State FIPS code
+    county varchar(3),     -- County code
     geography varchar(90), -- County/state name,
-    P0010001 integer, 	   -- Total population
-    P0010002 integer, 	   -- Population of one race:
-    P0010003 integer,        -- White Alone
-    P0010004 integer,        -- Black or African American alone
-    P0010005 integer,        -- American Indian and Alaska Native alone
-    P0010006 integer,        -- Asian alone
-    P0010007 integer,        -- Native Hawaiian and Other Pacific Islander alone
-    P0010008 integer,        -- Some Other Race alone
+    P0010001 integer,      -- Total population
+    P0010002 integer,      -- Population of one race:
+    P0010003 integer,      -- White Alone
+    P0010004 integer,      -- Black or African American alone
+    P0010005 integer,      -- American Indian and Alaska Native alone
+    P0010006 integer,      -- Asian alone
+    P0010007 integer,      -- Native Hawaiian and Other Pacific Islander alone
+    P0010008 integer,      -- Some Other Race alone
     P0010009 integer       -- Two or more races
 );
 

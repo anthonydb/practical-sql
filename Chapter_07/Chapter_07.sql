@@ -1,9 +1,9 @@
-﻿----------------------------------------------
--- Dig Through Data with SQL
+﻿--------------------------------------------------------------
+-- Practical SQL: A Beginner's Guide to Storytelling with Data
 -- by Anthony DeBarros
 
 -- Chapter 7 Code Examples
-----------------------------------------------
+--------------------------------------------------------------
 
 -- Listing 7-1: Declaring a single-column natural key as primary key
 

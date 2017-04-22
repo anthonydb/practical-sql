@@ -1,14 +1,13 @@
-﻿----------------------------------------------
--- Dig Through Data With SQL
+﻿--------------------------------------------------------------
+-- Practical SQL: A Beginner's Guide to Storytelling with Data
 -- by Anthony DeBarros
 
 -- Chapter 1 Code Examples
-----------------------------------------------
+--------------------------------------------------------------
 
 -- Listing 1-1: Create a database
 
 CREATE DATABASE analysis;
-
 
 -- Listing 1-2: Create a table
 
@@ -21,6 +20,7 @@ CREATE TABLE teachers (
     salary numeric
 );
 
+# This command will remove (drop) the table.
 -- DROP TABLE teachers;
 
 -- Listing 1-3 Insert rows into a table

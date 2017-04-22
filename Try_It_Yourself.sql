@@ -1,9 +1,9 @@
-----------------------------------------------
--- Dig Through Data with SQL
+--------------------------------------------------------------
+-- Practical SQL: A Beginner's Guide to Storytelling with Data
 -- by Anthony DeBarros
 
--- Try It Yourself Answer Key
-----------------------------------------------
+-- Try It Yourself Questions and Answers
+--------------------------------------------------------------
 
 
 --------------
@@ -86,8 +86,10 @@ ORDER BY salary DESC;
 -- Chapter 3
 --------------
 
--- 1. Assuming no driver would ever travel more than 999 miles in a day,
--- what would be an appropriate data type for the mileage column in your
+-- 1. Your company delivers fruit and vegetables to local grocery stores, and
+-- you need to track the mileage driven by each driver each day, down to the
+-- tenth of a mile. Assuming no driver would ever travel more than 999 miles in
+-- a day, what would be an appropriate data type for the mileage column in your
 -- table. Why?
 
 decimal(5,1)
