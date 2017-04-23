@@ -87,8 +87,8 @@ ORDER BY salary DESC;
 --------------
 
 -- 1. Your company delivers fruit and vegetables to local grocery stores, and
--- you need to track the mileage driven by each driver each day, down to the
--- tenth of a mile. Assuming no driver would ever travel more than 999 miles in
+-- you need to track the mileage driven by each driver each day to a tenth
+-- of a mile. Assuming no driver would ever travel more than 999 miles in
 -- a day, what would be an appropriate data type for the mileage column in your
 -- table. Why?
 
@@ -105,7 +105,7 @@ varchar(50)
 
 -- 3. Assume you have a text column that includes strings formatted as dates.
 -- One of the strings is written as '4//2017'. What will happen when you try
--- to convert that string to the data type of timestamp?
+-- to convert that string to the timestamp data type?
 SELECT CAST('4//2017' AS timestamp);
 -- Returns an error because the string is an invalid date format.
 
