@@ -134,8 +134,7 @@ COPY (
 TO 'C:\YourDirectory\us_counties_mill_export.txt'
 WITH (FORMAT CSV, HEADER)
 
--- 3. Imagine you're importing a file that contains a field with values such as
--- these:
+-- 3. Imagine you're importing a file that contains a field with these values:
       -- 17519.668
       -- 20084.461
       -- 18976.335
