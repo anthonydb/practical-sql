@@ -692,3 +692,56 @@ AS (flavor varchar(20),
 -- add the office names to the output list.
 
 -- The numbers don't change, just the order presented in the crosstab.
+
+--------------
+-- Chapter 13
+--------------
+
+-- TRY IT YOURSELF
+
+-- 1. The style guide at your publishing company says to avoid commas before
+-- suffixes in names. But your author database has several names like
+-- Alvarez, Jr. and Williams, Sr. Which functions can you use to clean those?
+-- Can a regular expression help?
+
+-- Answer: You can use either the standard SQL replace() function or the
+-- PostgreSQL regexp_replace() function:
+
+SELECT replace('Williams, Sr.', ', ', ' ');
+SELECT regexp_replace('Williams, Sr.', ', ', ' ');
+
+-- 2. Using any one of the State of the Union addresses, count the unique words
+-- that are five characters or more. Hint: You can use regexp_split_to_table()
+-- in a subquery to create a table of words to count.
+
+-- Answer:
+SELECT replace(replace(split_text.word, ',', ''), '.', ''), count(*)
+FROM
+    (SELECT regexp_split_to_table(speech_text, '\s') AS word
+     FROM president_speeches
+     WHERE speech_date = '1974-01-30') AS split_text
+WHERE length(split_text.word) > 5
+GROUP BY split_text.word
+ORDER BY count(*) DESC;
+
+-- 3. Rewrite the query in Listing 13-25 to use the ts_rank_cd() function
+-- instead of ts_rank(). The PostgreSQL documentation says ts_rank_cd() computes
+-- cover density, taking into account how close the lexeme search terms are to
+-- each other. Does using that function significantly change the results?
+
+-- Answer:
+
+SELECT president,
+       speech_date,
+       ts_rank_cd(search_speech_text, search_query, 2) AS "rank_score"
+FROM president_speeches,
+     to_tsquery('war & security & threat & enemy') search_query
+WHERE search_speech_text @@ search_query
+ORDER BY "rank_score" DESC
+LIMIT 5;
+
+-- The ranking does change, although the same speeches are generally
+-- represented. The change might be more or less pronounced given another set
+-- of texts.
+
+
