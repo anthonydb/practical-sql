@@ -1,4 +1,4 @@
-﻿--------------------------------------------------------------
+--------------------------------------------------------------
 -- Practical SQL: A Beginner's Guide to Storytelling with Data
 -- by Anthony DeBarros
 
@@ -11,7 +11,8 @@ CREATE TABLE departments (
     dept_id bigserial,
     dept varchar(100),
     city varchar(100),
-    CONSTRAINT dept_key PRIMARY KEY (dept_id)
+    CONSTRAINT dept_key PRIMARY KEY (dept_id),
+    CONSTRAINT dept_city_unique UNIQUE (dept, city)
 );
 
 CREATE TABLE employees (
@@ -20,7 +21,8 @@ CREATE TABLE employees (
     last_name varchar(100),
     salary integer,
     dept_id integer,
-    CONSTRAINT emp_key PRIMARY KEY (emp_id)
+    CONSTRAINT emp_key PRIMARY KEY (emp_id),
+    CONSTRAINT emp_dept_unique UNIQUE (emp_id, dept_id)
 );
 
 INSERT INTO departments (dept, city)
@@ -104,16 +106,18 @@ ON schools_left.id = schools_right.id
 WHERE schools_right.id IS NULL;
 
 -- Listing 6-10: Querying specific columns in a join
-SELECT schools_left.id AS "left_id",
-       schools_left.left_school,
+SELECT schools_left.id,
+       schools_left.left_school, 
        schools_right.right_school
 FROM schools_left LEFT JOIN schools_right
 ON schools_left.id = schools_right.id;
 
 -- Listing 6-11: Simplifying code with table aliases
-SELECT l.id, l.left_school, r.right_school
-FROM schools_left l LEFT JOIN schools_right r
-ON l.id = r.id;
+SELECT lt.id,
+       lt.left_school,
+       rt.right_school
+FROM schools_left AS lt LEFT JOIN schools_right AS rt
+ON lt.id = rt.id;
 
 -- Listing 6-12: Joining multiple tables
 CREATE TABLE schools_enrollment (
@@ -140,40 +144,42 @@ VALUES
 	(5, '6-8'),
 	(6, '9-12');
 
-SELECT l.id, l.left_school, en.enrollment, gr.grades
-FROM schools_left l LEFT JOIN schools_enrollment en
-    ON l.id = en.id
-LEFT JOIN schools_grades gr
-    ON l.id = gr.id;
+SELECT lt.id, lt.left_school, en.enrollment, gr.grades
+FROM schools_left AS lt LEFT JOIN schools_enrollment AS en
+    ON lt.id = en.id
+LEFT JOIN schools_grades AS gr
+    ON lt.id = gr.id;
 
 -- Listing 6-13: Performing math on joined Census tables
 
 CREATE TABLE us_counties_2000 (
-    state varchar(2),      -- State FIPS code
-    county varchar(3),     -- County code
-    geography varchar(90), -- County/state name,
-    P0010001 integer,      -- Total population
-    P0010002 integer,      -- Population of one race:
-    P0010003 integer,      -- White Alone
-    P0010004 integer,      -- Black or African American alone
-    P0010005 integer,      -- American Indian and Alaska Native alone
-    P0010006 integer,      -- Asian alone
-    P0010007 integer,      -- Native Hawaiian and Other Pacific Islander alone
-    P0010008 integer,      -- Some Other Race alone
-    P0010009 integer       -- Two or more races
+    state_fips varchar(2),  -- State FIPS code
+    county_fips varchar(3), -- County code
+    geo_name varchar(90),   -- County/state name,
+    p0010001 integer,       -- Total population
+    p0010002 integer,       -- Population of one race:
+    p0010003 integer,       -- White Alone
+    p0010004 integer,       -- Black or African American alone
+    p0010005 integer,       -- American Indian and Alaska Native alone
+    p0010006 integer,       -- Asian alone
+    p0010007 integer,       -- Native Hawaiian and Other Pacific Islander alone
+    p0010008 integer,       -- Some Other Race alone
+    p0010009 integer        -- Two or more races
 );
 
 COPY us_counties_2000
 FROM 'C:\YourDirectory\us_counties_2000.csv'
 WITH (FORMAT CSV, HEADER);
 
-SELECT c2010.name,
-       c2010.stusab,
-       c2010.P0010001 AS "2010 pop",
-       c2000.P0010001 AS "2000 pop",
-       c2010.P0010001 - c2000.P0010001 AS "Raw change",
-       round( (CAST(c2010.P0010001 AS DECIMAL(8,1)) - c2000.P0010001)
-           / c2000.P0010001 * 100, 1 ) AS "Pct. change"
+SELECT c2010.geo_name,
+       c2010.state_us_abbreviation AS state,
+       c2010.p0010001 AS pop_2010,
+       c2000.p0010001 AS pop_2000,
+       c2010.p0010001 - c2000.p0010001 AS raw_change,
+       round( (CAST(c2010.p0010001 AS numeric(8,1)) - c2000.p0010001)
+           / c2000.p0010001 * 100, 1 ) AS pct_change
 FROM us_counties_2010 c2010 INNER JOIN us_counties_2000 c2000
-ON c2010.state = c2000.state AND c2010.county = c2000.county
-ORDER BY "Pct. change" DESC;
+ON c2010.state_fips = c2000.state_fips 
+   AND c2010.county_fips = c2000.county_fips
+   AND c2010.p0010001 <> c2000.p0010001
+ORDER BY pct_change DESC;
