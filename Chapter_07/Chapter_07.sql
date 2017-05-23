@@ -1,4 +1,4 @@
-﻿--------------------------------------------------------------
+--------------------------------------------------------------
 -- Practical SQL: A Beginner's Guide to Storytelling with Data
 -- by Anthony DeBarros
 
@@ -36,7 +36,7 @@ SELECT * from natural_key_example;
 CREATE TABLE natural_key_composite_example (
     student_id varchar(10),
     school_day date,
-    present varchar(1),
+    present boolean,
     CONSTRAINT student_key PRIMARY KEY (student_id, school_day)
 );
 
@@ -61,7 +61,11 @@ CREATE TABLE surrogate_key_example (
 );
 
 INSERT INTO surrogate_key_example (product_name, order_date)
-VALUES ('Beachball Polish', '3/17/2015');
+VALUES ('Beachball Polish', '2015-03-17'),
+       ('Wrinkle De-Atomizer', '2017-05-22'),
+       ('Flux Capacitor', '1985-10-26');
+
+SELECT * FROM surrogate_key_example;
 
 -- Listing 7-6: Foreign key example
 
@@ -94,8 +98,8 @@ CREATE TABLE check_constraint_example (
     user_role varchar(50),
     salary integer,
     CONSTRAINT user_id_key PRIMARY KEY (user_id),
-    CONSTRAINT role_check CHECK (user_role IN('Admin', 'Staff', 'Intern')),
-    CONSTRAINT salary_check CHECK (salary > 0)
+    CONSTRAINT check_role_in_list CHECK (user_role IN('Admin', 'Staff')),
+    CONSTRAINT check_salary_not_zero CHECK (salary > 0)
 );
 
 -- Both of these will fail:
