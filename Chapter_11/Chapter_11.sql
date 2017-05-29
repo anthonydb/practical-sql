@@ -8,16 +8,16 @@
 -- Listing 11-1: Extracting components of a timestamp
 
 SELECT
-    date_part('year', '2016-12-01 18:37:12-05'::timestamptz) AS "year",
-    date_part('month', '2016-12-01 18:37:12-05'::timestamptz) AS "month",
-    date_part('day', '2016-12-01 18:37:12-05'::timestamptz) AS "day",
-    date_part('hour', '2016-12-01 18:37:12-05'::timestamptz) AS "hour",
-    date_part('minute', '2016-12-01 18:37:12-05'::timestamptz) AS "minute",
-    date_part('seconds', '2016-12-01 18:37:12-05'::timestamptz) AS "seconds",
-    date_part('timezone_hour', '2016-12-01 18:37:12-05'::timestamptz) AS "tz",
-    date_part('week', '2016-12-01 18:37:12-05'::timestamptz) AS "week",
-    date_part('quarter', '2016-12-01 18:37:12-05'::timestamptz) AS "quarter",
-    date_part('epoch', '2016-12-01 18:37:12-05'::timestamptz) AS "epoch";
+    date_part('year', '2016-12-01 18:37:12 EST'::timestamptz) AS "year",
+    date_part('month', '2016-12-01 18:37:12 EST'::timestamptz) AS "month",
+    date_part('day', '2016-12-01 18:37:12 EST'::timestamptz) AS "day",
+    date_part('hour', '2016-12-01 18:37:12 EST'::timestamptz) AS "hour",
+    date_part('minute', '2016-12-01 18:37:12 EST'::timestamptz) AS "minute",
+    date_part('seconds', '2016-12-01 18:37:12 EST'::timestamptz) AS "seconds",
+    date_part('timezone_hour', '2016-12-01 18:37:12 EST'::timestamptz) AS "tz",
+    date_part('week', '2016-12-01 18:37:12 EST'::timestamptz) AS "week",
+    date_part('quarter', '2016-12-01 18:37:12 EST'::timestamptz) AS "quarter",
+    date_part('epoch', '2016-12-01 18:37:12 EST'::timestamptz) AS "epoch";
 
 -- Listing 11-2: Constructing datetimes from components
 
@@ -38,15 +38,18 @@ SELECT
     localtimestamp,
     now();
 
--- Listing 11-3: Capturing the current time during row insert
+-- Listing 11-3: Comparing current_timestamp and clock_timestamp() during row insert
 
 CREATE TABLE current_time_example (
     time_id bigserial,
-    insert_time timestamp with time zone
+    current_timestamp_col timestamp with time zone,
+    clock_timestamp_col timestamp with time zone
 );
 
-INSERT INTO current_time_example (insert_time)
-VALUES (now());
+INSERT INTO current_time_example (current_timestamp_col, clock_timestamp_col)
+    (SELECT current_timestamp,
+            clock_timestamp()
+     FROM generate_series(1,1000));
 
 SELECT * FROM current_time_example;
 
@@ -174,9 +177,10 @@ WITH (FORMAT CSV, HEADER, DELIMITER ',');
 
 SELECT
     date_part('hour', tpep_pickup_datetime),
-    median(
-        date_part('epoch', tpep_dropoff_datetime - tpep_pickup_datetime)
-           ) * interval '1 second' AS "median_trip"
+    percentile_cont(.5)
+        WITHIN GROUP (ORDER BY date_part('epoch', 
+                               tpep_dropoff_datetime - tpep_pickup_datetime)
+                     ) * interval '1 second' AS "median_trip"
 FROM nyc_yellow_taxi_trips_2016_06_01
 GROUP BY date_part('hour', tpep_pickup_datetime)
 ORDER BY date_part('hour', tpep_pickup_datetime);
@@ -214,7 +218,7 @@ FROM train_rides;
 
 SELECT segment,
        arrival - departure AS "segment_time",
-       sum(arrival - departure) OVER (ORDER BY trip_id) as cume_time
+       sum(arrival - departure) OVER (ORDER BY trip_id) AS cume_time
 FROM train_rides;
 
 -- Listing 11-14: Better formatting for cumulative trip time
