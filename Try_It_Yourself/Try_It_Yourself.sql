@@ -697,8 +697,6 @@ AS (flavor varchar(20),
 -- Chapter 13
 --------------
 
--- TRY IT YOURSELF
-
 -- 1. The style guide at your publishing company says to avoid commas before
 -- suffixes in names. But your author database has several names like
 -- Alvarez, Jr. and Williams, Sr. Which functions can you use to clean those?
@@ -744,4 +742,69 @@ LIMIT 5;
 -- represented. The change might be more or less pronounced given another set
 -- of texts.
 
+--------------
+-- Chapter 14
+--------------
 
+-- 1. Earlier, you found which US county has the largest area. Now,
+-- aggregate the county data to find the area of each state in square
+-- miles. (Use the statefp10 column in the us_counties_2010_shp table.)
+-- How many states are bigger than the Yukon-Koyukuk?
+
+SELECT statefp10 AS st,
+       round (
+              ( sum(ST_Area(geom::geography) / 2589988.110336))::numeric, 2
+             ) AS square_miles
+FROM us_counties_2010_shp
+GROUP BY statefp10
+ORDER BY square_miles DESC;
+
+-- Answer: Just three states are bigger than Yukon-Koyukuk: Alaska (FIPS 02),
+-- Texas (48), and California (06).
+
+-- 2. Using ST_Distance(), find how many miles separate these two farmers’ markets:
+-- The Oakleaf Greenmarket, 9700 Argyle Forest Blvd, Jacksonville, Florida, and
+-- Columbia Farmers Market, 1701 West Ash Street, Columbia, Missouri. You’ll
+-- need to first find the coordinates for both in the farmers_markets table.
+-- Tip: You can write this query using the Common Table Expression syntax from
+-- Chapter 12.
+
+-- Answer:
+
+WITH
+    market_start (geog_point) AS
+    (
+     SELECT geog_point
+     FROM farmers_markets
+     WHERE market_name = 'The Oakleaf Greenmarket'
+    ),
+    market_end (geog_point) AS
+    (
+     SELECT geog_point
+     FROM farmers_markets
+     WHERE market_name = 'Columbia Farmers Market'
+    )
+SELECT ST_Distance(market_start.geog_point, market_end.geog_point) / 1609.344 -- convert to meters to miles
+FROM market_start, market_end;
+
+-- Answer: About 851 miles
+
+-- 3. More than 500 rows in the farmers_markets table are missing a value
+-- in the county column, an example of “dirty” government data. Using the
+-- us_counties_2010_shp table and the ST_Intersects() function, perform a
+-- spatial join to find the missing county names based on the longitude and
+-- latitude of each market. Because geog_point in farmers_markets is type
+-- geography and SRID 4326, you’ll need to cast geom in the Census table
+-- to that type and change its SRID using ST_SetSRID().
+
+-- Answer:
+
+SELECT census.name10,
+       census.statefp10,
+       markets.market_name,
+       markets.county,
+       markets.st
+FROM farmers_markets markets JOIN us_counties_2010_shp census
+    ON ST_Intersects(markets.geog_point, ST_SetSRID(census.geom,4326)::geography)
+    WHERE markets.county IS NULL
+ORDER BY census.statefp10, census.name10;
