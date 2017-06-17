@@ -87,7 +87,9 @@ CREATE INDEX libname2014_idx ON pls_fy2014_pupld14a (libname);
 COPY pls_fy2014_pupld14a
 FROM 'C:\YourDirectory\pls_fy2014_pupld14a.csv'
 WITH (FORMAT CSV, HEADER);
---DROP TABLE pls_fy2014_pupld14a;
+-- DROP TABLE pls_fy2014_pupld14a;
+
+SELECT * FROM pls_fy2014_pupld14a WHERE libname ilike '%luis g%';
 
 -- Listing 8-2: Creating and filling the 2009 Public Libraries Survey table
 

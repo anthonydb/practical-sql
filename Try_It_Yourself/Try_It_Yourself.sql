@@ -627,11 +627,11 @@ WHERE tpep_dropoff_datetime - tpep_pickup_datetime <= '3 hours'::interval;
 -- Chapter 12
 --------------
 
--- 1. Re-work the code in Listing 12-14 to dig deeper into the nuances of
+-- 1. Revise the code in Listing 12-14 to dig deeper into the nuances of
 -- Waikiki’s high temperatures. Limit the temps_collapsed table to the Waikiki
--- maximum daily temperature observations. Then, re-do the WHEN clauses in the
--- CASE statement to reclassify the temperatures into seven groups with the
---  following text output:
+-- maximum daily temperature observations. Then, use the WHEN clauses in the
+-- CASE statement to reclassify the temperatures into seven groups that would
+-- result in the following text output:
 
 -- '90 or more'
 -- '88-89'
@@ -641,8 +641,8 @@ WHERE tpep_dropoff_datetime - tpep_pickup_datetime <= '3 hours'::interval;
 -- '80-81'
 -- '79 or less'
 
--- In which of those groups does Waikiki’s daily maximum temperature most often
--- fall?
+-- In which of those groups does Waikiki’s daily maximum temperature fall most
+-- often?
 
 WITH temps_collapsed (station_name, max_temperature_group) AS
     (SELECT station_name,
@@ -664,9 +664,9 @@ ORDER BY max_temperature_group;
 
 -- Answer: Between 86 and 87 degrees. Nice.
 
--- 2. Re-work the ice cream survey crosstab in Listing 12-10 to flip the table.
--- Make flavor the rows and office the columns. Which elements of the query do
--- you need to change? Are the counts different?
+-- 2. Revise the ice cream survey crosstab in Listing 12-10 to flip the table.
+-- In other words, make flavor the rows and office the columns. Which elements
+-- of the query do you need to change? Are the counts different?
 
 SELECT *
 FROM crosstab('SELECT flavor,
