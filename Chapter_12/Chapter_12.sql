@@ -23,7 +23,7 @@ SELECT * INTO us_counties_2010_backup
 FROM us_counties_2010;
 
 DELETE FROM us_counties_2010_backup
-WHERE p0010001 >= (
+WHERE p0010001 < (
     SELECT percentile_cont(.9) WITHIN GROUP (ORDER BY p0010001)
     FROM us_counties_2010_backup
     );
@@ -32,59 +32,61 @@ SELECT count(*) FROM us_counties_2010_backup;
 
 -- Listing 12-3: Subquery as a derived table in a FROM clause
 
-SELECT round(a.average - a.median, 0) AS "median_average_diff"
+SELECT round(calcs.average, 0) as average,
+       calcs.median,
+       round(calcs.average - calcs.median, 0) AS median_average_diff
 FROM (
-     SELECT avg(p0010001) AS "average",
+     SELECT avg(p0010001) AS average,
             percentile_cont(.5)
-                WITHIN GROUP (ORDER BY p0010001)::numeric(10,1) AS "median"
+                WITHIN GROUP (ORDER BY p0010001)::numeric(10,1) AS median
      FROM us_counties_2010
      )
-AS "a";
+AS calcs;
 
 -- Listing 12-4: Joining two derived tables
 
-SELECT census.state_us_abbreviation AS "st",
+SELECT census.state_us_abbreviation AS st,
        census.st_population,
        plants.plant_count,
        round((plants.plant_count/census.st_population::numeric(10,1)) * 1000000, 1)
-           AS "plants_per_million"
+           AS plants_per_million
 FROM
     (
          SELECT st,
-                count(*) AS "plant_count"
+                count(*) AS plant_count
          FROM meat_poultry_egg_inspect
          GROUP BY st
     )
-    AS "plants"
+    AS plants
 JOIN
     (
         SELECT state_us_abbreviation,
-               sum(p0010001) AS "st_population"
+               sum(p0010001) AS st_population
         FROM us_counties_2010
         GROUP BY state_us_abbreviation
     )
-    AS "census"
+    AS census
 ON plants.st = census.state_us_abbreviation
-ORDER BY "plants_per_million" DESC;
+ORDER BY plants_per_million DESC;
 
 -- Listing 12-5: Adding a subquery to a column list
 
 SELECT geo_name,
-       state_us_abbreviation AS "st",
-       p0010001 AS "total_pop",
+       state_us_abbreviation AS st,
+       p0010001 AS total_pop,
        (SELECT percentile_cont(.5) WITHIN GROUP (ORDER BY p0010001)
-        FROM us_counties_2010) AS "us_median"
+        FROM us_counties_2010) AS us_median
 FROM us_counties_2010;
 
 -- Listing 12-6: Using a subquery expression in a calculation
 
 SELECT geo_name,
-       state_us_abbreviation AS "st",
-       p0010001 AS "total_pop",
+       state_us_abbreviation AS st,
+       p0010001 AS total_pop,
        (SELECT percentile_cont(.5) WITHIN GROUP (ORDER BY p0010001)
-        FROM us_counties_2010) AS "us_median",
+        FROM us_counties_2010) AS us_median,
        p0010001 - (SELECT percentile_cont(.5) WITHIN GROUP (ORDER BY p0010001)
-                   FROM us_counties_2010) AS "diff_from_median"
+                   FROM us_counties_2010) AS diff_from_median
 FROM us_counties_2010
 WHERE (p0010001 - (SELECT percentile_cont(.5) WITHIN GROUP (ORDER BY p0010001)
                   FROM us_counties_2010))
@@ -112,7 +114,7 @@ WHERE p0010001 >= 100000
 GROUP BY state_us_abbreviation
 ORDER BY count(*) DESC;
 
--- Listing 12-8: Using a CTE to join tables
+-- Listing 12-8: Using CTEs to join tables
 
 WITH
     counties (st, population) AS
