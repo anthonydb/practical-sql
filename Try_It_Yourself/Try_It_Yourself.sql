@@ -160,7 +160,7 @@ SELECT 3.14 * 5 ^ 2;
 -- You do not need parentheses because exponents and roots take precedence over
 -- multiplication.
 
--- 2. Using  2010 Census county data, find the county in New York state that has
+-- 2. Using 2010 Census county data, find the county in New York state that has
 -- the highest percentage of the population that identified as "American
 -- Indian/Alaska Native Alone." What can you learn about that county from online
 -- research that explains the relatively high American Indian population
@@ -193,9 +193,9 @@ WHERE stusab = 'CA';
 -- Chapter 6
 --------------
 
--- 1. The table us_counties_2010 contains 3,143 rows, while us_counties_2000 has
+-- 1. The table us_counties_2010 contains 3,143 rows, and us_counties_2000 has
 -- 3,141. That reflects the ongoing adjustments to county-level geographies that
--- typically result from government decision-making. Using appropriate joins and
+-- typically result from government decision making. Using appropriate joins and
 -- the NULL value, identify which counties don't exist in both tables.
 
 -- Answers:
@@ -217,7 +217,7 @@ FROM us_counties_2010 c2010 RIGHT JOIN us_counties_2000 c2000
 ON c2010.state = c2000.state AND c2010.county = c2000.county
 WHERE c2010.name IS NULL;
 
--- 2. Using either the median() or percentile_cont() functions from Chapter 5,
+-- 2. Using either the median() or percentile_cont() functions in Chapter 5,
 -- determine the median percent change in county population.
 
 -- Answer: 3.2%
@@ -237,7 +237,7 @@ ON c2010.state = c2000.state AND c2010.county = c2000.county;
 
 
 -- 3. Which county had the greatest percentage loss of population between 2000
--- and 2010? Any idea why? Hint: A weather event that happened in 2005.
+-- and 2010? Do you have any idea why? Hint: a weather event happened in 2005.
 
 -- Answer: St. Bernard Parish, La.
 

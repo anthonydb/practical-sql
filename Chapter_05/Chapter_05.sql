@@ -45,7 +45,7 @@ SELECT geo_name,
        p0010009 AS "Two or More Races"
 FROM us_counties_2010;
 
--- Listing 5-5: Adding two columns in Census data
+-- Listing 5-5: Adding two columns in us_counties_2010
 
 SELECT geo_name,
        state_us_abbreviation AS "st",
