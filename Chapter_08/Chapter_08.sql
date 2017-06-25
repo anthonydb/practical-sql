@@ -11,7 +11,7 @@ CREATE TABLE pls_fy2014_pupld14a (
     stabr varchar(2) NOT NULL,
     fscskey varchar(6) CONSTRAINT fscskey2014_key PRIMARY KEY,
     libid varchar(20) NOT NULL,
-    libname varchar(60) NOT NULL,
+    libname varchar(100) NOT NULL,
     obereg varchar(2) NOT NULL,
     rstatus integer NOT NULL,
     statstru varchar(2) NOT NULL,
@@ -83,13 +83,13 @@ CREATE TABLE pls_fy2014_pupld14a (
 );
 
 CREATE INDEX libname2014_idx ON pls_fy2014_pupld14a (libname);
+CREATE INDEX stabr2014_idx ON pls_fy2014_pupld14a (stabr);
+CREATE INDEX city2014_idx ON pls_fy2014_pupld14a (city);
+CREATE INDEX visits2014_idx ON pls_fy2014_pupld14a (visits);
 
 COPY pls_fy2014_pupld14a
 FROM 'C:\YourDirectory\pls_fy2014_pupld14a.csv'
 WITH (FORMAT CSV, HEADER);
--- DROP TABLE pls_fy2014_pupld14a;
-
-SELECT * FROM pls_fy2014_pupld14a WHERE libname ilike '%luis g%';
 
 -- Listing 8-2: Creating and filling the 2009 Public Libraries Survey table
 
@@ -97,7 +97,7 @@ CREATE TABLE pls_fy2009_pupld09a (
     stabr varchar(2) NOT NULL,
     fscskey varchar(6) CONSTRAINT fscskey2009_key PRIMARY KEY,
     libid varchar(20) NOT NULL,
-    libname varchar(60) NOT NULL,
+    libname varchar(100) NOT NULL,
     address varchar(35) NOT NULL,
     city varchar(20) NOT NULL,
     zip varchar(5) NOT NULL,
@@ -165,6 +165,9 @@ CREATE TABLE pls_fy2009_pupld09a (
 );
 
 CREATE INDEX libname2009_idx ON pls_fy2009_pupld09a (libname);
+CREATE INDEX stabr2009_idx ON pls_fy2009_pupld09a (stabr);
+CREATE INDEX city2009_idx ON pls_fy2009_pupld09a (city);
+CREATE INDEX visits2009_idx ON pls_fy2009_pupld09a (visits);
 
 COPY pls_fy2009_pupld09a
 FROM 'C:\YourDirectory\pls_fy2009_pupld09a.csv'
@@ -246,34 +249,47 @@ FROM pls_fy2014_pupld14a
 GROUP BY stabr, stataddr
 ORDER BY stabr ASC, count(*) DESC;
 
--- Listing 8-11: Using sum() to total visits to libraries in 2009 and 2014
+-- Listing 8-11: Using sum() to total visits to libraries in 2014 and 2009
 
-SELECT sum(pls14.visits) AS "visits_2014",
-       sum(pls09.visits) AS "visits_2009"
+-- 2014
+SELECT sum(visits) AS visits_2014
+FROM pls_fy2014_pupld14a
+WHERE visits >= 0; 
+
+-- 2009
+SELECT sum(visits) AS visits_2009
+FROM pls_fy2009_pupld09a
+WHERE visits >= 0;
+
+-- Listing 8-12: Using sum() to total visits on joined 2014 and 2009 library tables
+
+SELECT sum(pls14.visits) AS visits_2014,
+       sum(pls09.visits) AS visits_2009
 FROM pls_fy2014_pupld14a pls14 JOIN pls_fy2009_pupld09a pls09
 ON pls14.fscskey = pls09.fscskey
-WHERE pls14.visits >= 0 AND pls09.visits >= 0;
+WHERE pls14.visits >= 0 
+  AND pls09.visits >= 0;
 
--- Listing 8-12: Using GROUP BY to track percent change in library visits by state
+-- Listing 8-13: Using GROUP BY to track percent change in library visits by state
 
 SELECT pls14.stabr,
-       sum(pls14.visits) AS "visits_2014",
-       sum(pls09.visits) AS "visits_2009",
+       sum(pls14.visits) AS visits_2014,
+       sum(pls09.visits) AS visits_2009,
        round( (CAST(sum(pls14.visits) AS decimal(10,1)) - sum(pls09.visits)) /
-                    sum(pls09.visits) * 100, 2 ) AS "pct_change"
+                    sum(pls09.visits) * 100, 2 ) AS pct_change
 FROM pls_fy2014_pupld14a pls14 JOIN pls_fy2009_pupld09a pls09
 ON pls14.fscskey = pls09.fscskey
 WHERE pls14.visits >= 0 AND pls09.visits >= 0
 GROUP BY pls14.stabr
 ORDER BY pct_change DESC;
 
--- Listing 8-13: Using HAVING to filter the results of an aggregate query
+-- Listing 8-14: Using HAVING to filter the results of an aggregate query
 
 SELECT pls14.stabr,
-       sum(pls14.visits) AS "visits_2014",
-       sum(pls09.visits) AS "visits_2009",
+       sum(pls14.visits) AS visits_2014,
+       sum(pls09.visits) AS visits_2009,
        round( (CAST(sum(pls14.visits) AS decimal(10,1)) - sum(pls09.visits)) /
-                    sum(pls09.visits) * 100, 2 ) AS "pct_change"
+                    sum(pls09.visits) * 100, 2 ) AS pct_change
 FROM pls_fy2014_pupld14a pls14 JOIN pls_fy2009_pupld09a pls09
 ON pls14.fscskey = pls09.fscskey
 WHERE pls14.visits >= 0 AND pls09.visits >= 0
