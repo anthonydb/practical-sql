@@ -14,6 +14,7 @@ WITH (FORMAT CSV, HEADER);
 
 -- Listing 4-2: Create a table for Census import
 -- Full data dictionary available at: http://www.census.gov/prod/cen2010/doc/pl94-171.pdf
+-- Note: Some columns have been given more descriptive names
 
 CREATE TABLE us_counties_2010 (
     geo_name varchar(90),                    -- Name of the geography
@@ -39,8 +40,8 @@ CREATE TABLE us_counties_2010 (
     p0010006 integer,       -- Asian alone
     p0010007 integer,       -- Native Hawaiian and Other Pacific Islander alone
     p0010008 integer,       -- Some Other Race alone
-    p0010009 integer,   -- Two or more races:
-    p0010010 integer,   -- Population of two or more races:
+    p0010009 integer,   -- Population of two or more races
+    p0010010 integer,   -- Population of two races:
     p0010011 integer,       -- White; Black or African American
     p0010012 integer,       -- White; American Indian and Alaska Native
     p0010013 integer,       -- White; Asian
