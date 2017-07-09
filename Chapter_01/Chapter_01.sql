@@ -20,7 +20,7 @@ CREATE TABLE teachers (
     salary numeric
 );
 
-# This command will remove (drop) the table.
+-- This command will remove (drop) the table.
 -- DROP TABLE teachers;
 
 -- Listing 1-3 Insert rows into a table
