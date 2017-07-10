@@ -812,3 +812,45 @@ FROM farmers_markets markets JOIN us_counties_2010_shp census
     ON ST_Intersects(markets.geog_point, ST_SetSRID(census.geom,4326)::geography)
     WHERE markets.county IS NULL
 ORDER BY census.statefp10, census.name10;
+
+
+--------------
+-- Chapter 15
+--------------
+
+-- 1. Create a view that displays the number of New York City taxi trips per
+-- hour. For resources, use the taxi data from Chapter 11 and the query in
+-- Listing 11-8.
+
+CREATE VIEW nyc_taxi_trips_per_hour AS
+    SELECT
+         date_part('hour', tpep_pickup_datetime),
+         count(date_part('hour', tpep_pickup_datetime))
+    FROM nyc_yellow_taxi_trips_2016_06_01
+    GROUP BY date_part('hour', tpep_pickup_datetime)
+    ORDER BY date_part('hour', tpep_pickup_datetime);
+
+SELECT * FROM nyc_taxi_trips_per_hour;
+
+-- 2. In Chapter 10, you learned how to calculate rates per thousand. Turn that
+-- formula into a rates_per_thousand() function that takes three arguments:
+-- the observed_number, the base_number, and the number of decimal_places for
+-- the result.
+
+CREATE OR REPLACE FUNCTION
+rate_per_thousand(observed_number numeric,
+                  base_number numeric,
+                  decimal_places integer DEFAULT 1)
+RETURNS numeric(10,2) AS $$
+BEGIN
+    RETURN
+        round(
+        (observed_number / base_number) * 1000, decimal_places
+        );
+END;
+$$ LANGUAGE plpgsql;
+
+SELECT rate_per_thousand(50, 11000, 2);
+
+-- 3. Describe the steps needed to implement a trigger on a table and how the
+-- components relate to each other.
