@@ -701,10 +701,10 @@ AS (flavor varchar(20),
 -- Chapter 13
 --------------
 
--- 1. The style guide at your publishing company says to avoid commas before
--- suffixes in names. But your author database has several names like
--- Alvarez, Jr. and Williams, Sr. Which functions can you use to clean those?
--- Can a regular expression help?
+-- 1. The style guide of a publishing company you're writing for says to avoid
+-- commas before suffixes in names. But your author database has several names
+-- like Alvarez, Jr. and Williams, Sr. Which functions can you use to remove
+-- these? Would a regular expression help?
 
 -- Answer: You can use either the standard SQL replace() function or the
 -- PostgreSQL regexp_replace() function:
@@ -712,9 +712,10 @@ AS (flavor varchar(20),
 SELECT replace('Williams, Sr.', ', ', ' ');
 SELECT regexp_replace('Williams, Sr.', ', ', ' ');
 
--- 2. Using any one of the State of the Union addresses, count the unique words
--- that are five characters or more. Hint: You can use regexp_split_to_table()
--- in a subquery to create a table of words to count.
+-- 2. Using any one of the State of the Union addresses, count the number of
+-- unique words that are five characters or more. Hint: You can use
+-- regexp_split_to_table() in a subquery to create a table of words to count.
+-- Bonus: Remove commas and periods at the end of each word.
 
 -- Answer:
 SELECT replace(replace(split_text.word, ',', ''), '.', ''), count(*)
@@ -726,10 +727,11 @@ WHERE length(split_text.word) > 5
 GROUP BY split_text.word
 ORDER BY count(*) DESC;
 
--- 3. Rewrite the query in Listing 13-25 to use the ts_rank_cd() function
--- instead of ts_rank(). The PostgreSQL documentation says ts_rank_cd() computes
--- cover density, taking into account how close the lexeme search terms are to
--- each other. Does using that function significantly change the results?
+-- 3. Rewrite the query in Listing 13-25 using the ts_rank_cd() function
+-- instead of ts_rank(). According to th PostgreSQL documentation, ts_rank_cd()
+-- computes cover density, which takes into account how close the lexeme search
+-- terms are to each other. Does using that function significantly change
+-- the results?
 
 -- Answer:
 
