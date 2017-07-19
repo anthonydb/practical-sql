@@ -221,7 +221,7 @@ SELECT array_length(regexp_split_to_array('Phil Mike Tony Steve', ' '), 1);
 
 -- Listing 13-15: Converting text to tsvector data
 
-SELECT to_tsvector('I am walking across the sitting room');
+SELECT to_tsvector('I am walking across the sitting room to sit with you.');
 
 -- Listing 13-16: Converting search terms to tsquery data
 
@@ -270,46 +270,12 @@ CREATE INDEX search_idx ON president_speeches USING gin(search_speech_text);
 
 -- Listing 13-21: Find speeches containing the word "Vietnam"
 
-SELECT president, title, speech_date
+SELECT president, speech_date
 FROM president_speeches
 WHERE search_speech_text @@ to_tsquery('Vietnam')
 ORDER BY speech_date;
 
--- Listing 13-22: Find speeches with the word "transportation" but not "roads"
-
-SELECT president, speech_date
-FROM president_speeches
-WHERE search_speech_text @@ to_tsquery('transportation & !roads');
-
--- Listing 13-23: Find speeches where "defense" follows "military"
-
-SELECT president, speech_date
-FROM president_speeches
-WHERE search_speech_text @@ to_tsquery('military <-> defense');
-
--- Listing 13-24: Scoring relevance with ts_rank()
-
-SELECT president,
-       speech_date,
-       ts_rank(search_speech_text,
-               to_tsquery('war & security & threat & enemy')) AS score
-FROM president_speeches
-WHERE search_speech_text @@ to_tsquery('war & security & threat & enemy')
-ORDER BY score DESC
-LIMIT 5;
-
--- Listing 13-25: Normalizing ts_rank() by speech length
-
-SELECT president,
-       speech_date,
-       ts_rank(search_speech_text,
-               to_tsquery('war & security & threat & enemy'), 2) AS score
-FROM president_speeches
-WHERE search_speech_text @@ to_tsquery('war & security & threat & enemy')
-ORDER BY score DESC
-LIMIT 5;
-
--- Listing 13-26: Displaying search results with ts_headline()
+-- Listing 13-22: Displaying search results with ts_headline()
 
 SELECT president,
        speech_date,
@@ -321,3 +287,65 @@ SELECT president,
                     MaxFragments=1')
 FROM president_speeches
 WHERE search_speech_text @@ to_tsquery('Vietnam');
+
+-- Listing 13-23: Find speeches with the word "transportation" but not "roads"
+
+SELECT president,
+       speech_date,
+       ts_headline(speech_text, to_tsquery('transportation & !roads'),
+                   'StartSel = <,
+                    StopSel = >,
+                    MinWords=5,
+                    MaxWords=7,
+                    MaxFragments=1')
+FROM president_speeches
+WHERE search_speech_text @@ to_tsquery('transportation & !roads');
+
+-- Listing 13-24: Find speeches where "defense" follows "military"
+
+SELECT president,
+       speech_date,
+       ts_headline(speech_text, to_tsquery('military <-> defense'),
+                   'StartSel = <,
+                    StopSel = >,
+                    MinWords=5,
+                    MaxWords=7,
+                    MaxFragments=1')
+FROM president_speeches
+WHERE search_speech_text @@ to_tsquery('military <-> defense');
+
+-- Example with a distance of 2:
+SELECT president,
+       speech_date,
+       ts_headline(speech_text, to_tsquery('military <2> defense'),
+                   'StartSel = <,
+                    StopSel = >,
+                    MinWords=5,
+                    MaxWords=7,
+                    MaxFragments=2')
+FROM president_speeches
+WHERE search_speech_text @@ to_tsquery('military <2> defense');
+
+-- Listing 13-25: Scoring relevance with ts_rank()
+
+SELECT president,
+       speech_date,
+       ts_rank(search_speech_text,
+               to_tsquery('war & security & threat & enemy')) AS score
+FROM president_speeches
+WHERE search_speech_text @@ to_tsquery('war & security & threat & enemy')
+ORDER BY score DESC
+LIMIT 5;
+
+-- Listing 13-26: Normalizing ts_rank() by speech length
+
+SELECT president,
+       speech_date,
+       ts_rank(search_speech_text,
+               to_tsquery('war & security & threat & enemy'), 2) AS score
+FROM president_speeches
+WHERE search_speech_text @@ to_tsquery('war & security & threat & enemy')
+ORDER BY score DESC
+LIMIT 5;
+
+
