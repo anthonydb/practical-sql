@@ -8,7 +8,7 @@
 -- Commonly used string functions
 -- Full list at https://www.postgresql.org/docs/current/static/functions-string.html
 
--- Capitalization
+-- Case formatting
 SELECT upper('Neal7');
 SELECT lower('Randy');
 SELECT initcap('at the end of the day');
@@ -20,7 +20,7 @@ SELECT char_length(' Pat ');
 SELECT length(' Pat ');
 SELECT position(', ' in 'Tan, Bella');
 
--- String Trimming
+-- Removing characters
 SELECT trim(' Pat ');
 SELECT char_length(trim(' Pat ')); -- note the length change
 SELECT trim('s' from 'socks');
@@ -28,7 +28,7 @@ SELECT trim(trailing 's' from 'socks');
 SELECT ltrim('socks', 's');
 SELECT rtrim('socks', 's');
 
--- Extract and replace
+-- Extracting and replacing characters
 SELECT left('703-555-1212', 3);
 SELECT right('703-555-1212', 8);
 SELECT replace('bat', 'b', 'c');
@@ -39,7 +39,7 @@ SELECT replace('bat', 'b', 'c');
 -- Any character one or more times
 SELECT substring('The game starts at 7 p.m. on May 2, 2017.' from '.+');
 -- One or two digits followed by a space and p.m.
-SELECT substring('The game starts at 7 p.m. on May 2, 2017.' from '\d{1,2} p.m.');
+SELECT substring('The game starts at 7 p.m. on May 2, 2017.' from '\d{1,2} (?:a.m.|p.m.)');
 -- One or more word characters at the start
 SELECT substring('The game starts at 7 p.m. on May 2, 2017.' from '^\w+');
 -- One or more word characters followed by any character at the end.
@@ -88,11 +88,13 @@ SELECT crime_id,
 FROM crime_reports;
 
 -- Listing 13-5: Matching the second date
+-- Note that the result includes an unwanted hyphen
 SELECT crime_id,
        regexp_matches(original_text, '-\d{1,2}\/\d{1,2}\/\d{1,2}')
 FROM crime_reports;
 
 -- Listing 13-6: Using a capture group to return only the date
+-- Eliminates the hyphen
 SELECT crime_id,
        regexp_matches(original_text, '-(\d{1,2}\/\d{1,2}\/\d{1,2})')
 FROM crime_reports;
@@ -100,31 +102,31 @@ FROM crime_reports;
 -- Listing 13-7: Matching case number, date, crime type, and city
 
 SELECT
-    regexp_matches(original_text, '(?:C0|SO)[0-9]+') AS "case_number",
-    regexp_matches(original_text, '\d{1,2}\/\d{1,2}\/\d{2}') AS "date_1",
-    regexp_matches(original_text, '\n(?:\w+ \w+|\w+)\n(.*):') AS "crime_type",
+    regexp_matches(original_text, '(?:C0|SO)[0-9]+') AS case_number,
+    regexp_matches(original_text, '\d{1,2}\/\d{1,2}\/\d{2}') AS date_1,
+    regexp_matches(original_text, '\n(?:\w+ \w+|\w+)\n(.*):') AS crime_type,
     regexp_matches(original_text, '(?:Sq.|Plz.|Dr.|Ter.|Rd.)\n(\w+ \w+|\w+)\n')
-        AS "city"
+        AS city
 FROM crime_reports;
 
 -- Bonus: Get all parsed elements at once
 
 SELECT crime_id,
-       regexp_matches(original_text, '\d{1,2}\/\d{1,2}\/\d{2}') AS "date_1",
+       regexp_matches(original_text, '\d{1,2}\/\d{1,2}\/\d{2}') AS date_1,
        CASE WHEN EXISTS (SELECT regexp_matches(original_text, '-(\d{1,2}\/\d{1,2}\/\d{1,2})'))
             THEN regexp_matches(original_text, '-(\d{1,2}\/\d{1,2}\/\d{1,2})')
             ELSE NULL
-            END AS "date_2",
-       regexp_matches(original_text, '\/\d{2}\n(\d{4})') AS "hour_1",
+            END AS date_2,
+       regexp_matches(original_text, '\/\d{2}\n(\d{4})') AS hour_1,
        CASE WHEN EXISTS (SELECT regexp_matches(original_text, '\/\d{2}\n\d{4}-(\d{4})'))
             THEN regexp_matches(original_text, '\/\d{2}\n\d{4}-(\d{4})')
             ELSE NULL
-            END AS "hour_2",
-       regexp_matches(original_text, 'hrs.\n(\d+ .+(?:Sq.|Plz.|Dr.|Ter.|Rd.))') AS "street",
-       regexp_matches(original_text, '(?:Sq.|Plz.|Dr.|Ter.|Rd.)\n(\w+ \w+|\w+)\n') AS "city",
-       regexp_matches(original_text, '\n(?:\w+ \w+|\w+)\n(.*):') AS "crime_type",
-       regexp_matches(original_text, ':\s(.+)(?:C0|SO)') AS "description",
-       regexp_matches(original_text, '(?:C0|SO)[0-9]+') AS "case_number"
+            END AS hour_2,
+       regexp_matches(original_text, 'hrs.\n(\d+ .+(?:Sq.|Plz.|Dr.|Ter.|Rd.))') AS street,
+       regexp_matches(original_text, '(?:Sq.|Plz.|Dr.|Ter.|Rd.)\n(\w+ \w+|\w+)\n') AS city,
+       regexp_matches(original_text, '\n(?:\w+ \w+|\w+)\n(.*):') AS crime_type,
+       regexp_matches(original_text, ':\s(.+)(?:C0|SO)') AS description,
+       regexp_matches(original_text, '(?:C0|SO)[0-9]+') AS case_number
 FROM crime_reports;
 
 -- Listing 13-8: Using unnest() to retrieve an array value
@@ -133,7 +135,7 @@ SELECT
     crime_id,
     unnest(
            regexp_matches(original_text, '(?:C0|SO)[0-9]+')
-           ) AS "case_number"
+           ) AS case_number
 FROM crime_reports;
 
 -- Listing 13-9: Updating the crime_reports date_1 column
@@ -290,10 +292,10 @@ WHERE search_speech_text @@ to_tsquery('military <-> defense');
 SELECT president,
        speech_date,
        ts_rank(search_speech_text,
-               to_tsquery('war & security & threat & enemy')) AS "score"
+               to_tsquery('war & security & threat & enemy')) AS score
 FROM president_speeches
 WHERE search_speech_text @@ to_tsquery('war & security & threat & enemy')
-ORDER BY "score" DESC
+ORDER BY score DESC
 LIMIT 5;
 
 -- Listing 13-25: Normalizing ts_rank() by speech length
@@ -301,10 +303,10 @@ LIMIT 5;
 SELECT president,
        speech_date,
        ts_rank(search_speech_text,
-               to_tsquery('war & security & threat & enemy'), 2) AS "score"
+               to_tsquery('war & security & threat & enemy'), 2) AS score
 FROM president_speeches
 WHERE search_speech_text @@ to_tsquery('war & security & threat & enemy')
-ORDER BY "score" DESC
+ORDER BY score DESC
 LIMIT 5;
 
 -- Listing 13-26: Displaying search results with ts_headline()
