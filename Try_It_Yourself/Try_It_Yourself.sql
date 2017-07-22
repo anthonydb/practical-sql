@@ -457,10 +457,10 @@ WHERE pls14.libname IS NULL;
 -- Create two new columns in your table called meat_processing and
 -- poultry_processing. Each can be of the type boolean.
 
--- Update the meat_processing column to contain a Y (for yes) on any row where
--- the activities column contains the text Meat Processing. Do the same update
--- on the poultry_processing column, this time looking for the text Poultry
--- Processing in activities.
+-- Using UPDATE, set meat_processing = TRUE on any row where the activities
+-- column contains the text 'Meat Processing'. Do the same update on the
+-- poultry_processing column, this time looking for the text
+-- 'Poultry Processing' in activities.
 
 -- Use the data from the new, updated columns to count how many companies
 -- perform each type of activity. For a bonus challenge, count how many
