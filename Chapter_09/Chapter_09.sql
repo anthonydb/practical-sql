@@ -20,24 +20,30 @@ CREATE TABLE meat_poultry_egg_inspect (
     activities text,
     dbas text
 );
-CREATE INDEX company_idx ON meat_poultry_egg_inspect (company);
 
 COPY meat_poultry_egg_inspect
 FROM 'C:\YourDirectory\MPI_Directory_by_Establishment_Name.csv'
 WITH (FORMAT CSV, HEADER, DELIMITER ',');
 
+CREATE INDEX company_idx ON meat_poultry_egg_inspect (company);
+
 -- Count the rows imported:
 SELECT count(*) FROM meat_poultry_egg_inspect;
 
 -- Listing 9-2: Find multiple companies at the same address
-SELECT company, street, city, st, count(*)
+SELECT company,
+       street,
+       city,
+       st,
+       count(*) AS address_count
 FROM meat_poultry_egg_inspect
 GROUP BY company, street, city, st
 HAVING count(*) > 1
 ORDER BY company, street, city, st;
 
 -- Listing 9-3: Grouping and counting states
-SELECT st, count(*)
+SELECT st, 
+       count(*) AS st_count
 FROM meat_poultry_egg_inspect
 GROUP BY st
 ORDER BY st;
@@ -49,40 +55,38 @@ WHERE st IS NULL;
 
 -- Listing 9-5: GROUP BY and count() to find inconsistent company names
 
-SELECT company, count(*)
+SELECT company,
+       count(*) AS company_count
 FROM meat_poultry_egg_inspect
 GROUP BY company
 ORDER BY company ASC;
 
 -- Listing 9-6: Using length() and count() to test the zip column
 
-SELECT length(zip), count(*)
+SELECT length(zip),
+       count(*) AS length_count
 FROM meat_poultry_egg_inspect
 GROUP BY length(zip)
 ORDER BY length(zip) ASC;
 
 -- Listing 9-7: Using length to find short zip values
 
-SELECT st, count(*)
+SELECT st,
+       count(*) AS st_count
 FROM meat_poultry_egg_inspect
 WHERE length(zip) < 5
 GROUP BY st
 ORDER BY st ASC;
 
--- Listing 9-8: Two ways to back up a table
+-- Listing 9-8: Backing up a table
 
--- Method one:
 CREATE TABLE meat_poultry_egg_inspect_backup AS
 SELECT * FROM meat_poultry_egg_inspect;
 
--- Method two:
-SELECT * INTO meat_poultry_egg_inspect_backup
-FROM meat_poultry_egg_inspect;
-
 -- Check number of records:
-SELECT count(*) FROM meat_poultry_egg_inspect;
--- Check number of records:
-SELECT count(*) FROM meat_poultry_egg_inspect_backup;
+SELECT 
+    (SELECT count(*) FROM meat_poultry_egg_inspect) AS original,
+    (SELECT count(*) FROM meat_poultry_egg_inspect_backup) AS backup;
 
 -- Listing 9-9: Creating and filling the st_copy column with ALTER TABLE and UPDATE
 
@@ -138,13 +142,13 @@ SET zip_copy = zip;
 
 UPDATE meat_poultry_egg_inspect
 SET zip = '00' || zip
-WHERE st IN('PR','VI');
+WHERE st IN('PR','VI') AND length(zip) = 3;
 
 -- Listing 9-16: UPDATE zip codes missing one leading zero
 
 UPDATE meat_poultry_egg_inspect
 SET zip = '0' || zip
-WHERE st IN('CT','MA','ME','NH','NJ','RI','VT');
+WHERE st IN('CT','MA','ME','NH','NJ','RI','VT') AND length(zip) = 4;
 
 -- Listing 9-17: Create a state_regions table
 
@@ -160,11 +164,12 @@ WITH (FORMAT CSV, HEADER, DELIMITER ',');
 -- Listing 9-18: Add and UPDATE an inspection_date column
 ALTER TABLE meat_poultry_egg_inspect ADD COLUMN inspection_date date;
 
-UPDATE meat_poultry_egg_inspect m
+UPDATE meat_poultry_egg_inspect inspect
 SET inspection_date = '2019-12-01'
-WHERE EXISTS (SELECT s.region
-              FROM state_regions s
-              WHERE m.st = s.st AND s.region = 'New England');
+WHERE EXISTS (SELECT state_regions.region
+              FROM state_regions
+              WHERE inspect.st = state_regions.st 
+                    AND state_regions.region = 'New England');
 
 -- Listing 9-19: View updated inspection_date values
 

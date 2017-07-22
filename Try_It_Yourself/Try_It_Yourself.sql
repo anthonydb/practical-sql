@@ -455,7 +455,7 @@ WHERE pls14.libname IS NULL;
 -- in the table process meat, and how many process poultry?
 
 -- Create two new columns in your table called meat_processing and
--- poultry_processing. Each can be of the type varchar(1).
+-- poultry_processing. Each can be of the type boolean.
 
 -- Update the meat_processing column to contain a Y (for yes) on any row where
 -- the activities column contains the text Meat Processing. Do the same update
@@ -468,16 +468,16 @@ WHERE pls14.libname IS NULL;
 
 
 -- Add the columns
-ALTER TABLE meat_poultry_egg_inspect ADD COLUMN meat_processing varchar(1);
-ALTER TABLE meat_poultry_egg_inspect ADD COLUMN poultry_processing varchar(1);
+ALTER TABLE meat_poultry_egg_inspect ADD COLUMN meat_processing boolean;
+ALTER TABLE meat_poultry_egg_inspect ADD COLUMN poultry_processing boolean;
 
 -- Update the columns
 UPDATE meat_poultry_egg_inspect
-SET meat_processing = 'Y'
+SET meat_processing = TRUE
 WHERE activities ILIKE '%meat processing%';
 
 UPDATE meat_poultry_egg_inspect
-SET poultry_processing = 'Y'
+SET poultry_processing = TRUE
 WHERE activities ILIKE '%poultry processing%';
 
 -- Count meat and poultry processors
@@ -487,8 +487,8 @@ FROM meat_poultry_egg_inspect;
 -- Count those who do both
 SELECT count(*)
 FROM meat_poultry_egg_inspect
-WHERE meat_processing = 'Y' AND
-      poultry_processing = 'Y';
+WHERE meat_processing = TRUE AND
+      poultry_processing = TRUE;
 
 --------------
 -- Chapter 10
