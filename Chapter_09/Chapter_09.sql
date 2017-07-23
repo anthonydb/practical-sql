@@ -90,7 +90,7 @@ SELECT
 
 -- Listing 9-9: Creating and filling the st_copy column with ALTER TABLE and UPDATE
 
-ALTER TABLE meat_poultry_egg_inspect ADD COLUMN st_copy varchar(5);
+ALTER TABLE meat_poultry_egg_inspect ADD COLUMN st_copy varchar(2);
 
 UPDATE meat_poultry_egg_inspect
 SET st_copy = st;
@@ -114,14 +114,26 @@ UPDATE meat_poultry_egg_inspect
 SET st = 'WI'
 WHERE est_number = 'M263A+P263A+V263A';
 
--- Listing 9-12: Creating and filling the company_standard column
+-- Listing 9-12: Restoring original st values
+
+-- Restoring from the column backup
+UPDATE meat_poultry_egg_inspect
+SET st = st_copy;
+
+-- Restoring from the table backup
+UPDATE meat_poultry_egg_inspect original
+SET st = backup.st
+FROM meat_poultry_egg_inspect_backup backup
+WHERE original.est_number = backup.est_number; 
+
+-- Listing 9-13: Creating and filling the company_standard column
 
 ALTER TABLE meat_poultry_egg_inspect ADD COLUMN company_standard varchar(100);
 
 UPDATE meat_poultry_egg_inspect
 SET company_standard = company;
 
--- Listing 9-13: UPDATE field values that match a string
+-- Listing 9-14: UPDATE field values that match a string
 
 UPDATE meat_poultry_egg_inspect
 SET company_standard = 'Armour-Eckrich Meats'
@@ -131,26 +143,26 @@ SELECT company, company_standard
 FROM meat_poultry_egg_inspect
 WHERE company LIKE 'Armour%';
 
--- Listing 9-14: Creating and filling the zip_copy column
+-- Listing 9-15: Creating and filling the zip_copy column
 
 ALTER TABLE meat_poultry_egg_inspect ADD COLUMN zip_copy varchar(5);
 
 UPDATE meat_poultry_egg_inspect
 SET zip_copy = zip;
 
--- Listing 9-15: UPDATE zip codes missing two leading zeroes
+-- Listing 9-16: UPDATE zip codes missing two leading zeroes
 
 UPDATE meat_poultry_egg_inspect
 SET zip = '00' || zip
 WHERE st IN('PR','VI') AND length(zip) = 3;
 
--- Listing 9-16: UPDATE zip codes missing one leading zero
+-- Listing 9-17: UPDATE zip codes missing one leading zero
 
 UPDATE meat_poultry_egg_inspect
 SET zip = '0' || zip
 WHERE st IN('CT','MA','ME','NH','NJ','RI','VT') AND length(zip) = 4;
 
--- Listing 9-17: Create a state_regions table
+-- Listing 9-18: Create a state_regions table
 
 CREATE TABLE state_regions (
     st varchar(2) CONSTRAINT st_key PRIMARY KEY,
@@ -161,7 +173,7 @@ COPY state_regions
 FROM 'C:\YourDirectory\state_regions.csv'
 WITH (FORMAT CSV, HEADER, DELIMITER ',');
 
--- Listing 9-18: Add and UPDATE an inspection_date column
+-- Listing 9-19: Add and UPDATE an inspection_date column
 ALTER TABLE meat_poultry_egg_inspect ADD COLUMN inspection_date date;
 
 UPDATE meat_poultry_egg_inspect inspect
@@ -171,22 +183,22 @@ WHERE EXISTS (SELECT state_regions.region
               WHERE inspect.st = state_regions.st 
                     AND state_regions.region = 'New England');
 
--- Listing 9-19: View updated inspection_date values
+-- Listing 9-20: View updated inspection_date values
 
 SELECT st, inspection_date
 FROM meat_poultry_egg_inspect
 GROUP BY st, inspection_date
 ORDER BY st;
 
--- Listing 9-20: DELETE rows matching an expression
+-- Listing 9-21: DELETE rows matching an expression
 
 DELETE FROM meat_poultry_egg_inspect
 WHERE st IN('PR','VI');
 
--- Listing 9-21: DROP a column from a table
+-- Listing 9-22: DROP a column from a table
 
 ALTER TABLE meat_poultry_egg_inspect DROP COLUMN zip_copy;
 
--- Listing 9-22: DROP a table from a database
+-- Listing 9-23: DROP a table from a database
 
 DROP TABLE meat_poultry_egg_inspect_backup;
