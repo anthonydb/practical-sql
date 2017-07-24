@@ -107,7 +107,7 @@ WHERE schools_right.id IS NULL;
 
 -- Listing 6-10: Querying specific columns in a join
 SELECT schools_left.id,
-       schools_left.left_school, 
+       schools_left.left_school,
        schools_right.right_school
 FROM schools_left LEFT JOIN schools_right
 ON schools_left.id = schools_right.id;
@@ -121,28 +121,28 @@ ON lt.id = rt.id;
 
 -- Listing 6-12: Joining multiple tables
 CREATE TABLE schools_enrollment (
-	id integer,
-	enrollment integer
+    id integer,
+    enrollment integer
 );
 
 CREATE TABLE schools_grades (
-	id integer,
-	grades varchar(10)
+    id integer,
+    grades varchar(10)
 );
 
 INSERT INTO schools_enrollment (id, enrollment)
 VALUES
-	(1, 360),
-	(2, 1001),
-	(5, 450),
-	(6, 927);
+    (1, 360),
+    (2, 1001),
+    (5, 450),
+    (6, 927);
 
 INSERT INTO schools_grades (id, grades)
 VALUES
-	(1, 'K-3'),
-	(2, '9-12'),
-	(5, '6-8'),
-	(6, '9-12');
+    (1, 'K-3'),
+    (2, '9-12'),
+    (5, '6-8'),
+    (6, '9-12');
 
 SELECT lt.id, lt.left_school, en.enrollment, gr.grades
 FROM schools_left AS lt LEFT JOIN schools_enrollment AS en
@@ -185,7 +185,7 @@ SELECT c2010.geo_name,
        round( (CAST(c2010.p0010001 AS numeric(8,1)) - c2000.p0010001)
            / c2000.p0010001 * 100, 1 ) AS pct_change
 FROM us_counties_2010 c2010 INNER JOIN us_counties_2000 c2000
-ON c2010.state_fips = c2000.state_fips 
+ON c2010.state_fips = c2000.state_fips
    AND c2010.county_fips = c2000.county_fips
    AND c2010.p0010001 <> c2000.p0010001
 ORDER BY pct_change DESC;

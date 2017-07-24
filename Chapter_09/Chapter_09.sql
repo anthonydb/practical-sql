@@ -202,3 +202,16 @@ ALTER TABLE meat_poultry_egg_inspect DROP COLUMN zip_copy;
 -- Listing 9-23: DROP a table from a database
 
 DROP TABLE meat_poultry_egg_inspect_backup;
+
+-- Listing 9-24: Backup a table while adding and filling a new column
+
+CREATE TABLE meat_poultry_egg_inspect_backup AS
+SELECT *,
+       st AS st_copy 
+FROM meat_poultry_egg_inspect;
+
+ALTER TABLE meat_poultry_egg_inspect RENAME TO meat_poultry_egg_inspect_temp;
+ALTER TABLE meat_poultry_egg_inspect_backup RENAME TO meat_poultry_egg_inspect;
+ALTER TABLE meat_poultry_egg_inspect_temp RENAME TO meat_poultry_egg_inspect_backup;
+
+
