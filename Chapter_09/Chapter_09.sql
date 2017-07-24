@@ -210,6 +210,8 @@ SELECT *,
        st AS st_copy 
 FROM meat_poultry_egg_inspect;
 
+-- Listing 9-25: Swap table names using ALTER TABLE
+
 ALTER TABLE meat_poultry_egg_inspect RENAME TO meat_poultry_egg_inspect_temp;
 ALTER TABLE meat_poultry_egg_inspect_backup RENAME TO meat_poultry_egg_inspect;
 ALTER TABLE meat_poultry_egg_inspect_temp RENAME TO meat_poultry_egg_inspect_backup;
