@@ -67,7 +67,7 @@ VALUES ('Beachball Polish', '2015-03-17'),
 
 SELECT * FROM surrogate_key_example;
 
--- Listing 7-6: Foreign key example
+-- Listing 7-6: A foreign key example
 
 CREATE TABLE licenses (
     license_id varchar(10),
@@ -154,8 +154,8 @@ ALTER TABLE not_null_example ALTER COLUMN first_name SET NOT NULL;
 -- Listing 7-11: Importing New York City address data
 
 CREATE TABLE new_york_addresses (
-    longitude decimal(9,6),
-    latitude decimal(9,6),
+    longitude numeric(9,6),
+    latitude numeric(9,6),
     street_number varchar(10),
     street varchar(32),
     unit varchar(7),

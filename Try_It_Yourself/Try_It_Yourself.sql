@@ -261,8 +261,8 @@ ORDER BY pct_change ASC;
 --------------
 
 -- Consider the following two tables, part of a database you’re making to keep
--- track of your vinyl LP collection. You start by sketching out these
--- CREATE TABLE statements:
+-- track of your vinyl LP collection. Start by reviewing these CREATE TABLE
+-- statements:
 
 CREATE TABLE albums (
     album_id bigserial,
