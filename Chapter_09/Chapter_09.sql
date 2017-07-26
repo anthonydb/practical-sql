@@ -49,7 +49,11 @@ GROUP BY st
 ORDER BY st;
 
 -- Listing 9-4: Using IS NULL to find missing values in the st column
-SELECT est_number, company, city, st, zip
+SELECT est_number,
+       company,
+       city,
+       st,
+       zip
 FROM meat_poultry_egg_inspect
 WHERE st IS NULL;
 
@@ -96,7 +100,9 @@ UPDATE meat_poultry_egg_inspect
 SET st_copy = st;
 
 -- Listing 9-10: Check values in the st and st_copy columns
-SELECT st, st_copy
+
+SELECT st,
+       st_copy
 FROM meat_poultry_egg_inspect
 ORDER BY st;
 
@@ -114,7 +120,7 @@ UPDATE meat_poultry_egg_inspect
 SET st = 'WI'
 WHERE est_number = 'M263A+P263A+V263A';
 
--- Listing 9-12: Restoring original st values
+-- Listing 9-12: Restoring original st column values
 
 -- Restoring from the column backup
 UPDATE meat_poultry_egg_inspect
@@ -174,6 +180,7 @@ FROM 'C:\YourDirectory\state_regions.csv'
 WITH (FORMAT CSV, HEADER, DELIMITER ',');
 
 -- Listing 9-19: Add and UPDATE an inspection_date column
+
 ALTER TABLE meat_poultry_egg_inspect ADD COLUMN inspection_date date;
 
 UPDATE meat_poultry_egg_inspect inspect
@@ -203,14 +210,47 @@ ALTER TABLE meat_poultry_egg_inspect DROP COLUMN zip_copy;
 
 DROP TABLE meat_poultry_egg_inspect_backup;
 
--- Listing 9-24: Backup a table while adding and filling a new column
+-- Listing 9-24: Demonstrating a transaction block
+
+-- Start transaction and perform update
+START TRANSACTION;
+
+UPDATE meat_poultry_egg_inspect
+SET company = 'AGRO Merchantss Oakland LLC'
+WHERE company = 'AGRO Merchants Oakland, LLC';
+
+-- view changes
+SELECT company
+FROM meat_poultry_egg_inspect
+WHERE company LIKE 'AGRO%'
+ORDER BY company;
+
+-- Revert changes
+ROLLBACK;
+
+-- See restored state
+SELECT company
+FROM meat_poultry_egg_inspect
+WHERE company LIKE 'AGRO%'
+ORDER BY company;
+
+-- Alternately, commit changes at the end:
+START TRANSACTION;
+
+UPDATE meat_poultry_egg_inspect
+SET company = 'AGRO Merchants Oakland LLC'
+WHERE company = 'AGRO Merchants Oakland, LLC';
+
+COMMIT;
+
+-- Listing 9-25: Backup a table while adding and filling a new column
 
 CREATE TABLE meat_poultry_egg_inspect_backup AS
 SELECT *,
        st AS st_copy 
 FROM meat_poultry_egg_inspect;
 
--- Listing 9-25: Swap table names using ALTER TABLE
+-- Listing 9-26: Swap table names using ALTER TABLE
 
 ALTER TABLE meat_poultry_egg_inspect RENAME TO meat_poultry_egg_inspect_temp;
 ALTER TABLE meat_poultry_egg_inspect_backup RENAME TO meat_poultry_egg_inspect;
