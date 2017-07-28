@@ -1,0 +1,10 @@
+--------------------------------------------------------------
+-- Practical SQL: A Beginner's Guide to Storytelling with Data
+-- by Anthony DeBarros
+
+-- Chapter 16 Code Examples
+--------------------------------------------------------------
+
+-- psql examples
+
+
