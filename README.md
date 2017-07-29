@@ -1,6 +1,6 @@
 ## Practical SQL: A Beginner's Guide to Storytelling with Data
 
-[PracticalSQL](https://www.nostarch.com/practicalSQL) by Anthony DeBarros focuses on using SQL (Structured Query Language) to find the story your data tells, using the open-source database PostgreSQL and the pgAdmin interface as primary tools. It's scheduled to be published in February 2018 by [No Starch Press](https://www.nostarch.com). Early Access is available now via No Starch.
+[PracticalSQL](https://www.nostarch.com/practicalSQL) by Anthony DeBarros focuses on learning SQL (Structured Query Language) to find the story your data tells, using the open-source database PostgreSQL and the pgAdmin interface as primary tools. I've written this book both for people new to programming as well as those with some SQL experience who'd like to go deeper. Practical SQL is scheduled to be published in paperback in February 2018 by [No Starch Press](https://www.nostarch.com), but Early Access in PDF is available now via No Starch.
 
 ## What's Here
 
