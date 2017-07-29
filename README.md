@@ -13,6 +13,7 @@
 ## Getting the Code and Data on Your Computer
 
 **Non-GitHub Users**
+
 Easiest way to obtain all the code and data at once is to download this repository as a .zip file. To do that:
 
 * Select the **Clone or Download** button at top right.
@@ -20,6 +21,7 @@ Easiest way to obtain all the code and data at once is to download this reposito
 * You can then unzip the file on your computer. Place it in a directory that's easy to remember so you can reference it during the exercises that include importing data to PostgreSQL.
 
 **GitHub Users**
+
 GitHub users may want to clone the repo locally and occasionally perform a `git pull` for any updates.
 
 ## Note to Early Access Users
