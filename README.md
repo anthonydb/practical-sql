@@ -6,9 +6,35 @@
 
 **Code**: All code listings from each chapter, organized in chapter folders.
 
-**Data**: When needed, CSV files for importing. Also organized by chapter.
+**Data**: When needed, CSV files for you to import, also organized by chapter.
 
-**Exercises**: The "Try It Yourself" questions and answers for each chapter are listed separately. Try working through the questions before peeking at the answers!
+**Exercises**: The "Try It Yourself" questions and answers for each chapter, listed separately. Try working through the questions before peeking at the answers!
+
+
+## Chapters
+
+**Note:** Exact titles may change prior to book publication in 2018.
+
+* Chapter 1: Creating Your First Database and Table
+* Chapter 2: Beginning Data Exploration with SELECT
+* Chapter 3: Understanding Data Types
+* Chapter 4: Importing and Exporting Data
+* Chapter 5: Basic Math and Stats with SQL
+* Chapter 6: Table Joins in a Relational Database
+* Chapter 7: Table Design That Works for You
+* Chapter 8: Extracting Information by Grouping and Summarizing
+* Chapter 9: Inspecting and Modifying Data
+* Chapter 10: Statistical Functions In SQL
+* Chapter 11: Working With Dates and Times
+* Chapter 12: Advanced Query Techniques
+* Chapter 13: Extracting Data from Text
+* Chapter 14: Analyzing Spatial Data with PostGIS
+* Chapter 15: Saving Time with Views, Functions, and Triggers
+* Chapter 16: PostgreSQL from the Command Line
+* Chapter 17: Database Maintenance
+* Appendix A: Additional PostgreSQL Tools
+* Appendix B: Telling Your Data Story
+
 
 ## Getting the Code and Data on Your Computer
 
@@ -18,11 +44,11 @@ Easiest way to obtain all the code and data at once is to download this reposito
 
 * Select the **Clone or Download** button at top right.
 * Select **Download ZIP**
-* You can then unzip the file on your computer. Place it in a directory that's easy to remember so you can reference it during the exercises that include importing data to PostgreSQL.
+* Unzip the file on your computer. Place it in a directory that's easy to remember so you can reference it during the exercises that include importing data to PostgreSQL.
 
 **GitHub Users**
 
-GitHub users may want to clone the repo locally and occasionally perform a `git pull` for any updates.
+GitHub users may want to clone the repository locally and occasionally perform a `git pull` to receive any updates.
 
 ## Note to Early Access Users
 
