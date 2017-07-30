@@ -20,7 +20,7 @@
 * Chapter 3: Understanding Data Types
 * Chapter 4: Importing and Exporting Data
 * Chapter 5: Basic Math and Stats with SQL
-* Chapter 6: Table Joins in a Relational Database
+* Chapter 6: Joining Tables in a Relational Database
 * Chapter 7: Table Design That Works for You
 * Chapter 8: Extracting Information by Grouping and Summarizing
 * Chapter 9: Inspecting and Modifying Data
