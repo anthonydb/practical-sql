@@ -6,3 +6,75 @@
 --------------------------------------------------------------
 
 
+-- Connecting psql to a database on a local server
+
+psql -d [database name] -U [username]
+psql -d analysis -U postgres
+
+-- Changing user and database name
+
+\c [database name] [user name]
+\c gis_analysis postgres
+
+-- Listing 16-1: Entering a single-line query in psql
+-- Enter this at the psql prompt:
+
+SELECT geo_name FROM us_counties_2010 LIMIT 3;
+
+-- Listing 16-2: Entering a multi-line query in psql
+-- Type each line separately, followed by Enter
+
+SELECT geo_name
+FROM us_counties_2010
+LIMIT 3;
+
+
+-- Listing 16-3: Showing open parentheses in the psql prompt
+
+CREATE TABLE wineries (
+id bigint,
+winery_name varchar(100)
+);
+
+-- Listing 16-4: A query with scrolling results
+
+SELECT geo_name FROM us_counties_2010;
+
+-- Listings 16-5 and 16-6: Normal and expanded displays of results
+-- Use \x to toggle expanded on/off
+
+SELECT * FROM grades;
+
+-- Listing 16-7: Importing data using \copy
+
+DROP TABLE state_regions;
+
+CREATE TABLE state_regions (
+    st varchar(2) CONSTRAINT st_key PRIMARY KEY,
+    region varchar(20) NOT NULL
+);
+
+\copy state_regions FROM 'C:\YourDirectory\state_regions.csv' WITH (FORMAT CSV, HEADER);
+
+-- Listing 16-8: Saving query output to a file
+
+\a \f , \pset footer
+Output format is unaligned.
+Field separator is ",".
+Default footer is off.
+
+SELECT * FROM grades;
+student_id,course_id,course,grade
+1,2,English 11B,D
+1,3,World History 11B,C
+1,4,Trig 2,B
+1,1,Biology 2,C
+
+\o 'C:\YourDirectory\query_output.csv'
+
+SELECT * FROM grades;
+
+-- Loading shapefiles into PostgreSQL
+
+shp2pgsql -I -s 4269 -W LATIN1 tl_2010_us_county10.shp us_counties_2010_shp | psql -d gis_analysis -U postgres
+

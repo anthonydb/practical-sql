@@ -113,22 +113,21 @@ CREATE TABLE store_sales (
 
 INSERT INTO store_sales (store, category, unit_sales)
 VALUES
-    ('Broders', 'Cereal', 598),
-    ('Wallace', 'Ice Cream', 864),
-    ('Broders', 'Ice Cream', 210),
-    ('Cramers', 'Ice Cream', 1015),
-    ('Broders', 'Beer', 344),
-    ('Cramers', 'Cereal', 1744),
-    ('Cramers', 'Beer', 781),
-    ('Wallace', 'Cereal', 422),
-    ('Cramers', 'Ground Beef', 994),
-    ('Wallace', 'Beer', 211);
+    ('Broders', 'Cereal', 1104),
+    ('Wallace', 'Ice Cream', 1863),
+    ('Broders', 'Ice Cream', 2517),
+    ('Cramers', 'Ice Cream', 2112),
+    ('Broders', 'Beer', 641),
+    ('Cramers', 'Cereal', 1003),
+    ('Cramers', 'Beer', 640),
+    ('Wallace', 'Cereal', 980),
+    ('Wallace', 'Beer', 988);
 
 SELECT
-    store,
     category,
+    store,
     unit_sales,
-    rank() OVER (PARTITION BY store ORDER BY unit_sales DESC)
+    rank() OVER (PARTITION BY category ORDER BY unit_sales DESC)
 FROM store_sales;
 
 -- Listing 10-8: Create and fill 2015 FBI crime data table
