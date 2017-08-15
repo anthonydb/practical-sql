@@ -796,12 +796,12 @@ FROM market_start, market_end;
 -- Answer: About 851 miles
 
 -- 3. More than 500 rows in the farmers_markets table are missing a value
--- in the county column, an example of “dirty” government data. Using the
+-- in the county column, an example of dirty government data. Using the
 -- us_counties_2010_shp table and the ST_Intersects() function, perform a
 -- spatial join to find the missing county names based on the longitude and
--- latitude of each market. Because geog_point in farmers_markets is type
--- geography and SRID 4326, you’ll need to cast geom in the Census table
--- to that type and change its SRID using ST_SetSRID().
+-- latitude of each market. Because geog_point in farmers_markets is of the
+-- geography type and its SRID is 4326, you’ll need to cast geom in the Census
+-- table to the geography type and change its SRID using ST_SetSRID().
 
 -- Answer:
 
