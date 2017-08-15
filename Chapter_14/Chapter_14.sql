@@ -5,7 +5,7 @@
 -- Chapter 14 Code Examples
 --------------------------------------------------------------
 
--- Listing 14-1: Create a gis_analysis database
+-- Listing 14-1: Creating a gis_analysis database
 
 CREATE DATABASE gis_analysis;
 

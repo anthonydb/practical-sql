@@ -755,7 +755,7 @@ LIMIT 5;
 -- 1. Earlier, you found which US county has the largest area. Now,
 -- aggregate the county data to find the area of each state in square
 -- miles. (Use the statefp10 column in the us_counties_2010_shp table.)
--- How many states are bigger than the Yukon-Koyukuk?
+-- How many states are bigger than the Yukon-Koyukuk area?
 
 SELECT statefp10 AS st,
        round (
@@ -769,10 +769,10 @@ ORDER BY square_miles DESC;
 -- Texas (48), and California (06).
 
 -- 2. Using ST_Distance(), find how many miles separate these two farmers’ markets:
--- The Oakleaf Greenmarket, 9700 Argyle Forest Blvd, Jacksonville, Florida, and
--- Columbia Farmers Market, 1701 West Ash Street, Columbia, Missouri. You’ll
+-- The Oakleaf Greenmarket (9700 Argyle Forest Blvd, Jacksonville, Florida) and
+-- Columbia Farmers Market (1701 West Ash Street, Columbia, Missouri). You’ll
 -- need to first find the coordinates for both in the farmers_markets table.
--- Tip: You can write this query using the Common Table Expression syntax from
+-- Tip: You can also write this query using the Common Table Expression syntax from
 -- Chapter 12.
 
 -- Answer:
