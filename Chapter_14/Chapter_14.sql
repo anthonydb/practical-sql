@@ -238,7 +238,7 @@ FROM santafe_linearwater_2016 water JOIN santafe_roads_2016 roads
 WHERE water.fullname = 'Santa Fe Riv'
 ORDER BY roads.fullname;
 
--- Listing 14-19: Use ST_Intersection() to show the location of crossings
+-- Listing 14-19: Use ST_Intersection() to show where roads cross the river
 
 SELECT water.fullname AS waterway,
        roads.rttyp,
