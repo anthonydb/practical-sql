@@ -600,9 +600,9 @@ SELECT '2100-01-01 00:00:00-05' AT TIME ZONE 'US/Eastern' AS "New York",
 
 -- 3. For a bonus challenge, use the statistics functions from Chapter 10 to
 -- calculate the correlation coefficient and r-squared values using trip time
--- and the total_amount column, which represents total amount charged to
--- passengers. Do the same with trip_distance and total_amount. Limit the query
--- to rides lasting three hours or less.
+-- and the total_amount column in the New York City taxi data, which represents
+-- total amount charged to passengers. Do the same with trip_distance and
+-- total_amount. Limit the query to rides lasting three hours or less.
 
 SELECT
     round(

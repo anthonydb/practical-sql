@@ -155,35 +155,35 @@ SELECT count(*) FROM nyc_yellow_taxi_trips_2016_06_01;
 -- Listing 11-8: Count taxi trips by hour
 
 SELECT
-    date_part('hour', tpep_pickup_datetime),
-    count(date_part('hour', tpep_pickup_datetime))
+    date_part('hour', tpep_pickup_datetime) AS trip_hour,
+    count(*)
 FROM nyc_yellow_taxi_trips_2016_06_01
-GROUP BY date_part('hour', tpep_pickup_datetime)
-ORDER BY date_part('hour', tpep_pickup_datetime);
+GROUP BY trip_hour
+ORDER BY trip_hour;
 
 -- Listing 11-9: Export taxi pickups per hour to CSV
 
 COPY
     (SELECT
-        date_part('hour', tpep_pickup_datetime),
-        count(date_part('hour', tpep_pickup_datetime))
+        date_part('hour', tpep_pickup_datetime) AS trip_hour,
+        count(*)
     FROM nyc_yellow_taxi_trips_2016_06_01
-    GROUP BY date_part('hour', tpep_pickup_datetime)
-    ORDER BY date_part('hour', tpep_pickup_datetime))
+    GROUP BY trip_hour
+    ORDER BY trip_hour
+    )
 TO 'C:\YourDirectory\hourly_pickups_2016_06_01.csv'
 WITH (FORMAT CSV, HEADER, DELIMITER ',');
 
 -- Listing 11-10: Calculate median trip time by hour
 
 SELECT
-    date_part('hour', tpep_pickup_datetime),
+    date_part('hour', tpep_pickup_datetime) AS trip_hour,
     percentile_cont(.5)
-        WITHIN GROUP (ORDER BY date_part('epoch', 
-                               tpep_dropoff_datetime - tpep_pickup_datetime)
-                     ) * interval '1 second' AS "median_trip"
+        WITHIN GROUP (ORDER BY
+            tpep_dropoff_datetime - tpep_pickup_datetime) AS median_trip
 FROM nyc_yellow_taxi_trips_2016_06_01
-GROUP BY date_part('hour', tpep_pickup_datetime)
-ORDER BY date_part('hour', tpep_pickup_datetime);
+GROUP BY trip_hour
+ORDER BY trip_hour;
 
 -- Listing 11-11: Create table to hold train trip data
 
@@ -210,21 +210,21 @@ SELECT * FROM train_rides;
 -- Listing 11-12: Calculate the length of each trip segment
 
 SELECT segment,
-       to_char(departure, 'YYYY-MM-DD HH12:MI a.m. TZ') AS "departure",
-       arrival - departure AS "segment_time"
+       to_char(departure, 'YYYY-MM-DD HH12:MI a.m. TZ') AS departure,
+       arrival - departure AS segment_time
 FROM train_rides;
 
 -- Listing 11-13: Calculating cumulative intervals with OVER
 
 SELECT segment,
-       arrival - departure AS "segment_time",
+       arrival - departure AS segment_time,
        sum(arrival - departure) OVER (ORDER BY trip_id) AS cume_time
 FROM train_rides;
 
 -- Listing 11-14: Better formatting for cumulative trip time
 
 SELECT segment,
-       arrival - departure AS "segment_time",
+       arrival - departure AS segment_time,
        sum(date_part('epoch', (arrival - departure)))
-           OVER (ORDER BY trip_id) * interval '1 second' AS "cume_time"
+           OVER (ORDER BY trip_id) * interval '1 second' AS cume_time
 FROM train_rides;
