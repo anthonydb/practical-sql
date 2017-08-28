@@ -9,7 +9,7 @@
 
 CREATE DATABASE gis_analysis;
 
--- Listing 14-2: Load the PostGIS extension
+-- Listing 14-2: Loading the PostGIS extension
 
 CREATE EXTENSION postgis;
 
@@ -46,8 +46,8 @@ SELECT ST_GeomFromText('MULTIPOLYGON((
 
 -- Listing 14-5: Using ST_GeogFromText() to create spatial objects
 
-ST_GeogFromText('SRID=4326;MULTIPOINT(-74.9 42.7, -75.1 42.7, -74.924 42.6)')
-
+SELECT 
+ST_GeogFromText('SRID=4326;MULTIPOINT(-74.9 42.7, -75.1 42.7, -74.924 42.6)');
 
 -- Listing 14-6: Functions specific to making points
 
@@ -144,22 +144,24 @@ WHERE ST_DWithin(geog_point,
 SELECT ST_Distance(
                    ST_GeogFromText('POINT(-73.9283685 40.8296466)'),
                    ST_GeogFromText('POINT(-73.8480153 40.7570917)')
-                   ) / 1609.344 AS "mets_to_yanks";
+                   ) / 1609.344 AS mets_to_yanks;
 
 -- Listing 14-13: Using ST_Distance() for each row in farmers_markets
 
 SELECT market_name,
        city,
-       round( (ST_Distance(
-                           geog_point,
-                           ST_GeogFromText('POINT(-93.6204386 41.5853202)')
-                          ) / 1609.344)::numeric(8,5), 2
-            ) AS "miles_from_dt"
+       round( 
+           (ST_Distance(geog_point,
+                        ST_GeogFromText('POINT(-93.6204386 41.5853202)')
+                        ) / 1609.344)::numeric(8,5), 2
+            ) AS miles_from_dt
 FROM farmers_markets
 WHERE ST_DWithin(geog_point,
                  ST_GeogFromText('POINT(-93.6204386 41.5853202)'),
                  16093)
 ORDER BY miles_from_dt ASC;
+
+
 
 
 -- WORKING WITH SHAPEFILES
@@ -170,7 +172,7 @@ ORDER BY miles_from_dt ASC;
    -- Cartographic Boundary Shapefiles - Counties
    -- https://www.census.gov/geo/maps-data/data/cbf/cbf_counties.html
 
--- Listing 14-14: Check the geom column's well-known text representation
+-- Listing 14-14: Checking the geom column's well-known text representation
 
 SELECT ST_AsText(geom)
 FROM us_counties_2010_shp
