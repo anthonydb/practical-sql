@@ -1,4 +1,4 @@
-﻿--------------------------------------------------------------
+--------------------------------------------------------------
 -- Practical SQL: A Beginner's Guide to Storytelling with Data
 -- by Anthony DeBarros
 
@@ -18,7 +18,8 @@ VALUES
     ('abc', 'abc', 'abc'),
     ('defghi', 'defghi', 'defghi');
 
-COPY char_data_types TO 'C:\YourDirectory\typetest.txt'
+COPY char_data_types TO '/Users/adebarros/typetest.txt'
+-- COPY char_data_types TO 'C:\YourDirectory\typetest.txt'
 WITH (FORMAT CSV, HEADER, DELIMITER '|');
 
 

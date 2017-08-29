@@ -1,4 +1,4 @@
-﻿--------------------------------------------------------------
+--------------------------------------------------------------
 -- Practical SQL: A Beginner's Guide to Storytelling with Data
 -- by Anthony DeBarros
 
@@ -103,7 +103,7 @@ FROM teachers
 WHERE school = 'F.D. Roosevelt HS'
       AND (salary < 38000 OR salary > 40000);
 
--- Listing 2-10: SELECT statement with WHERE and ORDER BY
+-- Listing 2-10: A SELECT statement including WHERE and ORDER BY
 
 SELECT first_name, last_name, school, hire_date, salary
 FROM teachers
