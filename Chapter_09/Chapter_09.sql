@@ -247,7 +247,7 @@ COMMIT;
 
 CREATE TABLE meat_poultry_egg_inspect_backup AS
 SELECT *,
-       st AS st_copy 
+       '2018-02-07'::date AS reviewed_date
 FROM meat_poultry_egg_inspect;
 
 -- Listing 9-26: Swap table names using ALTER TABLE
