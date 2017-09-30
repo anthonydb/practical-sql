@@ -342,21 +342,21 @@ CREATE TABLE songs (
 -- Chapter 8
 --------------
 
--- 1. We saw that library visits have declined in most places. What is the
+-- 1. We saw that library visits have declined in most places. But what is the
 -- pattern in the use of technology in libraries? Both the 2014 and 2009 library
 -- survey tables contain the columns gpterms (the number of internet-connected
 -- computers used by the public) and pitusr (uses of public internet computers
--- per year). Modify the code in Listing 8-12 to calculate the percent change in
+-- per year). Modify the code in Listing 8-13 to calculate the percent change in
 -- the sum of each column over time. Watch out for negative values!
 
 
 -- sum() gpterms (computer terminals) by state, add pct. change, and sort
 
 SELECT pls14.stabr,
-       sum(pls14.gpterms) AS "gpterms_2014",
-       sum(pls09.gpterms) AS "gpterms_2009",
+       sum(pls14.gpterms) AS gpterms_2014,
+       sum(pls09.gpterms) AS gpterms_2009,
        round( (CAST(sum(pls14.gpterms) AS decimal(10,1)) - sum(pls09.gpterms)) /
-                    sum(pls09.gpterms) * 100, 2 ) AS "pct_change"
+                    sum(pls09.gpterms) * 100, 2 ) AS pct_change
 FROM pls_fy2014_pupld14a pls14 JOIN pls_fy2009_pupld09a pls09
 ON pls14.fscskey = pls09.fscskey
 WHERE pls14.gpterms >= 0 AND pls09.gpterms >= 0
@@ -380,7 +380,7 @@ ORDER BY pct_change DESC;
 
 -- 2. Both library survey tables contain a column called obereg, a two-digit
 -- Bureau of Economic Analysis Code that classifies each library agency
--- according to a region of the United States, like New England, Rocky
+-- according to a region of the United States, such as New England, Rocky
 -- Mountains, and so on. Just as we calculated the percent change in visits
 -- grouped by state, do the same to group percent changes in visits by US
 -- regions using obereg. Consult the survey documentation to find the meaning
@@ -450,16 +450,16 @@ WHERE pls14.libname IS NULL;
 -- Chapter 9
 --------------
 
--- In this exercise, you’ll turn our meat_poultry_egg_inspect table into useful
--- information. We want to answer two questions: How many of the companies
+-- In this exercise, you’ll turn the meat_poultry_egg_inspect table into useful
+-- information. You needed to answer two questions: How many of the companies
 -- in the table process meat, and how many process poultry?
 
--- Create two new columns in your table called meat_processing and
--- poultry_processing. Each can be of the type boolean.
+-- Create two new columns called meat_processing and poultry_processing. Each
+-- can be of the type boolean.
 
 -- Using UPDATE, set meat_processing = TRUE on any row where the activities
 -- column contains the text 'Meat Processing'. Do the same update on the
--- poultry_processing column, this time looking for the text
+-- poultry_processing column, but this time lookup for the text
 -- 'Poultry Processing' in activities.
 
 -- Use the data from the new, updated columns to count how many companies
@@ -495,8 +495,8 @@ WHERE meat_processing = TRUE AND
 --------------
 
 -- 1. In Listing 10-2, the correlation coefficient, or r value, of the
--- variables pct_bachelors_higher and median_hh_income was about .68. Now
--- write a query to show the correlation between pct_masters_higher and
+-- variables pct_bachelors_higher and median_hh_income was about .68.
+-- Write a query to show the correlation between pct_masters_higher and
 -- median_hh_income. Is the r value higher or lower? What might explain
 -- the difference?
 
@@ -546,8 +546,8 @@ ORDER BY (violent_crime::numeric / population) * 100000 DESC;
 
 -- Detroit and Memphis have the two highest rates of violent crime.
 
--- 3. As a bonus challenge, revisit the libraries data in table
--- pls_fy2014_pupld14a from Chapter 8. Rank library agencies based on the rate
+-- 3. As a bonus challenge, revisit the libraries data in the table
+-- pls_fy2014_pupld14a in Chapter 8. Rank library agencies based on the rate
 -- of visits per 1,000 population (variable popu_lsa), and limit the query to
 -- agencies serving 250,000 people or more.
 

@@ -1,4 +1,4 @@
---------------------------------------------------------------
+    --------------------------------------------------------------
 -- Practical SQL: A Beginner's Guide to Storytelling with Data
 -- by Anthony DeBarros
 
@@ -24,7 +24,7 @@ WITH (FORMAT CSV, HEADER, DELIMITER ',');
 
 SELECT * FROM acs_2011_2015_stats;
 
--- Listing 10-2: Using corr() to measure relationship between education and
+-- Listing 10-2: Using corr() to measure the relationship between education and
 -- income
 
 SELECT corr(median_hh_income, pct_bachelors_higher)
@@ -102,7 +102,7 @@ SELECT
     dense_rank() OVER (ORDER BY widget_output DESC)
 FROM widget_companies;
 
--- Listing 10-7: rank() within groups using PARTITION BY
+-- Listing 10-7: Apply rank() within groups using PARTITION BY
 
 CREATE TABLE store_sales (
     store varchar(30),
@@ -130,7 +130,7 @@ SELECT
     rank() OVER (PARTITION BY category ORDER BY unit_sales DESC)
 FROM store_sales;
 
--- Listing 10-8: Create and fill 2015 FBI crime data table
+-- Listing 10-8: Create and fill a 2015 FBI crime data table
 
 CREATE TABLE fbi_crime_data_2015 (
     st varchar(20),
