@@ -821,8 +821,7 @@ ORDER BY census.statefp10, census.name10;
 --------------
 
 -- 1. Create a view that displays the number of New York City taxi trips per
--- hour. For resources, use the taxi data from Chapter 11 and the query in
--- Listing 11-8.
+-- hour. Use the taxi data from Chapter 11 and the query in Listing 11-8.
 
 CREATE VIEW nyc_taxi_trips_per_hour AS
     SELECT
@@ -835,9 +834,8 @@ CREATE VIEW nyc_taxi_trips_per_hour AS
 SELECT * FROM nyc_taxi_trips_per_hour;
 
 -- 2. In Chapter 10, you learned how to calculate rates per thousand. Turn that
--- formula into a rates_per_thousand() function that takes three arguments:
--- the observed_number, the base_number, and the number of decimal_places for
--- the result.
+-- formula into a rates_per_thousand() function that takes three arguments
+-- to calculate the result: observed_number, base_number, and decimal_places.
 
 CREATE OR REPLACE FUNCTION
 rate_per_thousand(observed_number numeric,
@@ -855,4 +853,4 @@ $$ LANGUAGE plpgsql;
 SELECT rate_per_thousand(50, 11000, 2);
 
 -- 3. Describe the steps needed to implement a trigger on a table and how the
--- components relate to each other.
+-- steps relate to each other.
