@@ -72,6 +72,7 @@ VALUES ('Suzanne', 'Legere', 1);
 INSERT INTO employees_tax_dept (first_name, last_name, dept_id)
 VALUES ('Jamil', 'White', 2);
 
+-- optional:
 SELECT * FROM employees_tax_dept;
 
 SELECT * FROM employees;
@@ -166,7 +167,7 @@ SELECT update_days_off();
 
 CREATE EXTENSION plpythonu;
 
--- Listing 15-15: Using PL/Python in a function
+-- Listing 15-15: Using PL/Python to create the categorize_population() function
 
 CREATE OR REPLACE FUNCTION categorize_population(population numeric)
 RETURNS text AS $$
