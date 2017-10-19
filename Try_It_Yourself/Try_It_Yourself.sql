@@ -124,8 +124,9 @@ WITH (FORMAT CSV, HEADER, DELIMITER ':', QUOTE '#')
 
 -- 2. Using the table us_counties_2010, write SQL to export to CSV the 20
 -- counties in the United States that have the most housing units. Make sure
--- you export each county's name, state and number of housing units. Hint: H
--- ousing units are totaled for each county in the field HU100.
+-- you export each county's name, state and number of housing units. Hint:
+-- Housing units are totaled for each county in the column
+-- housing_unit_count_100_percent.
 
 COPY (
     SELECT geo_name, state_us_abbreviation, housing_unit_count_100_percent

@@ -5,14 +5,14 @@
 -- Chapter 4 Code Examples
 --------------------------------------------------------------
 
--- Listing 4-1: Using COPY to import data (example syntax)
+-- Listing 4-1: Using COPY for data import (example syntax)
 
 COPY table_name
 FROM 'C:\YourDirectory\your_file.csv'
 WITH (FORMAT CSV, HEADER);
 
 
--- Listing 4-2: Create a table for Census import
+-- Listing 4-2: CREATE TABLE statement for Census county data
 -- Full data dictionary available at: http://www.census.gov/prod/cen2010/doc/pl94-171.pdf
 -- Note: Some columns have been given more descriptive names
 
@@ -123,7 +123,7 @@ CREATE TABLE us_counties_2010 (
 
 SELECT * from us_counties_2010;
 
--- Listing 4-3: Import Census data using COPY
+-- Listing 4-3: Importing Census data using COPY
 
 COPY us_counties_2010
 FROM 'C:\YourDirectory\us_counties_2010.csv'
@@ -155,7 +155,7 @@ CREATE TABLE supervisor_salaries (
     benefits money
 );
 
--- Listing 4-5: Importing salaries data from CSV to three table fields
+-- Listing 4-5: Importing salaries data from CSV to three table columns
 
 COPY supervisor_salaries (town, supervisor, salary)
 FROM 'C:\YourDirectory\supervisor_salaries.csv'
@@ -164,7 +164,7 @@ WITH (FORMAT CSV, HEADER);
 -- Check the data
 SELECT * FROM supervisor_salaries LIMIT 2;
 
--- Listing 4-6 Use a temporary table to add a default value to a field during
+-- Listing 4-6 Use a temporary table to add a default value to a column during
 -- import
 
 DELETE FROM supervisor_salaries;
@@ -176,7 +176,7 @@ FROM 'C:\YourDirectory\supervisor_salaries.csv'
 WITH (FORMAT CSV, HEADER);
 
 INSERT INTO supervisor_salaries (town, county, supervisor, salary)
-SELECT town, 'Westchester County', supervisor, salary
+SELECT town, 'Some County', supervisor, salary
 FROM supervisor_salaries_temp;
 
 DROP TABLE supervisor_salaries_temp;
@@ -191,7 +191,7 @@ TO 'C:\YourDirectory\us_counties_export.txt'
 WITH (FORMAT CSV, HEADER, DELIMITER '|')
 
 
--- Listing 4-8: Export selected fields from a table with COPY
+-- Listing 4-8: Export selected columns from a table with COPY
 
 COPY us_counties_2010 (geo_name, internal_point_lat, internal_point_lon)
 TO 'C:\YourDirectory\us_counties_latlon_export.txt'
