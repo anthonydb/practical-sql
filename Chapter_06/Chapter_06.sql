@@ -5,7 +5,7 @@
 -- Chapter 6 Code Examples
 --------------------------------------------------------------
 
--- Listing 6-1: CREATE departments and employees tables
+-- Listing 6-1: Creating the departments and employees tables
 
 CREATE TABLE departments (
     dept_id bigserial,
@@ -37,7 +37,7 @@ VALUES
     ('Soo', 'Nguyen', 83000, 2),
     ('Janet', 'King', 95000, 2);
 
--- Listing 6-2: Basic JOIN
+-- Listing 6-2: Joining the employees and departments tables
 
 SELECT *
 FROM employees JOIN departments
@@ -68,32 +68,32 @@ INSERT INTO schools_right (id, right_school) VALUES
     (4, 'Chase Magnet Academy'),
     (6, 'Jefferson High School');
 
--- Listing 6-4: JOIN
+-- Listing 6-4: The JOIN
 
 SELECT *
 FROM schools_left JOIN schools_right
 ON schools_left.id = schools_right.id;
 
--- Listing 6-5: LEFT JOIN
+-- Listing 6-5: The LEFT JOIN
 
 SELECT *
 FROM schools_left LEFT JOIN schools_right
 ON schools_left.id = schools_right.id;
 
--- Listing 6-6: RIGHT JOIN
+-- Listing 6-6: The RIGHT JOIN
 
 SELECT *
 FROM schools_left RIGHT JOIN schools_right
 ON schools_left.id = schools_right.id;
 
 
--- Listing 6-7: FULL OUTER JOIN
+-- Listing 6-7: The FULL OUTER JOIN
 
 SELECT *
 FROM schools_left FULL OUTER JOIN schools_right
 ON schools_left.id = schools_right.id;
 
--- Listing 6-8: CROSS JOIN
+-- Listing 6-8: The CROSS JOIN
 
 SELECT *
 FROM schools_left CROSS JOIN schools_right;

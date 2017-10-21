@@ -54,7 +54,7 @@ SELECT geo_name,
        p0010003 + p0010004 AS "Total White and Black"
 FROM us_counties_2010;
 
--- Listing 5-6: Check Census race column totals
+-- Listing 5-6: Check Census data totals
 
 SELECT geo_name,
        state_us_abbreviation AS "st",
@@ -121,7 +121,7 @@ SELECT
     WITHIN GROUP (ORDER BY numbers)
 FROM percentile_test;
 
--- Listing 5-11: Using percentile_cont() with Census data
+-- Listing 5-11: Using sum(), avg(), and percentile_cont() aggregate functions
 
 SELECT sum(p0010001) AS "County Sum",
        round(avg(p0010001), 0) AS "County Average",
@@ -154,7 +154,7 @@ SELECT unnest(
             ) AS "quartiles"
 FROM us_counties_2010;
 
--- Listing 5-14: Create a median() aggregate function
+-- Listing 5-14: Creating a median() aggregate function in PostgreSQL
 -- Source: https://wiki.postgresql.org/wiki/Aggregate_Median
 
 CREATE OR REPLACE FUNCTION _final_median(anyarray)
