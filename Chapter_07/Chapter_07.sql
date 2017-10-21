@@ -28,9 +28,9 @@ CREATE TABLE natural_key_example (
 -- Listing 7-2: Example of a primary key violation
 INSERT INTO natural_key_example (license_id, first_name, last_name)
 VALUES ('T229901', 'Lynn', 'Malero');
+
 INSERT INTO natural_key_example (license_id, first_name, last_name)
 VALUES ('T229901', 'Sam', 'Tracy');
-SELECT * from natural_key_example;
 
 -- Listing 7-3: Declaring a composite primary key as a natural key
 CREATE TABLE natural_key_composite_example (
@@ -79,7 +79,8 @@ CREATE TABLE licenses (
 CREATE TABLE registrations (
     registration_id varchar(10),
     registration_date date,
-    license_id varchar(10) REFERENCES licenses (license_id)
+    license_id varchar(10) REFERENCES licenses (license_id),
+    CONSTRAINT registration_key PRIMARY KEY (registration_id, license_id)
 );
 
 INSERT INTO licenses (license_id, first_name, last_name)
@@ -128,7 +129,7 @@ VALUES ('Betty', 'Diaz', 'bdiaz@example.org');
 INSERT INTO unique_constraint_example (first_name, last_name, email)
 VALUES ('Sasha', 'Lee', 'slee@example.org');
 
--- Listing 7-9: NOT NULL example
+-- Listing 7-9: NOT NULL constraint example
 
 CREATE TABLE not_null_example (
     student_id bigserial,
@@ -166,8 +167,6 @@ CREATE TABLE new_york_addresses (
 COPY new_york_addresses
 FROM 'C:\YourDirectory\city_of_new_york.csv'
 WITH (FORMAT CSV, HEADER);
-
-SELECT * FROM new_york_addresses;
 
 -- Listing 7-12: Benchmark queries for index performance
 
