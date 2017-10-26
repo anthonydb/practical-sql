@@ -572,9 +572,9 @@ WHERE popu_lsa >= 250000;
 --------------
 
 -- 1. Using the New York City taxi data, calculate the length of each ride using
--- the pickup and drop-off timestamps. Sort the query results from longest ride
--- to shortest. Is there anything you notice about the longest or shortest trips
--- that you would want to ask more about?
+-- the pickup and drop-off timestamps. Sort the query results from the longest
+-- ride to the shortest. Do you notice anything about the longest or shortest
+-- trips that you might want to ask city officials about?
 
 SELECT
     trip_id,
@@ -590,8 +590,8 @@ ORDER BY tpep_dropoff_datetime - tpep_pickup_datetime DESC;
 -- whether these records have timestamp errors.
 
 -- 2. Using the AT TIME ZONE keywords, write a query that displays the date and
--- time for London, Johannesburg, Moscow, and Melbourne when it's January 1, 2100,
--- in New York City.
+-- time for London, Johannesburg, Moscow, and Melbourne the moment January 1,
+-- 2100, arrives in New York City.
 
 SELECT '2100-01-01 00:00:00-05' AT TIME ZONE 'US/Eastern' AS "New York",
        '2100-01-01 00:00:00-05' AT TIME ZONE 'Europe/London' AS "London",
@@ -599,11 +599,11 @@ SELECT '2100-01-01 00:00:00-05' AT TIME ZONE 'US/Eastern' AS "New York",
        '2100-01-01 00:00:00-05' AT TIME ZONE 'Europe/Moscow' AS "Moscow",
        '2100-01-01 00:00:00-05' AT TIME ZONE 'Australia/Melbourne' AS "Melbourne";
 
--- 3. For a bonus challenge, use the statistics functions from Chapter 10 to
+-- 3. As a bonus challenge, use the statistics functions in Chapter 10 to
 -- calculate the correlation coefficient and r-squared values using trip time
 -- and the total_amount column in the New York City taxi data, which represents
 -- total amount charged to passengers. Do the same with trip_distance and
--- total_amount. Limit the query to rides lasting three hours or less.
+-- total_amount. Limit the query to rides that last three hours or less.
 
 SELECT
     round(

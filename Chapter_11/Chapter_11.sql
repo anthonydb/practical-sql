@@ -5,21 +5,21 @@
 -- Chapter 11 Code Examples
 --------------------------------------------------------------
 
--- Listing 11-1: Extracting components of a timestamp
+-- Listing 11-1: Extracting components of a timestamp using date_part()
 
 SELECT
-    date_part('year', '2016-12-01 18:37:12 EST'::timestamptz) AS "year",
-    date_part('month', '2016-12-01 18:37:12 EST'::timestamptz) AS "month",
-    date_part('day', '2016-12-01 18:37:12 EST'::timestamptz) AS "day",
-    date_part('hour', '2016-12-01 18:37:12 EST'::timestamptz) AS "hour",
-    date_part('minute', '2016-12-01 18:37:12 EST'::timestamptz) AS "minute",
-    date_part('seconds', '2016-12-01 18:37:12 EST'::timestamptz) AS "seconds",
-    date_part('timezone_hour', '2016-12-01 18:37:12 EST'::timestamptz) AS "tz",
-    date_part('week', '2016-12-01 18:37:12 EST'::timestamptz) AS "week",
-    date_part('quarter', '2016-12-01 18:37:12 EST'::timestamptz) AS "quarter",
-    date_part('epoch', '2016-12-01 18:37:12 EST'::timestamptz) AS "epoch";
+    date_part('year', '2019-12-01 18:37:12 EST'::timestamptz) AS "year",
+    date_part('month', '2019-12-01 18:37:12 EST'::timestamptz) AS "month",
+    date_part('day', '2019-12-01 18:37:12 EST'::timestamptz) AS "day",
+    date_part('hour', '2019-12-01 18:37:12 EST'::timestamptz) AS "hour",
+    date_part('minute', '2019-12-01 18:37:12 EST'::timestamptz) AS "minute",
+    date_part('seconds', '2019-12-01 18:37:12 EST'::timestamptz) AS "seconds",
+    date_part('timezone_hour', '2019-12-01 18:37:12 EST'::timestamptz) AS "tz",
+    date_part('week', '2019-12-01 18:37:12 EST'::timestamptz) AS "week",
+    date_part('quarter', '2019-12-01 18:37:12 EST'::timestamptz) AS "quarter",
+    date_part('epoch', '2019-12-01 18:37:12 EST'::timestamptz) AS "epoch";
 
--- Listing 11-2: Constructing datetimes from components
+-- Listing 11-2: Three functions for making datetimes from components
 
 -- make a date
 SELECT make_date(2018, 2, 22);
@@ -55,13 +55,13 @@ SELECT * FROM current_time_example;
 
 -- Time Zones
 
--- Listing 11-4: Show your PostgreSQL server's default time zone
+-- Listing 11-4: Showing your PostgreSQL server's default time zone
 
 SHOW timezone;
 -- Note: You can see all run-time defaults with SHOW ALL;
 
 
--- Listing 11-5: Show time zone abbreviations and names
+-- Listing 11-5: Showing time zone abbreviations and names
 
 SELECT * FROM pg_timezone_abbrevs;
 SELECT * FROM pg_timezone_names;
@@ -70,7 +70,7 @@ SELECT * FROM pg_timezone_names;
 SELECT * FROM pg_timezone_names
 WHERE name LIKE 'Europe%';
 
--- Listing 11-6: Setting the time zone for a session
+-- Listing 11-6: Setting the time zone for a client session
 
 SET timezone TO 'US/Pacific';
 
@@ -99,7 +99,7 @@ SELECT '9/30/1929'::date + '5 years'::interval;
 
 -- Taxi Rides
 
--- Listing 11-7: Create table and import NYC yellow taxi data
+-- Listing 11-7: Creating a table and importing NYC yellow taxi data
 
 CREATE TABLE nyc_yellow_taxi_trips_2016_06_01 (
     trip_id bigserial PRIMARY KEY,
@@ -152,7 +152,7 @@ CREATE INDEX tpep_pickup_idx ON nyc_yellow_taxi_trips_2016_06_01 (tpep_pickup_da
 
 SELECT count(*) FROM nyc_yellow_taxi_trips_2016_06_01;
 
--- Listing 11-8: Count taxi trips by hour
+-- Listing 11-8: Counting taxi trips by hour
 
 SELECT
     date_part('hour', tpep_pickup_datetime) AS trip_hour,
@@ -161,7 +161,7 @@ FROM nyc_yellow_taxi_trips_2016_06_01
 GROUP BY trip_hour
 ORDER BY trip_hour;
 
--- Listing 11-9: Export taxi pickups per hour to CSV
+-- Listing 11-9: Exporting taxi pickups per hour to a CSV file
 
 COPY
     (SELECT
@@ -174,7 +174,7 @@ COPY
 TO 'C:\YourDirectory\hourly_pickups_2016_06_01.csv'
 WITH (FORMAT CSV, HEADER, DELIMITER ',');
 
--- Listing 11-10: Calculate median trip time by hour
+-- Listing 11-10: Calculating median trip time by hour
 
 SELECT
     date_part('hour', tpep_pickup_datetime) AS trip_hour,
@@ -185,7 +185,7 @@ FROM nyc_yellow_taxi_trips_2016_06_01
 GROUP BY trip_hour
 ORDER BY trip_hour;
 
--- Listing 11-11: Create table to hold train trip data
+-- Listing 11-11: Creating a table to hold train trip data
 
 SET timezone TO 'US/Central';
 
@@ -207,14 +207,14 @@ VALUES
 
 SELECT * FROM train_rides;
 
--- Listing 11-12: Calculate the length of each trip segment
+-- Listing 11-12: Calculating the length of each trip segment
 
 SELECT segment,
        to_char(departure, 'YYYY-MM-DD HH12:MI a.m. TZ') AS departure,
        arrival - departure AS segment_time
 FROM train_rides;
 
--- Listing 11-13: Calculating cumulative intervals with OVER
+-- Listing 11-13: Calculating cumulative intervals using OVER
 
 SELECT segment,
        arrival - departure AS segment_time,
