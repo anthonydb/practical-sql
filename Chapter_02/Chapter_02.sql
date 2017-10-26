@@ -42,36 +42,29 @@ SELECT first_name, last_name, school
 FROM teachers
 WHERE school = 'Myers Middle School';
 
+-- Examples of WHERE comparison operators
 
--------------------------------------------
--- WHERE comparison operators
-
-/* teachers with first name of Janet  */
-
+-- Teachers with first name of Janet
 SELECT first_name, last_name, school
 FROM teachers
 WHERE first_name = 'Janet';
 
-/* school names not equal to F.D. Roosevelt HS */
-
+-- School names not equal to F.D. Roosevelt HS
 SELECT school
 FROM teachers
 WHERE school != 'F.D. Roosevelt HS';
 
-/* teachers hired before Jan. 1, 2000 */
-
+-- Teachers hired before Jan. 1, 2000
 SELECT first_name, last_name, hire_date
 FROM teachers
 WHERE hire_date < '2000-01-01';
 
-/* teachers earning 43,500 or more */
-
+-- Teachers earning 43,500 or more
 SELECT first_name, last_name, salary
 FROM teachers
 WHERE salary >= 43500;
 
-/* Teachers who earn between $40,000 and $65,000  */
-
+-- Teachers who earn between $40,000 and $65,000
 SELECT first_name, last_name, school, salary
 FROM teachers
 WHERE salary BETWEEN 40000 AND 65000;
