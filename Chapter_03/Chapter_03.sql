@@ -38,7 +38,6 @@ VALUES
 
 SELECT * FROM number_data_types;
 
-
 -- Listing 3-3: Rounding issues with float columns
 -- Assumes table created and loaded with Listing 3-2
 
@@ -47,7 +46,6 @@ SELECT
     real_column * 10000000 AS "Float"
 FROM number_data_types
 WHERE numeric_column = .7;
-
 
 -- Listing 3-4: Timestamp and interval types in action
 

@@ -19,16 +19,16 @@ ORDER BY p0010001 DESC;
 
 -- Listing 12-2: Using a subquery in a WHERE clause for DELETE
 
-SELECT * INTO us_counties_2010_backup
+SELECT * INTO us_counties_2010_top10
 FROM us_counties_2010;
 
-DELETE FROM us_counties_2010_backup
+DELETE FROM us_counties_2010_top10
 WHERE p0010001 < (
     SELECT percentile_cont(.9) WITHIN GROUP (ORDER BY p0010001)
-    FROM us_counties_2010_backup
+    FROM us_counties_2010_top10
     );
 
-SELECT count(*) FROM us_counties_2010_backup;
+SELECT count(*) FROM us_counties_2010_top10;
 
 -- Listing 12-3: Subquery as a derived table in a FROM clause
 
@@ -135,12 +135,29 @@ FROM counties JOIN plants
 ON counties.st = plants.st
 ORDER BY "per_million" DESC;
 
+-- Listing 12-9: Using CTEs to minimize redundant code
+
+WITH us_median AS 
+    (SELECT percentile_cont(.5) 
+     WITHIN GROUP (ORDER BY p0010001) AS us_median_pop
+     FROM us_counties_2010)
+
+SELECT geo_name,
+       state_us_abbreviation AS st,
+       p0010001 AS total_pop,
+       us_median_pop,
+       p0010001 - us_median_pop AS diff_from_median 
+FROM us_counties_2010 CROSS JOIN us_median
+WHERE (p0010001 - us_median_pop)
+       BETWEEN -1000 AND 1000;
+
+
 -- Cross tabulations
 -- Install the crosstab() function via the tablefunc module
 
 CREATE EXTENSION tablefunc;
 
--- Listing 12-9: Create and fill the ice_cream_survey table
+-- Listing 12-10: Create and fill the ice_cream_survey table
 
 CREATE TABLE ice_cream_survey (
     response_id integer PRIMARY KEY,
@@ -152,7 +169,7 @@ COPY ice_cream_survey
 FROM 'C:\YourDirectory\ice_cream_survey.csv'
 WITH (FORMAT CSV, HEADER);
 
--- Listing 12-10: Generate the ice cream survey crosstab
+-- Listing 12-11: Generate the ice cream survey crosstab
 
 SELECT *
 FROM crosstab('SELECT office,
@@ -172,7 +189,7 @@ AS (office varchar(20),
     strawberry bigint,
     vanilla bigint);
 
--- Listing 12-11: Create and fill a temperature readings table
+-- Listing 12-12: Create and fill a temperature readings table
 
 CREATE TABLE temperature_readings (
     reading_id bigserial PRIMARY KEY,
@@ -186,7 +203,7 @@ COPY temperature_readings (station_name, observation_date, max_temp, min_temp)
 FROM 'C:\YourDirectory\temperature_readings.csv'
 WITH (FORMAT CSV, HEADER);
 
--- Listing 12-12: Generate the temperature readings crosstab
+-- Listing 12-13: Generate the temperature readings crosstab
 
 SELECT *
 FROM crosstab('SELECT
@@ -217,7 +234,7 @@ AS (station varchar(50),
     dec numeric(3,0)
 );
 
--- Listing 12-13: Re-classifying temperature data with CASE
+-- Listing 12-14: Re-classifying temperature data with CASE
 
 SELECT max_temp,
        CASE WHEN max_temp >= 90 THEN 'Hot'
@@ -229,7 +246,7 @@ SELECT max_temp,
         END AS "temperature_group"
 FROM temperature_readings;
 
--- Listing 12-14: Using CASE in a Common Table Expression
+-- Listing 12-15: Using CASE in a Common Table Expression
 
 WITH temps_collapsed (station_name, max_temperature_group) AS
     (SELECT station_name,
