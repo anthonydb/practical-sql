@@ -59,10 +59,8 @@ SELECT substring('The game starts at 7 p.m. on May 2, 2017.' from 'May \d, \d{4}
 
 CREATE TABLE crime_reports (
     crime_id bigserial PRIMARY KEY,
-    date_1 date,
-    date_2 date,
-    hour_1 time with time zone,
-    hour_2 time with time zone,
+    date_1 timestamp with time zone,
+    date_2 timestamp with time zone,
     street varchar(250),
     city varchar(100),
     crime_type varchar(100),
@@ -79,7 +77,7 @@ SELECT original_text FROM crime_reports;
 
 -- Listing 13-3: Use regexp_matches() to find the first date
 SELECT crime_id,
-       regexp_matches(original_text, '\d{1,2}\/\d{1,2}\/\d{2}')
+       regexp_match(original_text, '\d{1,2}\/\d{1,2}\/\d{2}')
 FROM crime_reports;
 
 -- Listing 13-4: Adding the 'g' flag to regexp_matches()
@@ -87,64 +85,66 @@ SELECT crime_id,
        regexp_matches(original_text, '\d{1,2}\/\d{1,2}\/\d{2}', 'g')
 FROM crime_reports;
 
--- Listing 13-5: Matching the second date
+-- Listing 13-5: Use regexp_match() to find the second date
 -- Note that the result includes an unwanted hyphen
 SELECT crime_id,
-       regexp_matches(original_text, '-\d{1,2}\/\d{1,2}\/\d{1,2}')
+       regexp_match(original_text, '-\d{1,2}\/\d{1,2}\/\d{1,2}')
 FROM crime_reports;
 
 -- Listing 13-6: Using a capture group to return only the date
 -- Eliminates the hyphen
 SELECT crime_id,
-       regexp_matches(original_text, '-(\d{1,2}\/\d{1,2}\/\d{1,2})')
+       regexp_match(original_text, '-(\d{1,2}\/\d{1,2}\/\d{1,2})')
 FROM crime_reports;
 
 -- Listing 13-7: Matching case number, date, crime type, and city
 
 SELECT
-    regexp_matches(original_text, '(?:C0|SO)[0-9]+') AS case_number,
-    regexp_matches(original_text, '\d{1,2}\/\d{1,2}\/\d{2}') AS date_1,
-    regexp_matches(original_text, '\n(?:\w+ \w+|\w+)\n(.*):') AS crime_type,
-    regexp_matches(original_text, '(?:Sq.|Plz.|Dr.|Ter.|Rd.)\n(\w+ \w+|\w+)\n')
+    regexp_match(original_text, '(?:C0|SO)[0-9]+') AS case_number,
+    regexp_match(original_text, '\d{1,2}\/\d{1,2}\/\d{2}') AS date_1,
+    regexp_match(original_text, '\n(?:\w+ \w+|\w+)\n(.*):') AS crime_type,
+    regexp_match(original_text, '(?:Sq.|Plz.|Dr.|Ter.|Rd.)\n(\w+ \w+|\w+)\n')
         AS city
 FROM crime_reports;
 
 -- Bonus: Get all parsed elements at once
 
 SELECT crime_id,
-       regexp_matches(original_text, '\d{1,2}\/\d{1,2}\/\d{2}') AS date_1,
+       regexp_match(original_text, '\d{1,2}\/\d{1,2}\/\d{2}') AS date_1,
        CASE WHEN EXISTS (SELECT regexp_matches(original_text, '-(\d{1,2}\/\d{1,2}\/\d{1,2})'))
-            THEN regexp_matches(original_text, '-(\d{1,2}\/\d{1,2}\/\d{1,2})')
+            THEN regexp_match(original_text, '-(\d{1,2}\/\d{1,2}\/\d{1,2})')
             ELSE NULL
             END AS date_2,
-       regexp_matches(original_text, '\/\d{2}\n(\d{4})') AS hour_1,
+       regexp_match(original_text, '\/\d{2}\n(\d{4})') AS hour_1,
        CASE WHEN EXISTS (SELECT regexp_matches(original_text, '\/\d{2}\n\d{4}-(\d{4})'))
-            THEN regexp_matches(original_text, '\/\d{2}\n\d{4}-(\d{4})')
+            THEN regexp_match(original_text, '\/\d{2}\n\d{4}-(\d{4})')
             ELSE NULL
             END AS hour_2,
-       regexp_matches(original_text, 'hrs.\n(\d+ .+(?:Sq.|Plz.|Dr.|Ter.|Rd.))') AS street,
-       regexp_matches(original_text, '(?:Sq.|Plz.|Dr.|Ter.|Rd.)\n(\w+ \w+|\w+)\n') AS city,
-       regexp_matches(original_text, '\n(?:\w+ \w+|\w+)\n(.*):') AS crime_type,
-       regexp_matches(original_text, ':\s(.+)(?:C0|SO)') AS description,
-       regexp_matches(original_text, '(?:C0|SO)[0-9]+') AS case_number
+       regexp_match(original_text, 'hrs.\n(\d+ .+(?:Sq.|Plz.|Dr.|Ter.|Rd.))') AS street,
+       regexp_match(original_text, '(?:Sq.|Plz.|Dr.|Ter.|Rd.)\n(\w+ \w+|\w+)\n') AS city,
+       regexp_match(original_text, '\n(?:\w+ \w+|\w+)\n(.*):') AS crime_type,
+       regexp_match(original_text, ':\s(.+)(?:C0|SO)') AS description,
+       regexp_match(original_text, '(?:C0|SO)[0-9]+') AS case_number
 FROM crime_reports;
 
--- Listing 13-8: Using unnest() to retrieve an array value
+-- Listing 13-8: Retrieving a value from within an array
 
 SELECT
     crime_id,
-    unnest(
-           regexp_matches(original_text, '(?:C0|SO)[0-9]+')
-           ) AS case_number
+    (regexp_match(original_text, '(?:C0|SO)[0-9]+'))[1]
+        AS case_number
 FROM crime_reports;
 
 -- Listing 13-9: Updating the crime_reports date_1 column
 
 UPDATE crime_reports
-SET
-    date_1 = unnest(
-                    regexp_matches(original_text, '\d{1,2}\/\d{1,2}\/\d{2}')
-                    )::date;
+SET date_1 = 
+(
+    (regexp_match(original_text, '\d{1,2}\/\d{1,2}\/\d{2}'))[1]
+        || ' ' ||
+    (regexp_match(original_text, '\/\d{2}\n(\d{4})'))[1] 
+        ||' US/Eastern'
+)::timestamptz;
 
 SELECT crime_id,
        date_1,
@@ -154,32 +154,44 @@ FROM crime_reports;
 -- Listing 13-10: Updating all crime_reports columns
 
 UPDATE crime_reports
-SET
-    date_1 = unnest(regexp_matches(original_text, '\d{1,2}\/\d{1,2}\/\d{2}'))::date,
+SET date_1 = 
+    (
+      (regexp_match(original_text, '\d{1,2}\/\d{1,2}\/\d{2}'))[1]
+          || ' ' ||
+      (regexp_match(original_text, '\/\d{2}\n(\d{4})'))[1] 
+          ||' US/Eastern'
+    )::timestamptz,
+             
+    date_2 = 
+    CASE 
+    -- if there is no second date but there is a second hour
+        WHEN (SELECT regexp_match(original_text, '-(\d{1,2}\/\d{1,2}\/\d{1,2})') IS NULL)
+                     AND (SELECT regexp_match(original_text, '\/\d{2}\n\d{4}-(\d{4})') IS NOT NULL)
+        THEN 
+          ((regexp_match(original_text, '\d{1,2}\/\d{1,2}\/\d{2}'))[1]
+              || ' ' ||
+          (regexp_match(original_text, '\/\d{2}\n\d{4}-(\d{4})'))[1] 
+              ||' US/Eastern'
+          )::timestamptz 
 
-    date_2 = CASE WHEN EXISTS (
-                  SELECT regexp_matches(original_text, '-(\d{1,2}\/\d{1,2}\/\d{1,2})')
-                              )
-             THEN unnest(regexp_matches(original_text, '-(\d{1,2}\/\d{1,2}\/\d{1,2})')
-                        )::date
-             ELSE NULL END,
-
-    hour_1 = unnest(regexp_matches(original_text, '\/\d{2}\n(\d{4})'))::timetz,
-
-    hour_2 = CASE WHEN EXISTS (
-                  SELECT regexp_matches(original_text, '\/\d{2}\n\d{4}-(\d{4})')
-                              )
-                  THEN unnest(
-                              regexp_matches(original_text, '\/\d{2}\n\d{4}-(\d{4})')
-                              )::timetz
-                  ELSE NULL END,
-
-    street = unnest(regexp_matches(original_text, 'hrs.\n(\d+ .+(?:Sq.|Plz.|Dr.|Ter.|Rd.))')),
-    city = unnest(regexp_matches(original_text,
-                                 '(?:Sq.|Plz.|Dr.|Ter.|Rd.)\n(\w+ \w+|\w+)\n')),
-    crime_type = unnest(regexp_matches(original_text, '\n(?:\w+ \w+|\w+)\n(.*):')),
-    description = unnest(regexp_matches(original_text, ':\s(.+)(?:C0|SO)')),
-    case_number = unnest(regexp_matches(original_text, '(?:C0|SO)[0-9]+'));
+    -- if there is both a second date and second hour
+        WHEN (SELECT regexp_match(original_text, '-(\d{1,2}\/\d{1,2}\/\d{1,2})') IS NOT NULL)
+              AND (SELECT regexp_match(original_text, '\/\d{2}\n\d{4}-(\d{4})') IS NOT NULL)
+        THEN 
+          ((regexp_match(original_text, '-(\d{1,2}\/\d{1,2}\/\d{1,2})'))[1]
+              || ' ' ||
+          (regexp_match(original_text, '\/\d{2}\n\d{4}-(\d{4})'))[1] 
+              ||' US/Eastern'
+          )::timestamptz 
+    -- if neither of those conditions exist, provide a NULL
+         ELSE NULL 
+    END,
+    street = (regexp_match(original_text, 'hrs.\n(\d+ .+(?:Sq.|Plz.|Dr.|Ter.|Rd.))'))[1],
+    city = (regexp_match(original_text,
+                           '(?:Sq.|Plz.|Dr.|Ter.|Rd.)\n(\w+ \w+|\w+)\n'))[1],
+    crime_type = (regexp_match(original_text, '\n(?:\w+ \w+|\w+)\n(.*):'))[1],
+    description = (regexp_match(original_text, ':\s(.+)(?:C0|SO)'))[1],
+    case_number = (regexp_match(original_text, '(?:C0|SO)[0-9]+'))[1];
 
 
 -- Listing 13-11: Viewing selected crime data
@@ -189,7 +201,6 @@ SELECT date_1,
        city,
        crime_type
 FROM crime_reports;
-
 
 -- Listing 13-12: Using regular expressions in a WHERE clause
 
@@ -206,7 +217,7 @@ ORDER BY geo_name;
 
 -- Listing 13-13: Regular expression functions to replace and split
 
-SELECT regexp_replace('05/12/2017', '\d{4}', '2016');
+SELECT regexp_replace('05/12/2018', '\d{4}', '2017');
 
 SELECT regexp_split_to_table('Four,score,and,seven,years,ago', ',');
 
@@ -342,7 +353,7 @@ LIMIT 5;
 SELECT president,
        speech_date,
        ts_rank(search_speech_text,
-               to_tsquery('war & security & threat & enemy'), 2) AS score
+               to_tsquery('war & security & threat & enemy'), 2)::numeric AS score
 FROM president_speeches
 WHERE search_speech_text @@ to_tsquery('war & security & threat & enemy')
 ORDER BY score DESC

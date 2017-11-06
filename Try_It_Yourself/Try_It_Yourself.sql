@@ -705,13 +705,19 @@ AS (flavor varchar(20),
 -- 1. The style guide of a publishing company you're writing for says to avoid
 -- commas before suffixes in names. But your author database has several names
 -- like Alvarez, Jr. and Williams, Sr. Which functions can you use to remove
--- these? Would a regular expression help?
+-- the comma? Would a regular expression function help? How would you capture 
+-- just the suffixes to place them into a separate column?
 
 -- Answer: You can use either the standard SQL replace() function or the
 -- PostgreSQL regexp_replace() function:
 
 SELECT replace('Williams, Sr.', ', ', ' ');
 SELECT regexp_replace('Williams, Sr.', ', ', ' ');
+
+-- Answer: To capture just the suffixes:
+
+SELECT (regexp_match('Williams, Sr.', '.*, (.*)'))[1];
+
 
 -- 2. Using any one of the State of the Union addresses, count the number of
 -- unique words that are five characters or more. Hint: You can use
