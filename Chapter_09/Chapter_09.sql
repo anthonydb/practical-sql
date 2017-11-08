@@ -73,7 +73,7 @@ FROM meat_poultry_egg_inspect
 GROUP BY length(zip)
 ORDER BY length(zip) ASC;
 
--- Listing 9-7: Using length to find short zip values
+-- Listing 9-7: Filtering with length() to find short zip values
 
 SELECT st,
        count(*) AS st_count

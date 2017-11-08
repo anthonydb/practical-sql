@@ -222,7 +222,7 @@ GROUP BY stabr
 ORDER BY stabr;
 -- there are 55 in 2009.
 
--- Listing 8-8: Using GROUP BY on the stabr and city columns
+-- Listing 8-8: Using GROUP BY on the city and stabr columns
 
 SELECT city, stabr
 FROM pls_fy2014_pupld14a
@@ -267,8 +267,7 @@ SELECT sum(pls14.visits) AS visits_2014,
        sum(pls09.visits) AS visits_2009
 FROM pls_fy2014_pupld14a pls14 JOIN pls_fy2009_pupld09a pls09
 ON pls14.fscskey = pls09.fscskey
-WHERE pls14.visits >= 0 
-  AND pls09.visits >= 0;
+WHERE pls14.visits >= 0 AND pls09.visits >= 0;
 
 -- Listing 8-13: Using GROUP BY to track percent change in library visits by state
 
