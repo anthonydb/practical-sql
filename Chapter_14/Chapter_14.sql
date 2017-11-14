@@ -56,12 +56,12 @@ SELECT ST_PointFromText('POINT(-74.9233606 42.699992)', 4326);
 SELECT ST_MakePoint(-74.9233606, 42.699992);
 SELECT ST_SetSRID(ST_MakePoint(-74.9233606, 42.699992), 4326);
 
--- Listing 14-7: Functions specific to linestrings
+-- Listing 14-7: Functions specific to making LineStrings
 
 SELECT ST_LineFromText('LINESTRING(-105.90 35.67,-105.91 35.67)', 4326);
 SELECT ST_MakeLine(ST_MakePoint(-74.92, 42.69), ST_MakePoint(-74.12, 42.45));
 
--- Listing 14-8: Functions specific to polygons
+-- Listing 14-8: Functions specific to making Polygons
 
 SELECT ST_PolygonFromText('POLYGON((-74.92 42.70, -75.06 42.706, -75.07 42.64,
                                     -74.92 42.70))', 4326);
@@ -127,9 +127,7 @@ FROM farmers_markets
 WHERE longitude IS NOT NULL
 LIMIT 5;
 
--- Listing 14-11: Using ST_DWithin() to locate farmers' markets within 10 miles of a point
--- Find all farmers markets within 10 miles (about 16093 meters) of point
--- 1609.34 meters/mile
+-- Listing 14-11: Using ST_DWithin() to locate farmers' markets within 10 kilometers of a point
 
 SELECT market_name,
        city,
@@ -137,9 +135,11 @@ SELECT market_name,
 FROM farmers_markets
 WHERE ST_DWithin(geog_point,
                  ST_GeogFromText('POINT(-93.6204386 41.5853202)'),
-                 16093);
+                 10000)
+ORDER BY market_name;
 
 -- Listing 14-12: Using ST_Distance() for the miles between Yankee Stadium and Citi Field (Mets)
+-- 1609.344 meters/mile
 
 SELECT ST_Distance(
                    ST_GeogFromText('POINT(-73.9283685 40.8296466)'),
@@ -158,7 +158,7 @@ SELECT market_name,
 FROM farmers_markets
 WHERE ST_DWithin(geog_point,
                  ST_GeogFromText('POINT(-93.6204386 41.5853202)'),
-                 16093)
+                 10000)
 ORDER BY miles_from_dt ASC;
 
 
@@ -178,12 +178,10 @@ SELECT ST_AsText(geom)
 FROM us_counties_2010_shp
 LIMIT 1;
 
--- Listing 14-15: Use ST_Area() to find the largest counties
+-- Listing 14-15: Find the largest counties by area using ST_Area()
 
 SELECT name10,
        statefp10 AS st,
---       round( (aland10 / 2589988.110336)::numeric, 2) AS land_sq_miles,
---       round( (awater10 / 2589988.110336)::numeric, 2) AS water_sq_miles,
        round(
              ( ST_Area(geom::geography) / 2589988.110336 )::numeric, 2
             )  AS square_miles
