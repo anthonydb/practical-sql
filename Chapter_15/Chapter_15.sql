@@ -115,7 +115,7 @@ RETURNS NULL ON NULL INPUT;
 
 -- Listing 15-10: Testing the percent_change() function
 
-SELECT percent_change(110, 108. 2);
+SELECT percent_change(110, 108, 2);
 
 -- Listing 15-11: Testing percent_change() on Census data
 
