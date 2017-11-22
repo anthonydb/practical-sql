@@ -75,7 +75,7 @@ WITH (FORMAT CSV, HEADER OFF, QUOTE '"');
 
 SELECT original_text FROM crime_reports;
 
--- Listing 13-3: Use regexp_matches() to find the first date
+-- Listing 13-3: Use regexp_match() to find the first date
 SELECT crime_id,
        regexp_match(original_text, '\d{1,2}\/\d{1,2}\/\d{2}')
 FROM crime_reports;

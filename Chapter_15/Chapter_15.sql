@@ -7,7 +7,7 @@
 
 -- VIEWS
 
--- Listing 15-1: Create a view that displays Nevada 2010 counties
+-- Listing 15-1: Creating a view that displays Nevada 2010 counties
 
 CREATE OR REPLACE VIEW nevada_counties_pop_2010 AS
     SELECT geo_name,
@@ -24,7 +24,7 @@ SELECT *
 FROM nevada_counties_pop_2010
 LIMIT 5;
 
--- Listing 15-3: Create view showing population change for US counties
+-- Listing 15-3: Creating a view showing population change for US counties
 
 CREATE OR REPLACE VIEW county_pop_change_2010_2000 AS
     SELECT c2010.geo_name,
@@ -34,7 +34,7 @@ CREATE OR REPLACE VIEW county_pop_change_2010_2000 AS
            c2010.p0010001 AS pop_2010,
            c2000.p0010001 AS pop_2000,
            round( (CAST(c2010.p0010001 AS numeric(8,1)) - c2000.p0010001)
-               / c2000.P0010001 * 100, 1 ) AS pct_change_2010_2000
+               / c2000.p0010001 * 100, 1 ) AS pct_change_2010_2000
     FROM us_counties_2010 c2010 INNER JOIN us_counties_2000 c2000
     ON c2010.state_fips = c2000.state_fips
        AND c2010.county_fips = c2000.county_fips
@@ -50,7 +50,7 @@ FROM county_pop_change_2010_2000
 WHERE st = 'NV'
 LIMIT 5;
 
--- Listing 15-5: Create a view on the employees table
+-- Listing 15-5: Creating a view on the employees table
 
 CREATE OR REPLACE VIEW employees_tax_dept AS
      SELECT emp_id,
@@ -106,19 +106,16 @@ percent_change(new_value numeric,
                old_value numeric,
                decimal_places integer DEFAULT 1)
 RETURNS numeric AS
-$$
-BEGIN
-    RETURN
-    round(
-          ((new_value - old_value) / old_value) * 100, decimal_places
-         );
-END;
-$$
-LANGUAGE plpgsql;
+'SELECT round(
+        ((new_value - old_value) / old_value) * 100, decimal_places
+);'
+LANGUAGE SQL
+IMMUTABLE
+RETURNS NULL ON NULL INPUT;
 
 -- Listing 15-10: Testing the percent_change() function
 
-SELECT percent_change(110, 108);
+SELECT percent_change(110, 108. 2);
 
 -- Listing 15-11: Testing percent_change() on Census data
 
@@ -134,36 +131,36 @@ ON c2010.state_fips = c2000.state_fips
 ORDER BY pct_chg_func DESC
 LIMIT 5;
 
--- Listing 15-12: Add a column to the teachers table and see the data
+-- Listing 15-12: Adding a column to the teachers table and seeing the data
 
-ALTER TABLE teachers ADD COLUMN days_off integer;
+ALTER TABLE teachers ADD COLUMN personal_days integer;
 
 SELECT first_name,
        last_name,
        hire_date,
-       days_off
+       personal_days
 FROM teachers;
 
--- Listing 15-13: Create an update_days_off() function
+-- Listing 15-13: Creating an update_personal_days() function
 
-CREATE OR REPLACE FUNCTION update_days_off()
+CREATE OR REPLACE FUNCTION update_personal_days()
 RETURNS void AS $$
 BEGIN
     UPDATE teachers
-    SET days_off =
+    SET personal_days =
         CASE WHEN (now() - hire_date) BETWEEN '5 years'::interval
                                       AND '10 years'::interval THEN 4
              WHEN (now() - hire_date) > '10 years'::interval THEN 5
              ELSE 3
         END;
-    RAISE NOTICE 'days_off updated!';
+    RAISE NOTICE 'personal_days updated!';
 END;
 $$ LANGUAGE plpgsql;
 
 -- To run the function:
-SELECT update_days_off();
+SELECT update_personal_days();
 
--- Listing 15-14: Enable the PL/Python procedural language
+-- Listing 15-14: Enabling the PL/Python procedural language
 
 CREATE EXTENSION plpythonu;
 
@@ -246,7 +243,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Listing 15-19: Create the grades_update trigger
+-- Listing 15-19: Creating the grades_update trigger
 
 CREATE TRIGGER grades_update
   AFTER UPDATE
@@ -272,7 +269,7 @@ SELECT student_id,
        new_grade
 FROM grades_history;
 
--- Listing 15-21: Create a temperature_test table
+-- Listing 15-21: Creating a temperature_test table
 
 CREATE TABLE temperature_test (
     station_name varchar(50),
@@ -283,7 +280,7 @@ CREATE TABLE temperature_test (
 PRIMARY KEY (station_name, observation_date)
 );
 
--- Listing 15-22: Create the classify_max_temp() function
+-- Listing 15-22: Creating the classify_max_temp() function
 
 CREATE OR REPLACE FUNCTION classify_max_temp()
     RETURNS trigger AS
@@ -306,7 +303,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Listing 15-23: Create the temperature_update trigger
+-- Listing 15-23: Creating the temperature_update trigger
 
 CREATE TRIGGER temperature_insert
     BEFORE INSERT
@@ -314,7 +311,7 @@ CREATE TRIGGER temperature_insert
     FOR EACH ROW
     EXECUTE PROCEDURE classify_max_temp();
 
--- Listing 15-24: Insert rows to test the temperature_update trigger
+-- Listing 15-24: Inserting rows to test the temperature_update trigger
 
 INSERT INTO temperature_test (station_name, observation_date, max_temp, min_temp)
 VALUES
