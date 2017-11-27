@@ -164,21 +164,19 @@ SELECT update_personal_days();
 
 CREATE EXTENSION plpythonu;
 
--- Listing 15-15: Using PL/Python to create the categorize_population() function
+-- Listing 15-15: Using PL/Python to create the trim_county() function
 
-CREATE OR REPLACE FUNCTION categorize_population(population numeric)
+CREATE OR REPLACE FUNCTION trim_county(input_string text)
 RETURNS text AS $$
-    if population >= 100000:
-        return 'big'
-    else:
-        return 'not big'
+    import re
+    cleaned = re.sub(r' County', '', input_string)
+    return cleaned
 $$ LANGUAGE plpythonu;
 
--- Listing 15-16: Testing the categorize_population() function
+-- Listing 15-16: Testing the trim_county() function
 
 SELECT geo_name,
-       p0010001,
-       categorize_population(p0010001)
+       trim_county(geo_name)
 FROM us_counties_2010
 ORDER BY state_fips, county_fips
 LIMIT 5;
@@ -204,15 +202,14 @@ VALUES
     (1, 4, 'Trig 2', 'B');
 
 CREATE TABLE grades_history (
-    id bigserial,
     student_id bigint NOT NULL,
     course_id bigint NOT NULL,
     change_time timestamp with time zone NOT NULL,
     course varchar(30) NOT NULL,
     old_grade varchar(5) NOT NULL,
     new_grade varchar(5) NOT NULL,
-PRIMARY KEY (id)
-);
+PRIMARY KEY (student_id, course_id, change_time)
+);  
 
 SELECT * FROM grades;
 
@@ -238,7 +235,6 @@ BEGIN
          OLD.grade,
          NEW.grade);
     END IF;
-
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;

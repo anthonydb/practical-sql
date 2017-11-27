@@ -861,3 +861,29 @@ SELECT rate_per_thousand(50, 11000, 2);
 
 -- 3. Describe the steps needed to implement a trigger on a table and how the
 -- steps relate to each other.
+
+ALTER TABLE meat_poultry_egg_inspect ADD COLUMN inspection_date date;
+
+CREATE OR REPLACE FUNCTION add_inspection_date()
+    RETURNS trigger AS $$
+    BEGIN
+       UPDATE meat_poultry_egg_inspect
+       SET inspection_date = now() + '6 months'::interval;
+    RETURN NEW;
+    END;
+$$ LANGUAGE plpgsql;
+
+-- Listing 15-19: Creating the grades_update trigger
+
+CREATE TRIGGER inspection_date_update
+  AFTER INSERT
+  ON meat_poultry_egg_inspect
+  FOR EACH ROW
+  EXECUTE PROCEDURE add_inspection_date();
+
+
+INSERT INTO meat_poultry_egg_inspect(est_number, company)
+VALUES ('test123', 'testcompany');
+
+SELECT * FROM meat_poultry_egg_inspect
+WHERE company = 'testcompany';
