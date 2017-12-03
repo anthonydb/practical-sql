@@ -58,3 +58,7 @@ Editing and technical review of the book is in progress, so some code likely wil
 
 I'll collect answers to frequently asked questions as well as updates to installation instructions at [faq-updates.md](https://github.com/anthonydb/practical-sql/blob/master/faq-updates.md).
 
+## Resources
+
+I'm also maintaining updated to the book's Appendix B on Additional PostgreSQL Resources at [resources.md](https://github.com/anthonydb/practical-sql/blob/master/resources.md).
+
