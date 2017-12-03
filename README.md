@@ -27,13 +27,13 @@
 * Chapter 10: Statistical Functions In SQL
 * Chapter 11: Working With Dates and Times
 * Chapter 12: Advanced Query Techniques
-* Chapter 13: Extracting Data from Text
+* Chapter 13: Mining Text to Find Meaningful Data
 * Chapter 14: Analyzing Spatial Data with PostGIS
 * Chapter 15: Saving Time with Views, Functions, and Triggers
-* Chapter 16: PostgreSQL from the Command Line
-* Chapter 17: Database Maintenance
-* Appendix A: Additional PostgreSQL Tools
-* Appendix B: Telling Your Data Story
+* Chapter 16: Using PostgreSQL from the Command Line
+* Chapter 17: Maintaining Your Database
+* Appendix A: Identifying and Telling the Story Behind Your Data
+* Appendix B: Additional PostgreSQL Resources
 
 
 ## Getting the Code and Data on Your Computer
@@ -52,5 +52,9 @@ GitHub users may want to clone the repository locally and occasionally perform a
 
 ## Note to Early Access Users
 
-Editing and technical review of the book is in progress, so some code likely will change between now and publication in February 2018. You can follow edits in the [commit history](https://github.com/anthonydb/practical-sql/commits/master).
+Editing and technical review of the book is in progress, so some code likely will change between now and publication in 2018. You can follow edits in the [commit history](https://github.com/anthonydb/practical-sql/commits/master).
+
+## Installation and Exercises FAQ
+
+I'll collect answers to frequently asked questions as well as updates to installation instructions at faq-updates.md.
 
