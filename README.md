@@ -60,5 +60,5 @@ I'll collect answers to frequently asked questions as well as updates to install
 
 ## Resources
 
-I'm also maintaining updated to the book's Appendix B on Additional PostgreSQL Resources at [resources.md](https://github.com/anthonydb/practical-sql/blob/master/resources.md).
+I'm also maintaining updates to the book's Appendix B on Additional PostgreSQL Resources at [resources.md](https://github.com/anthonydb/practical-sql/blob/master/resources.md).
 
