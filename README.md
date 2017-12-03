@@ -56,5 +56,5 @@ Editing and technical review of the book is in progress, so some code likely wil
 
 ## Installation and Exercises FAQ
 
-I'll collect answers to frequently asked questions as well as updates to installation instructions at faq-updates.md.
+I'll collect answers to frequently asked questions as well as updates to installation instructions at [faq-updates.md](https://github.com/anthonydb/practical-sql/blob/master/faq-updates.md).
 
