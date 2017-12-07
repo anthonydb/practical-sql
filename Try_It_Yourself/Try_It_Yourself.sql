@@ -634,7 +634,7 @@ WHERE tpep_dropoff_datetime - tpep_pickup_datetime <= '3 hours'::interval;
 
 -- 1. Revise the code in Listing 12-14 to dig deeper into the nuances of
 -- Waikiki’s high temperatures. Limit the temps_collapsed table to the Waikiki
--- maximum daily temperature observations. Then, use the WHEN clauses in the
+-- maximum daily temperature observations. Then use the WHEN clauses in the
 -- CASE statement to reclassify the temperatures into seven groups that would
 -- result in the following text output:
 
@@ -705,7 +705,7 @@ AS (flavor varchar(20),
 -- 1. The style guide of a publishing company you're writing for says to avoid
 -- commas before suffixes in names. But your author database has several names
 -- like Alvarez, Jr. and Williams, Sr. Which functions can you use to remove
--- the comma? Would a regular expression function help? How would you capture 
+-- the comma? Would a regular expression function help? How would you capture
 -- just the suffixes to place them into a separate column?
 
 -- Answer: You can use either the standard SQL replace() function or the

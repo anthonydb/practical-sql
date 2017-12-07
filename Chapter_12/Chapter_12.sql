@@ -92,7 +92,7 @@ WHERE (p0010001 - (SELECT percentile_cont(.5) WITHIN GROUP (ORDER BY p0010001)
                   FROM us_counties_2010))
        BETWEEN -1000 AND 1000;
 
--- Listing 12-7: Simple Common Table Expression to find large counties
+-- Listing 12-7: Using a simple CTE to find large counties
 
 WITH
     large_counties (geo_name, st, p0010001)
@@ -114,7 +114,7 @@ WHERE p0010001 >= 100000
 GROUP BY state_us_abbreviation
 ORDER BY count(*) DESC;
 
--- Listing 12-8: Using CTEs to join tables
+-- Listing 12-8: Using CTEs in a table join
 
 WITH
     counties (st, population) AS
@@ -157,7 +157,7 @@ WHERE (p0010001 - us_median_pop)
 
 CREATE EXTENSION tablefunc;
 
--- Listing 12-10: Create and fill the ice_cream_survey table
+-- Listing 12-10: Creating and filling the ice_cream_survey table
 
 CREATE TABLE ice_cream_survey (
     response_id integer PRIMARY KEY,
@@ -169,7 +169,7 @@ COPY ice_cream_survey
 FROM 'C:\YourDirectory\ice_cream_survey.csv'
 WITH (FORMAT CSV, HEADER);
 
--- Listing 12-11: Generate the ice cream survey crosstab
+-- Listing 12-11: Generating the ice cream survey crosstab
 
 SELECT *
 FROM crosstab('SELECT office,
@@ -189,7 +189,7 @@ AS (office varchar(20),
     strawberry bigint,
     vanilla bigint);
 
--- Listing 12-12: Create and fill a temperature readings table
+-- Listing 12-12: Creating and filling a temperature_readings table
 
 CREATE TABLE temperature_readings (
     reading_id bigserial PRIMARY KEY,
@@ -203,7 +203,7 @@ COPY temperature_readings (station_name, observation_date, max_temp, min_temp)
 FROM 'C:\YourDirectory\temperature_readings.csv'
 WITH (FORMAT CSV, HEADER);
 
--- Listing 12-13: Generate the temperature readings crosstab
+-- Listing 12-13: Generating the temperature readings crosstab
 
 SELECT *
 FROM crosstab('SELECT
@@ -243,7 +243,7 @@ SELECT max_temp,
             WHEN max_temp BETWEEN 33 AND 49 THEN 'Cold'
             WHEN max_temp BETWEEN 20 AND 32 THEN 'Freezing'
             ELSE 'Inhumane'
-        END AS "temperature_group"
+        END AS temperature_group
 FROM temperature_readings;
 
 -- Listing 12-15: Using CASE in a Common Table Expression
