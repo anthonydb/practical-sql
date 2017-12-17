@@ -93,7 +93,7 @@ FROM time_zone_test;
 
 -- Math with dates!
 
-SELECT '9/30/1929'::date - '9/27/1929'::date;
+    
 SELECT '9/30/1929'::date + '5 years'::interval;
 
 
@@ -148,7 +148,8 @@ COPY nyc_yellow_taxi_trips_2016_06_01 (
 FROM 'C:\YourDirectory\yellow_tripdata_2016_06_01.csv'
 WITH (FORMAT CSV, HEADER, DELIMITER ',');
 
-CREATE INDEX tpep_pickup_idx ON nyc_yellow_taxi_trips_2016_06_01 (tpep_pickup_datetime);
+CREATE INDEX tpep_pickup_idx
+ON nyc_yellow_taxi_trips_2016_06_01 (tpep_pickup_datetime);
 
 SELECT count(*) FROM nyc_yellow_taxi_trips_2016_06_01;
 

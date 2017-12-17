@@ -54,7 +54,7 @@ SELECT substring('The game starts at 7 p.m. on May 2, 2017.' from 'May \d, \d{4}
 
 -- Turning Text to Data with Regular Expression Functions
 
--- Listing 13-2: Create and load the crime_reports table
+-- Listing 13-2: Creating and loading the crime_reports table
 -- Data from https://sheriff.loudoun.gov/dailycrime
 
 CREATE TABLE crime_reports (
@@ -75,17 +75,17 @@ WITH (FORMAT CSV, HEADER OFF, QUOTE '"');
 
 SELECT original_text FROM crime_reports;
 
--- Listing 13-3: Use regexp_match() to find the first date
+-- Listing 13-3: Using regexp_match() to find the first date
 SELECT crime_id,
        regexp_match(original_text, '\d{1,2}\/\d{1,2}\/\d{2}')
 FROM crime_reports;
 
--- Listing 13-4: Adding the 'g' flag to regexp_matches()
+-- Listing 13-4: Using the regexp_matches() function with the 'g' flag
 SELECT crime_id,
        regexp_matches(original_text, '\d{1,2}\/\d{1,2}\/\d{2}', 'g')
 FROM crime_reports;
 
--- Listing 13-5: Use regexp_match() to find the second date
+-- Listing 13-5: Using regexp_match() to find the second date
 -- Note that the result includes an unwanted hyphen
 SELECT crime_id,
        regexp_match(original_text, '-\d{1,2}\/\d{1,2}\/\d{1,2}')
@@ -244,7 +244,7 @@ SELECT to_tsvector('I am walking across the sitting room') @@ to_tsquery('walkin
 
 SELECT to_tsvector('I am walking across the sitting room') @@ to_tsquery('walking & running');
 
--- Listing 13-18: Create and fill the president_speeches table
+-- Listing 13-18: Creating and filling the president_speeches table
 
 -- Sources:
 -- https://archive.org/details/State-of-the-Union-Addresses-1945-2006
@@ -266,11 +266,11 @@ WITH (FORMAT CSV, DELIMITER '|', HEADER OFF, QUOTE '@');
 
 SELECT * FROM president_speeches;
 
--- Listing 13-19: Convert speeches to tsvector in the search_speech_text column
+-- Listing 13-19: Converting speeches to tsvector in the search_speech_text column
 UPDATE president_speeches
 SET search_speech_text = to_tsvector('english', speech_text);
 
--- Listing 13-20: Create a GIN index for text search
+-- Listing 13-20: Creating a GIN index for text search
 CREATE INDEX search_idx ON president_speeches USING gin(search_speech_text);
 
 
@@ -279,7 +279,7 @@ CREATE INDEX search_idx ON president_speeches USING gin(search_speech_text);
 -- | (OR)
 -- ! (NOT)
 
--- Listing 13-21: Find speeches containing the word "Vietnam"
+-- Listing 13-21: Finding speeches containing the word "Vietnam"
 
 SELECT president, speech_date
 FROM president_speeches
@@ -299,7 +299,7 @@ SELECT president,
 FROM president_speeches
 WHERE search_speech_text @@ to_tsquery('Vietnam');
 
--- Listing 13-23: Find speeches with the word "transportation" but not "roads"
+-- Listing 13-23: Finding speeches with the word "transportation" but not "roads"
 
 SELECT president,
        speech_date,

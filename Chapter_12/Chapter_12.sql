@@ -19,8 +19,8 @@ ORDER BY p0010001 DESC;
 
 -- Listing 12-2: Using a subquery in a WHERE clause for DELETE
 
-SELECT * INTO us_counties_2010_top10
-FROM us_counties_2010;
+CREATE TABLE us_counties_2010_top10 AS
+SELECT * FROM us_counties_2010;
 
 DELETE FROM us_counties_2010_top10
 WHERE p0010001 < (
@@ -123,17 +123,17 @@ WITH
      GROUP BY state_us_abbreviation),
 
     plants (st, plants) AS
-    (SELECT st, count(*) AS "plants"
+    (SELECT st, count(*) AS plants
      FROM meat_poultry_egg_inspect
      GROUP BY st)
 
 SELECT counties.st,
        population,
        plants,
-       round((plants/population::numeric(10,1))*1000000, 1) AS "per_million"
+       round((plants/population::numeric(10,1))*1000000, 1) AS per_million
 FROM counties JOIN plants
 ON counties.st = plants.st
-ORDER BY "per_million" DESC;
+ORDER BY per_million DESC;
 
 -- Listing 12-9: Using CTEs to minimize redundant code
 
@@ -199,7 +199,8 @@ CREATE TABLE temperature_readings (
     min_temp integer
 );
 
-COPY temperature_readings (station_name, observation_date, max_temp, min_temp)
+COPY temperature_readings 
+     (station_name, observation_date, max_temp, min_temp)
 FROM 'C:\YourDirectory\temperature_readings.csv'
 WITH (FORMAT CSV, HEADER);
 
