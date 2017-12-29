@@ -12,7 +12,7 @@ FROM 'C:\YourDirectory\your_file.csv'
 WITH (FORMAT CSV, HEADER);
 
 
--- Listing 4-2: CREATE TABLE statement for Census county data
+-- Listing 4-2: A CREATE TABLE statement for Census county data
 -- Full data dictionary available at: http://www.census.gov/prod/cen2010/doc/pl94-171.pdf
 -- Note: Some columns have been given more descriptive names
 
@@ -191,13 +191,13 @@ TO 'C:\YourDirectory\us_counties_export.txt'
 WITH (FORMAT CSV, HEADER, DELIMITER '|')
 
 
--- Listing 4-8: Export selected columns from a table with COPY
+-- Listing 4-8: Exporting selected columns from a table with COPY
 
 COPY us_counties_2010 (geo_name, internal_point_lat, internal_point_lon)
 TO 'C:\YourDirectory\us_counties_latlon_export.txt'
 WITH (FORMAT CSV, HEADER, DELIMITER '|')
 
--- Listing 4-9: Export query results with COPY
+-- Listing 4-9: Exporting query results with COPY
 
 COPY (
     SELECT geo_name, state_us_abbreviation

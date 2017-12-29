@@ -68,32 +68,32 @@ INSERT INTO schools_right (id, right_school) VALUES
     (4, 'Chase Magnet Academy'),
     (6, 'Jefferson High School');
 
--- Listing 6-4: The JOIN
+-- Listing 6-4: Using JOIN
 
 SELECT *
 FROM schools_left JOIN schools_right
 ON schools_left.id = schools_right.id;
 
--- Listing 6-5: The LEFT JOIN
+-- Listing 6-5: Using LEFT JOIN
 
 SELECT *
 FROM schools_left LEFT JOIN schools_right
 ON schools_left.id = schools_right.id;
 
--- Listing 6-6: The RIGHT JOIN
+-- Listing 6-6: Using RIGHT JOIN
 
 SELECT *
 FROM schools_left RIGHT JOIN schools_right
 ON schools_left.id = schools_right.id;
 
 
--- Listing 6-7: The FULL OUTER JOIN
+-- Listing 6-7: Using FULL OUTER JOIN
 
 SELECT *
 FROM schools_left FULL OUTER JOIN schools_right
 ON schools_left.id = schools_right.id;
 
--- Listing 6-8: The CROSS JOIN
+-- Listing 6-8: Using CROSS JOIN
 
 SELECT *
 FROM schools_left CROSS JOIN schools_right;

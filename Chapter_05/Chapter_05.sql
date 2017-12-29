@@ -37,7 +37,7 @@ SELECT geo_name,
        state_us_abbreviation AS "st",
        p0010001 AS "Total Population",
        p0010003 AS "White Alone",
-       p0010004 AS "Black Alone",
+       p0010004 AS "Black or African American Alone",
        p0010005 AS "Am Indian/Alaska Native Alone",
        p0010006 AS "Asian Alone",
        p0010007 AS "Native Hawaiian and Other Pacific Islander Alone",
@@ -54,7 +54,7 @@ SELECT geo_name,
        p0010003 + p0010004 AS "Total White and Black"
 FROM us_counties_2010;
 
--- Listing 5-6: Check Census data totals
+-- Listing 5-6: Checking Census data totals
 
 SELECT geo_name,
        state_us_abbreviation AS "st",
@@ -66,8 +66,8 @@ SELECT geo_name,
 FROM us_counties_2010
 ORDER BY "Difference" DESC;
 
--- Listing 5-7: Calculate percent of population that is Asian by county
--- (percent of the whole)
+-- Listing 5-7: Calculating the percent of the population that is 
+-- Asian by county (percent of the whole)
 
 SELECT geo_name,
        state_us_abbreviation AS "st",
@@ -136,6 +136,7 @@ SELECT percentile_cont(array[.25,.5,.75])
        WITHIN GROUP (ORDER BY p0010001) AS "quartiles"
 FROM us_counties_2010;
 
+-- Extra:
 -- quintiles
 SELECT percentile_cont(array[.2,.4,.6,.8])
        WITHIN GROUP (ORDER BY p0010001) AS "quintiles"
