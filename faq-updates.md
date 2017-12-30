@@ -2,4 +2,8 @@
 
 ### FAQ and Updates
 
-To come.
+Updates and key info.
+
+#### GUI Shapefile Loader for macOS
+
+Info TK

@@ -775,12 +775,12 @@ ORDER BY square_miles DESC;
 -- Answer: Just three states are bigger than Yukon-Koyukuk: Alaska (FIPS 02),
 -- Texas (48), and California (06).
 
--- 2. Using ST_Distance(), find how many miles separate these two farmers’ markets:
--- The Oakleaf Greenmarket (9700 Argyle Forest Blvd, Jacksonville, Florida) and
+-- 2. Using ST_Distance(), determine how many miles separate these two farmers’ markets:
+-- the Oakleaf Greenmarket (9700 Argyle Forest Blvd, Jacksonville, Florida) and
 -- Columbia Farmers Market (1701 West Ash Street, Columbia, Missouri). You’ll
 -- need to first find the coordinates for both in the farmers_markets table.
--- Tip: You can also write this query using the Common Table Expression syntax from
--- Chapter 12.
+-- Tip: you can also write this query using the Common Table Expression syntax
+-- you learned in Chapter 12.
 
 -- Answer:
 
