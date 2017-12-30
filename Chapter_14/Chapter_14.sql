@@ -8,6 +8,7 @@
 -- Listing 14-1: Creating a gis_analysis database
 
 CREATE DATABASE gis_analysis;
+-- Note: Switch to this new database before continuing the examples
 
 -- Listing 14-2: Loading the PostGIS extension
 
@@ -15,7 +16,7 @@ CREATE EXTENSION postgis;
 
 SELECT postgis_full_version(); -- shows PostGIS version
 
--- Listing 14-3: Retrieve the well-known text for SRID 4326
+-- Listing 14-3: Retrieving the well-known text for SRID 4326
 
 SELECT srtext
 FROM spatial_ref_sys
@@ -23,26 +24,26 @@ WHERE srid = 4326;
 
 -- Listing 14-4: Using ST_GeomFromText() to create spatial objects
 
-SELECT ST_GeomFromText('POINT(-74.9233606 42.699992)', 4326);
+SELECT ST_GeomFromText('POINT(-74.9 42.7)', 4326);
 
-SELECT ST_GeomFromText('LINESTRING(-105.908272 35.666923,
-                                   -105.908331 35.666976)', 4326);
+SELECT ST_GeomFromText('LINESTRING(-74.9 42.7, -75.1 42.7)', 4326);
 
-SELECT ST_GeomFromText('POLYGON((-74.92 42.70, -75.06 42.70,
-                                 -75.07 42.64, -74.92 42.70))', 4326);
+SELECT ST_GeomFromText('POLYGON((-74.9 42.7, -75.1 42.7,
+                                 -75.1 42.6, -74.9 42.7))', 4326);
 
 SELECT ST_GeomFromText('MULTIPOINT (-74.9 42.7, -75.1 42.7)', 4326);
 
-SELECT ST_GeomFromText('MULTILINESTRING((-74.9 42.7, -75.1 42.7),
-                                        (-76.2 43.3, -76.4 43.1))', 4326);
+SELECT ST_GeomFromText('MULTILINESTRING((-76.27 43.1, -76.06 43.08),
+                                        (-76.2 43.3, -76.2 43.4, -76.4 43.1))',
+                                         4326);
 
 SELECT ST_GeomFromText('MULTIPOLYGON((
-                                      (-74.92 42.70, -75.06 42.706,
-                                       -75.07 42.64, -74.92 42.70),
-                                      (-75.01 42.66, -75.0 42.64,
-                                       -74.98 42.64, -74.98 42.66,
-                                       -75.01 42.66)
-                                      ))', 4326);
+                                     (-74.92 42.7, -75.06 42.71,
+                                      -75.07 42.64, -74.92 42.7),
+                                     (-75.0 42.66, -75.0 42.64,
+                                      -74.98 42.64, -74.98 42.66,
+                                      -75.0 42.66)
+                                    ))', 4326);
 
 -- Listing 14-5: Using ST_GeogFromText() to create spatial objects
 
@@ -63,20 +64,20 @@ SELECT ST_MakeLine(ST_MakePoint(-74.92, 42.69), ST_MakePoint(-74.12, 42.45));
 
 -- Listing 14-8: Functions specific to making Polygons
 
-SELECT ST_PolygonFromText('POLYGON((-74.92 42.70, -75.06 42.706, -75.07 42.64,
-                                    -74.92 42.70))', 4326);
+SELECT ST_PolygonFromText('POLYGON((-74.9 42.7, -75.1 42.7,
+                                    -75.1 42.6, -74.9 42.7))', 4326);
 
 SELECT ST_MakePolygon(
-           ST_GeomFromText('LINESTRING(-74.92 42.70, -75.06 42.71,
-                                       -75.07 42.64, -74.92 42.70)', 4326));
+           ST_GeomFromText('LINESTRING(-74.92 42.7, -75.06 42.71,
+                                       -75.07 42.64, -74.92 42.7)', 4326));
 
 SELECT ST_MPolyFromText('MULTIPOLYGON((
-                                       (-74.92 42.70, -75.06 42.706,
-                                        -75.07 42.64, -74.92 42.70),
-                                       (-75.0  42.66, -75.0 42.64,
+                                       (-74.92 42.7, -75.06 42.71,
+                                        -75.07 42.64, -74.92 42.7),
+                                       (-75.0 42.66, -75.0 42.64,
                                         -74.98 42.64, -74.98 42.66,
-                                        -75.0  42.66
-                                     )))', 4326);
+                                        -75.0 42.66)
+                                      ))', 4326);
 
 
 -- ANALYZING FARMERS MARKETS DATA
