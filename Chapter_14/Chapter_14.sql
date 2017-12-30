@@ -114,7 +114,9 @@ ALTER TABLE farmers_markets ADD COLUMN geog_point geography(POINT,4326);
 
 -- Now fill that column with the lat/long
 UPDATE farmers_markets
-SET geog_point = ST_SetSRID(ST_MakePoint(longitude,latitude),4326)::geography;
+SET geog_point = ST_SetSRID(
+                            ST_MakePoint(longitude,latitude),4326
+                           )::geography;
 
 -- Add a GiST index
 CREATE INDEX market_pts_idx ON farmers_markets USING GIST (geog_point);
@@ -139,7 +141,8 @@ WHERE ST_DWithin(geog_point,
                  10000)
 ORDER BY market_name;
 
--- Listing 14-12: Using ST_Distance() for the miles between Yankee Stadium and Citi Field (Mets)
+-- Listing 14-12: Using ST_Distance() to calculate the miles between Yankee Stadium
+-- and Citi Field (Mets)
 -- 1609.344 meters/mile
 
 SELECT ST_Distance(
@@ -161,8 +164,6 @@ WHERE ST_DWithin(geog_point,
                  ST_GeogFromText('POINT(-93.6204386 41.5853202)'),
                  10000)
 ORDER BY miles_from_dt ASC;
-
-
 
 
 -- WORKING WITH SHAPEFILES
