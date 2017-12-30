@@ -47,7 +47,7 @@ SELECT ST_GeomFromText('MULTIPOLYGON((
 
 -- Listing 14-5: Using ST_GeogFromText() to create spatial objects
 
-SELECT 
+SELECT
 ST_GeogFromText('SRID=4326;MULTIPOINT(-74.9 42.7, -75.1 42.7, -74.924 42.6)');
 
 -- Listing 14-6: Functions specific to making points
@@ -88,16 +88,16 @@ SELECT ST_MPolyFromText('MULTIPOLYGON((
 -- Listing 14-9: Create and load the farmers_markets table
 
 CREATE TABLE farmers_markets (
-	fmid bigint PRIMARY KEY,
-	market_name varchar(100) NOT NULL,
-	street varchar(180),
-	city varchar(60),
-	county varchar(25),
-	st varchar(20) NOT NULL,
-	zip varchar(10),
-	longitude numeric(10,7),
+    fmid bigint PRIMARY KEY,
+    market_name varchar(100) NOT NULL,
+    street varchar(180),
+    city varchar(60),
+    county varchar(25),
+    st varchar(20) NOT NULL,
+    zip varchar(10),
+    longitude numeric(10,7),
     latitude numeric(10,7),
-	organic varchar(1) NOT NULL
+    organic varchar(1) NOT NULL
 );
 
 COPY farmers_markets
@@ -151,7 +151,7 @@ SELECT ST_Distance(
 
 SELECT market_name,
        city,
-       round( 
+       round(
            (ST_Distance(geog_point,
                         ST_GeogFromText('POINT(-93.6204386 41.5853202)')
                         ) / 1609.344)::numeric(8,5), 2
