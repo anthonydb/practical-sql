@@ -828,7 +828,7 @@ ORDER BY census.statefp10, census.name10;
 --------------
 
 -- 1. Create a view that displays the number of New York City taxi trips per
--- hour. Use the taxi data from Chapter 11 and the query in Listing 11-8.
+-- hour. Use the taxi data in Chapter 11 and the query in Listing 11-8.
 
 CREATE VIEW nyc_taxi_trips_per_hour AS
     SELECT
@@ -859,8 +859,12 @@ $$ LANGUAGE plpgsql;
 
 SELECT rate_per_thousand(50, 11000, 2);
 
--- 3. Describe the steps needed to implement a trigger on a table and how the
--- steps relate to each other.
+-- 3. In Chapter 9, you worked with the meat_poultry_egg_inspect table that
+-- listed food processing facilities. Write a trigger that automatically adds an
+-- inspection date each time you insert a new facility into the table. Use the
+-- inspection_date column added in Listing 9-19, and set the date to be six
+-- months from the current date. You should be able to describe the steps needed
+-- to implement a trigger and how the steps relate to each other.
 
 ALTER TABLE meat_poultry_egg_inspect ADD COLUMN inspection_date date;
 
@@ -873,14 +877,11 @@ CREATE OR REPLACE FUNCTION add_inspection_date()
     END;
 $$ LANGUAGE plpgsql;
 
--- Listing 15-19: Creating the grades_update trigger
-
 CREATE TRIGGER inspection_date_update
   AFTER INSERT
   ON meat_poultry_egg_inspect
   FOR EACH ROW
   EXECUTE PROCEDURE add_inspection_date();
-
 
 INSERT INTO meat_poultry_egg_inspect(est_number, company)
 VALUES ('test123', 'testcompany');

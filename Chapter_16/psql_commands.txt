@@ -76,5 +76,11 @@ SELECT * FROM grades;
 
 -- Loading shapefiles into PostgreSQL
 
+-- For the US Census county shapefile in Chapter 14:
 shp2pgsql -I -s 4269 -W LATIN1 tl_2010_us_county10.shp us_counties_2010_shp | psql -d gis_analysis -U postgres
+
+-- For the Santa Fe roads and waterways shapfiles in Chapter 14:
+shp2pgsql -I -s 4269 tl_2016_35049_roads.shp santafe_roads_2016 | psql -d gis_analysis -U postgres
+shp2pgsql -I -s 4269 tl_2016_35049_linearwater.shp santafe_linearwater_2016 | psql -d gis_analysis -U postgres
+
 

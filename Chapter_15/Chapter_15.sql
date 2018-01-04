@@ -211,8 +211,6 @@ CREATE TABLE grades_history (
 PRIMARY KEY (student_id, course_id, change_time)
 );  
 
-SELECT * FROM grades;
-
 -- Listing 15-18: Create the record_if_grade_changed() function
 
 CREATE OR REPLACE FUNCTION record_if_grade_changed()
@@ -311,9 +309,9 @@ CREATE TRIGGER temperature_insert
 
 INSERT INTO temperature_test (station_name, observation_date, max_temp, min_temp)
 VALUES
-    ('Rochester', '1/19/2017', 10, -3),
-    ('Rochester', '3/20/2017', 28, 19),
-    ('Rochester', '5/2/2017', 65, 42),
-    ('Rochester', '8/9/2017', 93, 74);
+    ('North Station', '1/19/2019', 10, -3),
+    ('North Station', '3/20/2019', 28, 19),
+    ('North Station', '5/2/2019', 65, 42),
+    ('North Station', '8/9/2019', 93, 74);
 
 SELECT * FROM temperature_test;
