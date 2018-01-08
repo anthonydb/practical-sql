@@ -211,7 +211,7 @@ ORDER BY geo_name;
 
 SELECT geo_name
 FROM us_counties_2010
-WHERE geo_name ~* '.+ash.+' AND geo_name !~*'Wash.+'
+WHERE geo_name ~* '.+ash.+' AND geo_name !~ 'Wash.+'
 ORDER BY geo_name;
 
 
@@ -229,6 +229,11 @@ SELECT array_length(regexp_split_to_array('Phil Mike Tony Steve', ' '), 1);
 
 
 -- FULL TEXT SEARCH
+
+-- Full-text search operators:
+-- & (AND)
+-- | (OR)
+-- ! (NOT)
 
 -- Listing 13-15: Converting text to tsvector data
 
@@ -267,17 +272,13 @@ WITH (FORMAT CSV, DELIMITER '|', HEADER OFF, QUOTE '@');
 SELECT * FROM president_speeches;
 
 -- Listing 13-19: Converting speeches to tsvector in the search_speech_text column
+
 UPDATE president_speeches
 SET search_speech_text = to_tsvector('english', speech_text);
 
 -- Listing 13-20: Creating a GIN index for text search
+
 CREATE INDEX search_idx ON president_speeches USING gin(search_speech_text);
-
-
--- Full-text search operators:
--- & (AND)
--- | (OR)
--- ! (NOT)
 
 -- Listing 13-21: Finding speeches containing the word "Vietnam"
 
@@ -353,7 +354,8 @@ LIMIT 5;
 SELECT president,
        speech_date,
        ts_rank(search_speech_text,
-               to_tsquery('war & security & threat & enemy'), 2)::numeric AS score
+               to_tsquery('war & security & threat & enemy'), 2)::numeric 
+               AS score
 FROM president_speeches
 WHERE search_speech_text @@ to_tsquery('war & security & threat & enemy')
 ORDER BY score DESC
