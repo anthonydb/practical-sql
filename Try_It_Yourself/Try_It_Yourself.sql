@@ -133,7 +133,7 @@ COPY (
     FROM us_counties_2010 ORDER BY HU100 DESC LIMIT 20
      )
 TO 'C:\YourDirectory\us_counties_mill_export.txt'
-WITH (FORMAT CSV, HEADER)
+WITH (FORMAT CSV, HEADER);
 
 -- 3. Imagine you're importing a file that contains a field with these values:
       -- 17519.668
