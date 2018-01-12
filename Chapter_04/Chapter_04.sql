@@ -188,14 +188,14 @@ SELECT * FROM supervisor_salaries LIMIT 2;
 
 COPY us_counties_2010
 TO 'C:\YourDirectory\us_counties_export.txt'
-WITH (FORMAT CSV, HEADER, DELIMITER '|')
+WITH (FORMAT CSV, HEADER, DELIMITER '|');
 
 
 -- Listing 4-8: Exporting selected columns from a table with COPY
 
 COPY us_counties_2010 (geo_name, internal_point_lat, internal_point_lon)
 TO 'C:\YourDirectory\us_counties_latlon_export.txt'
-WITH (FORMAT CSV, HEADER, DELIMITER '|')
+WITH (FORMAT CSV, HEADER, DELIMITER '|');
 
 -- Listing 4-9: Exporting query results with COPY
 
@@ -205,4 +205,4 @@ COPY (
     WHERE geo_name ILIKE '%mill%'
      )
 TO 'C:\YourDirectory\us_counties_mill_export.txt'
-WITH (FORMAT CSV, HEADER, DELIMITER '|')
+WITH (FORMAT CSV, HEADER, DELIMITER '|');

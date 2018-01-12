@@ -85,6 +85,7 @@ WHERE emp_id = 5;
 
 SELECT * FROM employees_tax_dept;
 
+-- Bonus: This will fail because the salary column is not in the view
 UPDATE employees_tax_dept
 SET salary = 100000
 WHERE emp_id = 5;
@@ -184,7 +185,7 @@ LIMIT 5;
 
 -- TRIGGERS
 
--- Listing 15-17: Create the grades and grades_history tables
+-- Listing 15-17: Creating the grades and grades_history tables
 
 CREATE TABLE grades (
     student_id bigint,
@@ -211,7 +212,7 @@ CREATE TABLE grades_history (
 PRIMARY KEY (student_id, course_id, change_time)
 );  
 
--- Listing 15-18: Create the record_if_grade_changed() function
+-- Listing 15-18: Creating the record_if_grade_changed() function
 
 CREATE OR REPLACE FUNCTION record_if_grade_changed()
     RETURNS trigger AS
@@ -247,8 +248,11 @@ CREATE TRIGGER grades_update
 
 -- Listing 15-20: Testing the grades_update trigger
 
--- There are 0 records in the history
+-- Initially, there should be 0 records in the history
 SELECT * FROM grades_history;
+
+-- Check the grades
+SELECT * FROM grades;
 
 -- Update a grade
 UPDATE grades
@@ -297,7 +301,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Listing 15-23: Creating the temperature_update trigger
+-- Listing 15-23: Creating the temperature_insert trigger
 
 CREATE TRIGGER temperature_insert
     BEFORE INSERT
