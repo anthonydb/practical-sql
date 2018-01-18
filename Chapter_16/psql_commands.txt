@@ -58,21 +58,25 @@ CREATE TABLE state_regions (
 
 -- Listing 16-8: Saving query output to a file
 
+-- Enter psql settings
 \a \f , \pset footer
-Output format is unaligned.
-Field separator is ",".
-Default footer is off.
 
+-- This will be the query
 SELECT * FROM grades;
-student_id,course_id,course,grade
-1,2,English 11B,D
-1,3,World History 11B,C
-1,4,Trig 2,B
-1,1,Biology 2,C
 
-\o 'C:\YourDirectory\query_output.csv'
+-- Set psql to output results
+-- Note that Windows users must suppply forward slashes for
+-- this command, which is opposite of normal use.
+\o 'C:/YourDirectory/query_output.csv'
 
+-- Run the query and output
 SELECT * FROM grades;
+
+
+-- createdb: Create a database named box_office
+
+createdb -U postgres -e box_office
+
 
 -- Loading shapefiles into PostgreSQL
 
