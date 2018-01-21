@@ -194,12 +194,13 @@ FROM pls_fy2014_pupld14a;
 SELECT count(DISTINCT libname)
 FROM pls_fy2014_pupld14a;
 
--- for now, find dupe libnames
+-- Bonus: find duplicate libnames
 SELECT libname, count(libname)
 FROM pls_fy2014_pupld14a
 GROUP BY libname
 ORDER BY count(libname) DESC;
 
+-- Bonus: see location of every Oxford Public Library
 SELECT libname, city, stabr
 FROM pls_fy2014_pupld14a
 WHERE libname = 'OXFORD PUBLIC LIBRARY';
@@ -210,17 +211,17 @@ FROM pls_fy2014_pupld14a;
 
 -- Listing 8-7: Using GROUP BY on the stabr column
 
+-- There are 56 in 2014.
 SELECT stabr
 FROM pls_fy2014_pupld14a
 GROUP BY stabr
 ORDER BY stabr;
--- there are 56 in 2014.
 
+-- Bonus: there are 55 in 2009.
 SELECT stabr
 FROM pls_fy2009_pupld09a
 GROUP BY stabr
 ORDER BY stabr;
--- there are 55 in 2009.
 
 -- Listing 8-8: Using GROUP BY on the city and stabr columns
 
@@ -229,7 +230,7 @@ FROM pls_fy2014_pupld14a
 GROUP BY city, stabr
 ORDER BY city, stabr;
 
--- We can count some of the combos
+-- Bonus: We can count some of the combos
 SELECT city, stabr, count(*)
 FROM pls_fy2014_pupld14a
 GROUP BY city, stabr
