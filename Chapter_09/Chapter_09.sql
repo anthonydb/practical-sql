@@ -109,7 +109,7 @@ ORDER BY st;
 -- Listing 9-11: Updating the st column for three establishments
 
 UPDATE meat_poultry_egg_inspect
-SET st = 'NE'
+SET st = 'MN'
 WHERE est_number = 'V18677A';
 
 UPDATE meat_poultry_egg_inspect
