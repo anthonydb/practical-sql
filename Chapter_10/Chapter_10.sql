@@ -19,7 +19,7 @@ CREATE TABLE acs_2011_2015_stats (
 );
 
 COPY acs_2011_2015_stats
-FROM 'C:\YourDirectory\acs_2011_2015_5yr.csv'
+FROM 'C:\YourDirectory\acs_2011_2015_stats.csv'
 WITH (FORMAT CSV, HEADER, DELIMITER ',');
 
 SELECT * FROM acs_2011_2015_stats;
