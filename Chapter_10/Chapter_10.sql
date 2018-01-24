@@ -24,14 +24,14 @@ WITH (FORMAT CSV, HEADER, DELIMITER ',');
 
 SELECT * FROM acs_2011_2015_stats;
 
--- Listing 10-2: Using corr() to measure the relationship between education and
--- income
+-- Listing 10-2: Using corr(Y, X) to measure the relationship between 
+-- education and income
 
 SELECT corr(median_hh_income, pct_bachelors_higher)
     AS bachelors_income_r
 FROM acs_2011_2015_stats;
 
--- Listing 10-3: Using corr() on additional variables
+-- Listing 10-3: Using corr(Y, X) on additional variables
 
 SELECT
     round(
@@ -63,7 +63,7 @@ SELECT round(
         ) AS r_squared
 FROM acs_2011_2015_stats;
 
--- Additional stats functions. Bonus!
+-- Bonus: Additional stats functions.
 -- Variance
 SELECT var_pop(median_hh_income)
 FROM acs_2011_2015_stats;
@@ -102,7 +102,7 @@ SELECT
     dense_rank() OVER (ORDER BY widget_output DESC)
 FROM widget_companies;
 
--- Listing 10-7: Apply rank() within groups using PARTITION BY
+-- Listing 10-7: Applying rank() within groups using PARTITION BY
 
 CREATE TABLE store_sales (
     store varchar(30),
