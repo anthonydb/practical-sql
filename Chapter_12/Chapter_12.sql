@@ -89,7 +89,7 @@ SELECT geo_name,
                    FROM us_counties_2010) AS diff_from_median
 FROM us_counties_2010
 WHERE (p0010001 - (SELECT percentile_cont(.5) WITHIN GROUP (ORDER BY p0010001)
-                  FROM us_counties_2010))
+                   FROM us_counties_2010))
        BETWEEN -1000 AND 1000;
 
 -- Listing 12-7: Using a simple CTE to find large counties
@@ -107,7 +107,7 @@ FROM large_counties
 GROUP BY st
 ORDER BY count(*) DESC;
 
--- Could also be done with this:
+-- Bonus: You can also write this query as:
 SELECT state_us_abbreviation, count(*)
 FROM us_counties_2010
 WHERE p0010001 >= 100000

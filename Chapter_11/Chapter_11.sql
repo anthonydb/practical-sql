@@ -19,6 +19,10 @@ SELECT
     date_part('quarter', '2019-12-01 18:37:12 EST'::timestamptz) AS "quarter",
     date_part('epoch', '2019-12-01 18:37:12 EST'::timestamptz) AS "epoch";
 
+-- Bonus: Using the SQL-standard extract() for similar datetime parsing:
+
+SELECT extract('year' from '2019-12-01 18:37:12 EST'::timestamptz) AS "year";
+
 -- Listing 11-2: Three functions for making datetimes from components
 
 -- make a date
@@ -57,9 +61,7 @@ SELECT * FROM current_time_example;
 
 -- Listing 11-4: Showing your PostgreSQL server's default time zone
 
-SHOW timezone;
--- Note: You can see all run-time defaults with SHOW ALL;
-
+SHOW timezone; -- Note: You can see all run-time defaults with SHOW ALL;
 
 -- Listing 11-5: Showing time zone abbreviations and names
 

@@ -37,19 +37,19 @@ SELECT replace('bat', 'b', 'c');
 -- Table 13-2: Regular Expression Matching Examples
 
 -- Any character one or more times
-SELECT substring('The game starts at 7 p.m. on May 2, 2017.' from '.+');
+SELECT substring('The game starts at 7 p.m. on May 2, 2018.' from '.+');
 -- One or two digits followed by a space and p.m.
-SELECT substring('The game starts at 7 p.m. on May 2, 2017.' from '\d{1,2} (?:a.m.|p.m.)');
+SELECT substring('The game starts at 7 p.m. on May 2, 2018.' from '\d{1,2} (?:a.m.|p.m.)');
 -- One or more word characters at the start
-SELECT substring('The game starts at 7 p.m. on May 2, 2017.' from '^\w+');
+SELECT substring('The game starts at 7 p.m. on May 2, 2018.' from '^\w+');
 -- One or more word characters followed by any character at the end.
-SELECT substring('The game starts at 7 p.m. on May 2, 2017.' from '\w+.$');
+SELECT substring('The game starts at 7 p.m. on May 2, 2018.' from '\w+.$');
 -- The words May or June
-SELECT substring('The game starts at 7 p.m. on May 2, 2017.' from 'May|June');
+SELECT substring('The game starts at 7 p.m. on May 2, 2018.' from 'May|June');
 -- Four digits
-SELECT substring('The game starts at 7 p.m. on May 2, 2017.' from '\d{4}');
+SELECT substring('The game starts at 7 p.m. on May 2, 2018.' from '\d{4}');
 -- May followed by a space, digit, comma, space, and four digits.
-SELECT substring('The game starts at 7 p.m. on May 2, 2017.' from 'May \d, \d{4}');
+SELECT substring('The game starts at 7 p.m. on May 2, 2018.' from 'May \d, \d{4}');
 
 
 -- Turning Text to Data with Regular Expression Functions
