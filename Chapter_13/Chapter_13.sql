@@ -21,10 +21,10 @@ SELECT length(' Pat ');
 SELECT position(', ' in 'Tan, Bella');
 
 -- Removing characters
-SELECT trim(' Pat ');
-SELECT char_length(trim(' Pat ')); -- note the length change
 SELECT trim('s' from 'socks');
 SELECT trim(trailing 's' from 'socks');
+SELECT trim(' Pat ');
+SELECT char_length(trim(' Pat ')); -- note the length change
 SELECT ltrim('socks', 's');
 SELECT rtrim('socks', 's');
 
@@ -184,7 +184,7 @@ SET date_1 =
               ||' US/Eastern'
           )::timestamptz 
     -- if neither of those conditions exist, provide a NULL
-         ELSE NULL 
+        ELSE NULL 
     END,
     street = (regexp_match(original_text, 'hrs.\n(\d+ .+(?:Sq.|Plz.|Dr.|Ter.|Rd.))'))[1],
     city = (regexp_match(original_text,
@@ -192,7 +192,6 @@ SET date_1 =
     crime_type = (regexp_match(original_text, '\n(?:\w+ \w+|\w+)\n(.*):'))[1],
     description = (regexp_match(original_text, ':\s(.+)(?:C0|SO)'))[1],
     case_number = (regexp_match(original_text, '(?:C0|SO)[0-9]+'))[1];
-
 
 -- Listing 13-11: Viewing selected crime data
 
@@ -326,7 +325,7 @@ SELECT president,
 FROM president_speeches
 WHERE search_speech_text @@ to_tsquery('military <-> defense');
 
--- Example with a distance of 2:
+-- Bonus: Example with a distance of 2:
 SELECT president,
        speech_date,
        ts_headline(speech_text, to_tsquery('military <2> defense'),

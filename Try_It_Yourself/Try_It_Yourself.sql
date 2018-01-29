@@ -703,10 +703,10 @@ AS (flavor varchar(20),
 --------------
 
 -- 1. The style guide of a publishing company you're writing for wants you to
--- avoid commas before suffixes in names. But your author database has several
--- names like Alvarez, Jr. and Williams, Sr. Which functions can you use to
--- remove the comma? Would a regular expression function help? How would you
--- capture just the suffixes to place them into a separate column?
+-- avoid commas before suffixes in names. But there are several names like
+-- Alvarez, Jr. and Williams, Sr. in your author database. Which functions can
+-- you use to remove the comma? Would a regular expression function help?
+-- How would you capture just the suffixes to place them into a separate column?
 
 -- Answer: You can use either the standard SQL replace() function or the
 -- PostgreSQL regexp_replace() function:
