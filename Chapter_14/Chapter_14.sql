@@ -195,7 +195,7 @@ LIMIT 5;
 SELECT name10,
        statefp10
 FROM us_counties_2010_shp
-WHERE ST_Within('SRID=4269;POINT(-118.3440306 34.0937851)'::geometry, geom);
+WHERE ST_Within('SRID=4269;POINT(-118.3419063 34.0977076)'::geometry, geom);
 
 -- SPATIAL JOINS
 -- SANTA FE WATER AND ROAD DATA
