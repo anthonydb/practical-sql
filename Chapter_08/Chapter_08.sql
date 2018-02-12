@@ -250,12 +250,13 @@ FROM pls_fy2014_pupld14a
 GROUP BY stabr, stataddr
 ORDER BY stabr ASC, count(*) DESC;
 
--- Listing 8-11: Using sum() to total visits to libraries in 2014 and 2009
+-- Listing 8-11: Using the sum() aggregate function to total visits to
+-- libraries in 2014 and 2009
 
 -- 2014
 SELECT sum(visits) AS visits_2014
 FROM pls_fy2014_pupld14a
-WHERE visits >= 0; 
+WHERE visits >= 0;
 
 -- 2009
 SELECT sum(visits) AS visits_2009

@@ -38,7 +38,7 @@ ORDER BY school ASC, hire_date DESC;
 
 -- Listing 2-7: Filtering rows using WHERE
 
-SELECT first_name, last_name, school
+SELECT last_name, school, hire_date
 FROM teachers
 WHERE school = 'Myers Middle School';
 
