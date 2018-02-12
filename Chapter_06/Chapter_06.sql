@@ -20,7 +20,7 @@ CREATE TABLE employees (
     first_name varchar(100),
     last_name varchar(100),
     salary integer,
-    dept_id integer,
+    dept_id integer REFERENCES departments (dept_id),
     CONSTRAINT emp_key PRIMARY KEY (emp_id),
     CONSTRAINT emp_dept_unique UNIQUE (emp_id, dept_id)
 );

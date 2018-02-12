@@ -31,6 +31,9 @@ SELECT 4 !;      -- factorial
 SELECT 7 + 8 * 9; 	-- answer: 79
 SELECT (7 + 8) * 9;	-- answer: 135
 
+SELECT 3 ^ 3 - 1;   -- answer: 26
+SELECT 3 ^ (3 - 1); -- answer: 9
+
 -- Listing 5-4: Selecting Census population columns by race with aliases
 
 SELECT geo_name,
