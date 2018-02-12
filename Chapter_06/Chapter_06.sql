@@ -74,6 +74,12 @@ SELECT *
 FROM schools_left JOIN schools_right
 ON schools_left.id = schools_right.id;
 
+-- Bonus: Also can be specified as INNER JOIN
+
+SELECT *
+FROM schools_left INNER JOIN schools_right
+ON schools_left.id = schools_right.id;
+
 -- Listing 6-5: Using LEFT JOIN
 
 SELECT *
@@ -85,7 +91,6 @@ ON schools_left.id = schools_right.id;
 SELECT *
 FROM schools_left RIGHT JOIN schools_right
 ON schools_left.id = schools_right.id;
-
 
 -- Listing 6-7: Using FULL OUTER JOIN
 
