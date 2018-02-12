@@ -89,7 +89,7 @@ WHERE school = 'Myers Middle School'
 SELECT *
 FROM teachers
 WHERE last_name = 'Cole'
-      OR last_name ='Bush';
+      OR last_name = 'Bush';
 
 SELECT *
 FROM teachers
