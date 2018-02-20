@@ -16,6 +16,7 @@
 -- statements for each table that include some of the columns you need. Why did
 -- you include the columns you chose?
 
+-- Answer (yours will vary):
 CREATE TABLE animal_types (
    animal_type_id bigserial,
    common_name varchar(100),
@@ -36,9 +37,10 @@ CREATE TABLE menagerie (
 -- 2. Now create INSERT statements to load sample data into the tables.
 -- How can you view the data via the pgAdmin tool?
 
+-- Answer (yours will vary):
 INSERT INTO animal_types (common_name, scientific_name, conservation_status)
 VALUES ('Bengal Tiger', 'Panthera tigris tigris', 'Endangered'),
-      ('Arctic Wolf', 'Canis lupus arctos', 'Least Concern');
+       ('Arctic Wolf', 'Canis lupus arctos', 'Least Concern');
 -- source: https://www.worldwildlife.org/species/directory?direction=desc&sort=extinction_status
 
 INSERT INTO menagerie (animal_type_id, date_acquired, gender, acquired_from, name, notes)
@@ -46,12 +48,12 @@ VALUES
 (1, '3/12/1996', 'F', 'Dhaka Zoo', 'Ariel', 'Healthy coat at last exam.'),
 (2, '9/30/2000', 'F', 'National Zoo', 'Freddy', 'Strong appetite.');
 
-
--- 3. Create an additional INSERT statement for one of your tables. On purpose,
+-- Create an additional INSERT statement for one of your tables. On purpose,
 -- leave out one of the required commas separating the entries in the VALUES
 -- clause of the query. What is the error message? Does it help you find the
 -- error in the code?
 
+-- Answer: In this case, the error message points to the missing comma.
 INSERT INTO animal_types (common_name, scientific_name, conservation_status)
 VALUES ('Javan Rhino', 'Rhinoceros sondaicus' 'Critically Endangered');
 
@@ -59,16 +61,19 @@ VALUES ('Javan Rhino', 'Rhinoceros sondaicus' 'Critically Endangered');
 -- Chapter 2
 --------------
 
--- 1. Write a query that lists the schools in alphabetical order along
+-- 1. The school district superintendent asks for a list of teachers in each
+-- school. Write a query that lists the schools in alphabetical order along
 -- with teachers ordered by last name A-Z.
 
+-- Answer:
 SELECT school, first_name, last_name
 FROM teachers
 ORDER BY school, last_name;
 
--- 2. Find the one teacher whose first name both starts with the letter
--- 'S' and who earns more than $40,000.
+-- 2. Write a query that finds the one teacher whose first name starts 
+-- with the letter 'S' and who earns more than $40,000.
 
+-- Answer:
 SELECT first_name, last_name, school, salary
 FROM teachers
 WHERE first_name LIKE 'S%'
@@ -76,6 +81,7 @@ WHERE first_name LIKE 'S%'
 
 -- 3. Rank teachers hired since Jan. 1, 2010, ordered by highest paid to lowest.
 
+-- Answer:
 SELECT last_name, first_name, school, hire_date, salary
 FROM teachers
 WHERE hire_date >= '2010-01-01'
@@ -92,22 +98,32 @@ ORDER BY salary DESC;
 -- a day, what would be an appropriate data type for the mileage column in your
 -- table. Why?
 
-decimal(5,1)
--- Total five digits with one after the decimal, such as 1000.9.
--- Never assume people won't go beyond your assumptions!
+-- Answer:
+numeric(5,1)
+-- numeric(5,1) provides five digits total (the precision) and one digit after
+-- the decimal (the scale). Example: 1000.9.
+-- Even though the question says drivers will never travel more than 999 miles
+-- in a day, it may be wise to consider that assumptions may be broken.
 
 -- 2. In the table listing each driver in your company, what are appropriate
 -- data types for the drivers’ first and last names? Why is it a good idea to
 -- separate first and last names into two columns rather than having one
 -- larger name column?
+
+-- Answer:
 varchar(50)
--- Separating first and last names will allow you later to sort on each.
+-- 50 characters of text is a reasonable length for names, and varchar()
+-- ensures we will not waste space.
+-- Separating first and last names will allow you later to sort on each
+-- independently.
 
 -- 3. Assume you have a text column that includes strings formatted as dates.
 -- One of the strings is written as '4//2017'. What will happen when you try
 -- to convert that string to the timestamp data type?
-SELECT CAST('4//2017' AS timestamp);
--- Returns an error because the string is an invalid date format.
+
+-- Answer: The below operation returns an error because the string is an
+-- invalid date format.
+SELECT CAST('4//2017' AS timestamp with time zone);
 
 
 --------------
@@ -120,7 +136,10 @@ SELECT CAST('4//2017' AS timestamp);
 -- id:movie:actor
 -- 50:#Mission: Impossible#:Tom Cruise
 
-WITH (FORMAT CSV, HEADER, DELIMITER ':', QUOTE '#')
+-- Answer:
+COPY actors
+FROM 'movies.txt'
+WITH (FORMAT CSV, HEADER, DELIMITER ':', QUOTE '#');
 
 -- 2. Using the table us_counties_2010, write SQL to export to CSV the 20
 -- counties in the United States that have the most housing units. Make sure
@@ -128,24 +147,25 @@ WITH (FORMAT CSV, HEADER, DELIMITER ':', QUOTE '#')
 -- Housing units are totaled for each county in the column
 -- housing_unit_count_100_percent.
 
+-- Answer:
 COPY (
     SELECT geo_name, state_us_abbreviation, housing_unit_count_100_percent
-    FROM us_counties_2010 ORDER BY HU100 DESC LIMIT 20
+    FROM us_counties_2010 ORDER BY housing_unit_count_100_percent DESC LIMIT 20
      )
-TO 'C:\YourDirectory\us_counties_mill_export.txt'
+TO 'C:\YourDirectory\us_counties_housing_export.txt'
 WITH (FORMAT CSV, HEADER);
 
--- 3. Imagine you're importing a file that contains a field with these values:
+-- 3. Imagine you're importing a file that contains a column with these values:
       -- 17519.668
       -- 20084.461
       -- 18976.335
--- Will a field in your target table with data type decimal(3,8) work for these
+-- Will a column in your target table with data type numeric(3,8) work for these
 -- values? Why or why not?
 
 -- Answer:
--- No, it won't -- in fact, you won't even be able to create a field with that
+-- No, it won't. In fact, you won't even be able to create a column with that
 -- data type because the precision must be larger than the scale. The correct
--- type is decimal(8,3)
+-- type is numeric(8,3).
 
 
 --------------
@@ -153,42 +173,53 @@ WITH (FORMAT CSV, HEADER);
 --------------
 
 -- 1. Write a SQL statement for calculating the area of a circle whose radius is
--- 5 inches? Do you need parentheses in your calculation? Why or why not?
+-- 5 inches. Do you need parentheses in your calculation? Why or why not?
 
 -- Answer:
+-- (Formula for the area of a circle is: pi * radius squared.)
 SELECT 3.14 * 5 ^ 2;
--- Formula is pi * radius squared
--- You do not need parentheses because exponents and roots take precedence over
--- multiplication.
 
--- 2. Using 2010 Census county data, find the county in New York state that has
+-- Area is 78.5 square inches.
+-- You do not need parentheses because exponents and roots take precedence over
+-- multiplication. However, you could include them for clarity. This produces
+-- the same result:
+SELECT 3.14 * (5 ^ 2);
+
+-- 2. Using the 2010 Census county data, find out which New York state county has
 -- the highest percentage of the population that identified as "American
 -- Indian/Alaska Native Alone." What can you learn about that county from online
--- research that explains the relatively high American Indian population
+-- research that explains the relatively large proportion of American Indian population
 -- compared with other New York counties?
 
 -- Answer:
-SELECT name,
-       STUSAB,
-       (CAST (P0010005 AS DECIMAL(8,1)) / P0010001) * 100 AS "Pct Am Indian/Alaska Native Alone"
-FROM us_counties_2010
-WHERE stusab = 'NY'
-ORDER BY "Pct Am Indian/Alaska Native Alone" DESC;
 -- Franklin County, N.Y., with 7.4%. The county contains the St. Regis Mohawk
--- Reservation.
+-- Reservation. https://en.wikipedia.org/wiki/St._Regis_Mohawk_Reservation
+SELECT geo_name,
+       state_us_abbreviation,
+       p0010001 AS total_population,
+       p0010005 AS american_indian_alaska_native_alone,
+       (CAST (p0010005 AS numeric(8,1)) / p0010001) * 100 
+           AS percent_american_indian_alaska_native_alone
+FROM us_counties_2010
+WHERE state_us_abbreviation = 'NY'
+ORDER BY percent_american_indian_alaska_native_alone DESC;
 
--- 3. Is median county population higher in California or New York?
+
+-- 3. Was the 2010 median county population higher in California or New York?
 
 -- Answer:
-SELECT median(P0010001)
+-- California had a median county population of 179,140.5 in 2010, almost double
+-- that of New York, at 91,301.
+SELECT percentile_cont(.5)
+        WITHIN GROUP (ORDER BY p0010001)
 FROM us_counties_2010
-WHERE stusab = 'NY';
+WHERE state_us_abbreviation = 'NY';
 
-SELECT median(P0010001)
+SELECT percentile_cont(.5)
+        WITHIN GROUP (ORDER BY p0010001)
 FROM us_counties_2010
-WHERE stusab = 'CA';
--- California has a median county population of 179,140.5, almost double that of
--- New York, at 91,301.
+WHERE state_us_abbreviation = 'CA';
+
 
 --------------
 -- Chapter 6
@@ -197,11 +228,13 @@ WHERE stusab = 'CA';
 -- 1. The table us_counties_2010 contains 3,143 rows, and us_counties_2000 has
 -- 3,141. That reflects the ongoing adjustments to county-level geographies that
 -- typically result from government decision making. Using appropriate joins and
--- the NULL value, identify which counties don't exist in both tables.
+-- the NULL value, identify which counties don't exist in both tables. For fun,
+-- search online to  nd out why they’re missing 
 
 -- Answers:
 
--- Exist in 2010 data but not 2000:
+-- Counties that exist in 2010 data but not 2000 include five county equivalents
+-- in Alaska plus Broomfield County, Colorado.
 SELECT c2010.geo_name,
        c2010.state_us_abbreviation,
        c2000.geo_name
@@ -210,7 +243,9 @@ ON c2010.state_fips = c2000.state_fips
    AND c2010.county_fips = c2000.county_fips
 WHERE c2000.geo_name IS NULL;
 
--- Exist in 2000 data but not 2010:
+-- Counties that exist in 2000 data but not 2010 include three county equivalents
+-- in Alaska plus Clifton Forge city, Virginia, which gave up its independent 
+-- city status in 2001:
 SELECT c2010.geo_name,
        c2000.geo_name,
        c2000.state_us_abbreviation
@@ -239,11 +274,12 @@ FROM us_counties_2010 c2010 INNER JOIN us_counties_2000 c2000
 ON c2010.state_fips = c2000.state_fips
    AND c2010.county_fips = c2000.county_fips;
 
-
 -- 3. Which county had the greatest percentage loss of population between 2000
 -- and 2010? Do you have any idea why? Hint: a weather event happened in 2005.
 
--- Answer: St. Bernard Parish, La.
+-- Answer: St. Bernard Parish, La. It and other Louisiana parishes (the county
+-- equivalent name in Louisiana) experienced substantial population loss
+-- following Hurricane Katrina in 2005.
 
 SELECT c2010.geo_name,
        c2010.state_us_abbreviation,
@@ -261,9 +297,14 @@ ORDER BY pct_change ASC;
 -- Chapter 7
 --------------
 
--- Consider the following two tables, part of a database you’re making to keep
+-- Consider the following two tables from a database you’re making to keep
 -- track of your vinyl LP collection. Start by reviewing these CREATE TABLE
--- statements:
+-- statements.
+
+-- The albums table includes information specific to the overall collection
+-- of songs on the disc. The songs table catalogs each track on the album.
+-- Each song has a title and its own artist column, because each song might.
+-- feature its own collection of artists.
 
 CREATE TABLE albums (
     album_id bigserial,
@@ -291,7 +332,7 @@ CREATE TABLE songs (
 
 CREATE TABLE albums (
     album_id bigserial,
-    album_catalog_code varchar(100),
+    album_catalog_code varchar(100) NOT NULL,
     album_title text NOT NULL,
     album_artist text NOT NULL,
     album_release_date date,
@@ -309,28 +350,34 @@ CREATE TABLE songs (
     CONSTRAINT song_id_key PRIMARY KEY (song_id)
 );
 
--- Both tables get a primary key using the surrogate key id values that are
--- auto-generated via serial data types. The songs table references albums
--- via a foreign key constraint. In both tables, the title and artist columns
--- cannot be empty. We assume that every album and song should at minimum have
--- that information. Finally, we place a CHECK constraint on the
--- album_release_date column in albums because it would be likely impossible
--- for us to own an LP made before 1925.
+-- Answers:
+-- a) Both tables get a primary key using surrogate key id values that are
+-- auto-generated via serial data types. 
+
+-- b) The songs table references albums via a foreign key constraint.
+
+-- c) In both tables, the title and artist columns cannot be empty, which
+-- is specified via a NOT NULL constraint. We assume that every album and
+-- song should at minimum have that information.
+
+-- d) In albums, the album_release_date column has a CHECK constraint 
+-- because it would be likely impossible for us to own an LP made before 1925.
 
 
 -- 2. Instead of using album_id as a surrogate key for your primary key, are
 -- there any columns in albums that could be useful as a natural key? What would
 -- you have to know to decide?
 
+-- Answer:
 -- We could consider the album_catalog_code. We would have to answer yes to
 -- these questions:
--- -- Is it going to be unique across all albums released by all companies?
--- -- Will we always have one?
--- -- Will it never change for a particular album?
+-- - Is it going to be unique across all albums released by all companies?
+-- - Will we always have one?
 
 
 -- 3. To speed up queries, which columns are good candidates for indexes?
 
+-- Answer:
 -- Primary key columns get indexes by default, but we should add an index
 -- to the album_id foreign key column in the songs table because we'll use
 -- it in table joins. It's likely that we'll query these tables to search
@@ -350,9 +397,8 @@ CREATE TABLE songs (
 -- per year). Modify the code in Listing 8-13 to calculate the percent change in
 -- the sum of each column over time. Watch out for negative values!
 
-
--- sum() gpterms (computer terminals) by state, add pct. change, and sort
-
+-- Answer:
+-- Use sum() on gpterms (computer terminals) by state, find percent change, and sort
 SELECT pls14.stabr,
        sum(pls14.gpterms) AS gpterms_2014,
        sum(pls09.gpterms) AS gpterms_2009,
@@ -364,14 +410,13 @@ WHERE pls14.gpterms >= 0 AND pls09.gpterms >= 0
 GROUP BY pls14.stabr
 ORDER BY pct_change DESC;
 
--- sum() pitusr (uses of public internet computers per year) by state, add
--- pct. change, and sort
-
+-- Use sum() on pitusr (uses of public internet computers per year) by state, add
+-- percent change, and sort
 SELECT pls14.stabr,
-       sum(pls14.pitusr) AS "pitusr_2014",
-       sum(pls09.pitusr) AS "pitusr_2009",
+       sum(pls14.pitusr) AS pitusr_2014,
+       sum(pls09.pitusr) AS pitusr_2009,
        round( (CAST(sum(pls14.pitusr) AS decimal(10,1)) - sum(pls09.pitusr)) /
-                    sum(pls09.pitusr) * 100, 2 ) AS "pct_change"
+                    sum(pls09.pitusr) * 100, 2 ) AS pct_change
 FROM pls_fy2014_pupld14a pls14 JOIN pls_fy2009_pupld09a pls09
 ON pls14.fscskey = pls09.fscskey
 WHERE pls14.pitusr >= 0 AND pls09.pitusr >= 0
@@ -389,21 +434,21 @@ ORDER BY pct_change DESC;
 -- code as the primary key and the region name as text, and join it to the
 -- summary query to group by the region name rather than the code.
 
--- sum() visits by region.
+-- Answer:
 
+-- a) sum() visits by region.
 SELECT pls14.obereg,
-       sum(pls14.visits) AS "visits_2014",
-       sum(pls09.visits) AS "visits_2009",
+       sum(pls14.visits) AS visits_2014,
+       sum(pls09.visits) AS visits_2009,
        round( (CAST(sum(pls14.visits) AS decimal(10,1)) - sum(pls09.visits)) /
-                    sum(pls09.visits) * 100, 2 ) AS "pct_change"
+                    sum(pls09.visits) * 100, 2 ) AS pct_change
 FROM pls_fy2014_pupld14a pls14 JOIN pls_fy2009_pupld09a pls09
 ON pls14.fscskey = pls09.fscskey
 WHERE pls14.visits >= 0 AND pls09.visits >= 0
 GROUP BY pls14.obereg
 ORDER BY pct_change DESC;
 
--- bonus of creating the lookup table and adding it to the query
-
+-- b) Bonus: creating the regions lookup table and adding it to the query.
 CREATE TABLE obereg_codes (
     obereg varchar(2) CONSTRAINT obereg_key PRIMARY KEY,
     region varchar(50)
@@ -421,12 +466,11 @@ VALUES ('01', 'New England (CT ME MA NH RI VT)'),
        ('09', 'Outlying Areas (AS GU MP PR VI)');
 
 -- sum() visits by region.
-
 SELECT obereg_codes.region,
-       sum(pls14.visits) AS "visits_2014",
-       sum(pls09.visits) AS "visits_2009",
+       sum(pls14.visits) AS visits_2014,
+       sum(pls09.visits) AS visits_2009,
        round( (CAST(sum(pls14.visits) AS decimal(10,1)) - sum(pls09.visits)) /
-                    sum(pls09.visits) * 100, 2 ) AS "pct_change"
+                    sum(pls09.visits) * 100, 2 ) AS pct_change
 FROM pls_fy2014_pupld14a pls14 JOIN pls_fy2009_pupld09a pls09
    ON pls14.fscskey = pls09.fscskey
 JOIN obereg_codes
@@ -441,11 +485,12 @@ ORDER BY pct_change DESC;
 -- match? Write such a query and add an IS NULL filter in a WHERE clause to
 -- show agencies not included in one or the other table.
 
+-- Answer:
 SELECT pls14.libname, pls14.city, pls14.stabr, pls14.statstru, pls14.c_admin, pls14.branlib,
        pls09.libname, pls09.city, pls09.stabr, pls09.statstru, pls09.c_admin, pls09.branlib
 FROM pls_fy2014_pupld14a pls14 FULL OUTER JOIN pls_fy2009_pupld09a pls09
 ON pls14.fscskey = pls09.fscskey
-WHERE pls14.libname IS NULL;
+WHERE pls09.libname IS NULL; -- this shows libraries in 2014 not in the 2009 table
 
 --------------
 -- Chapter 9
@@ -467,25 +512,30 @@ WHERE pls14.libname IS NULL;
 -- perform each type of activity. For a bonus challenge, count how many
 -- companies perform both activities.
 
-
--- Add the columns
+-- Answer:
+-- a) Add the columns
 ALTER TABLE meat_poultry_egg_inspect ADD COLUMN meat_processing boolean;
 ALTER TABLE meat_poultry_egg_inspect ADD COLUMN poultry_processing boolean;
 
--- Update the columns
+SELECT * FROM meat_poultry_egg_inspect; -- view table with new empty columns
+
+-- b) Update the columns
 UPDATE meat_poultry_egg_inspect
 SET meat_processing = TRUE
-WHERE activities ILIKE '%meat processing%';
+WHERE activities ILIKE '%meat processing%'; -- case-insensitive match with wildcards
 
 UPDATE meat_poultry_egg_inspect
 SET poultry_processing = TRUE
-WHERE activities ILIKE '%poultry processing%';
+WHERE activities ILIKE '%poultry processing%'; -- case-insensitive match with wildcards
 
--- Count meat and poultry processors
+-- c) view the updated table
+SELECT * FROM meat_poultry_egg_inspect; 
+
+-- d) Count meat and poultry processors
 SELECT count(meat_processing), count(poultry_processing)
 FROM meat_poultry_egg_inspect;
 
--- Count those who do both
+-- e) Count those who do both
 SELECT count(*)
 FROM meat_poultry_egg_inspect
 WHERE meat_processing = TRUE AND
@@ -501,25 +551,29 @@ WHERE meat_processing = TRUE AND
 -- median_hh_income. Is the r value higher or lower? What might explain
 -- the difference?
 
+-- Answer:
+-- The r value of pct_bachelors_higher and median_hh_income is about .57, which
+-- shows a lower connection between percent master's degree or higher and
+-- income than percent bachelor's degree or higher and income. One possible
+-- explanation is that attaining a master's degree or higher may have a more 
+-- incremental impact on earnings than attaining a bachelor's degree.
 SELECT
     round(
-    corr(median_hh_income, pct_bachelors_higher)::numeric, 2
-    ) AS bachelors_income_r,
+      corr(median_hh_income, pct_bachelors_higher)::numeric, 2
+      ) AS bachelors_income_r,
     round(
-    corr(median_hh_income, pct_masters_higher)::numeric, 2
-    ) AS masters_income_r
+      corr(median_hh_income, pct_masters_higher)::numeric, 2
+      ) AS masters_income_r
 FROM acs_2011_2015_stats;
 
--- The r value of pct_bachelors_higher and median_hh_income is about .57, which
--- shows a smaller connection between percent master's degree or higher and
--- income than percent bachelor's degree or higher and income. Attaining a
--- master's degree or higher may have a more incremental impact on earnings
--- than just getting a four-year degree.
 
--- 2. Which cities with a population of 500,000 or more have the highest rates
--- of motor vehicle thefts (variable motor_vehicle_theft)? Which have the
--- highest violent crime rates (variable violent_crime)?
+-- 2. In the FBI crime data, Which cities with a population of 500,000 or
+-- more have the highest rates of motor vehicle thefts (column 
+-- motor_vehicle_theft)? Which have the highest violent crime rates
+-- (column violent_crime)?
 
+-- Answer:
+-- a) In 2015, Milwaukee and Albuquerque had the two highest rates of motor vehicle theft:
 SELECT
     city,
     st,
@@ -529,10 +583,10 @@ SELECT
         (motor_vehicle_theft::numeric / population) * 100000, 1
         ) AS vehicle_theft_per_100000
 FROM fbi_crime_data_2015
-WHERE population >= 500000;
+WHERE population >= 500000
+ORDER BY vehicle_theft_per_100000 DESC;
 
--- Milwaukee and Albuquerque have the two highest rates of motor vehicle theft.
-
+-- b) In 2015, Detroit and Memphis had the two highest rates of violent crime.
 SELECT
     city,
     st,
@@ -543,15 +597,16 @@ SELECT
         ) AS violent_crime_per_100000
 FROM fbi_crime_data_2015
 WHERE population >= 500000
-ORDER BY (violent_crime::numeric / population) * 100000 DESC;
-
--- Detroit and Memphis have the two highest rates of violent crime.
+ORDER BY violent_crime_per_100000 DESC;
 
 -- 3. As a bonus challenge, revisit the libraries data in the table
 -- pls_fy2014_pupld14a in Chapter 8. Rank library agencies based on the rate
 -- of visits per 1,000 population (variable popu_lsa), and limit the query to
 -- agencies serving 250,000 people or more.
 
+-- Answer: 
+-- Cuyahoga County Public Library tops the rankings with 12,963 visits per
+-- thousand people (or roughly 13 visits per person).
 SELECT
     libname,
     stabr,
@@ -564,8 +619,6 @@ SELECT
 FROM pls_fy2014_pupld14a
 WHERE popu_lsa >= 250000;
 
--- Cuyahoga County Public Library tops the rankings with 12,963 visits per
--- thousand people.
 
 --------------
 -- Chapter 11
@@ -576,28 +629,28 @@ WHERE popu_lsa >= 250000;
 -- ride to the shortest. Do you notice anything about the longest or shortest
 -- trips that you might want to ask city officials about?
 
-SELECT
-    trip_id,
-    tpep_dropoff_datetime,
-    tpep_pickup_datetime,
-    tpep_dropoff_datetime - tpep_pickup_datetime AS length_of_ride
-FROM nyc_yellow_taxi_trips_2016_06_01
-ORDER BY tpep_dropoff_datetime - tpep_pickup_datetime DESC;
-
--- Answer: More than 500 of the trips last more than 3 hours, which seems
--- excessive. Two records have drop-off times before the pickup time, and
+-- Answer: More than 480 of the trips last more than 10 hours, which seems
+-- excessive. Moreover, two records have drop-off times before the pickup time, and
 -- several have pickup and drop-off times that are the same. It's worth asking
 -- whether these records have timestamp errors.
+SELECT
+    trip_id,
+    tpep_pickup_datetime,
+    tpep_dropoff_datetime,
+    tpep_dropoff_datetime - tpep_pickup_datetime AS length_of_ride
+FROM nyc_yellow_taxi_trips_2016_06_01
+ORDER BY length_of_ride DESC;
 
 -- 2. Using the AT TIME ZONE keywords, write a query that displays the date and
 -- time for London, Johannesburg, Moscow, and Melbourne the moment January 1,
 -- 2100, arrives in New York City.
 
-SELECT '2100-01-01 00:00:00-05' AT TIME ZONE 'US/Eastern' AS "New York",
-       '2100-01-01 00:00:00-05' AT TIME ZONE 'Europe/London' AS "London",
-       '2100-01-01 00:00:00-05' AT TIME ZONE 'Africa/Johannesburg' AS "Johannesburg",
-       '2100-01-01 00:00:00-05' AT TIME ZONE 'Europe/Moscow' AS "Moscow",
-       '2100-01-01 00:00:00-05' AT TIME ZONE 'Australia/Melbourne' AS "Melbourne";
+-- Answer:
+SELECT '2100-01-01 00:00:00-05' AT TIME ZONE 'US/Eastern' AS new_york,
+       '2100-01-01 00:00:00-05' AT TIME ZONE 'Europe/London' AS london,
+       '2100-01-01 00:00:00-05' AT TIME ZONE 'Africa/Johannesburg' AS johannesburg,
+       '2100-01-01 00:00:00-05' AT TIME ZONE 'Europe/Moscow' AS moscow,
+       '2100-01-01 00:00:00-05' AT TIME ZONE 'Australia/Melbourne' AS melbourne;
 
 -- 3. As a bonus challenge, use the statistics functions in Chapter 10 to
 -- calculate the correlation coefficient and r-squared values using trip time
@@ -605,6 +658,7 @@ SELECT '2100-01-01 00:00:00-05' AT TIME ZONE 'US/Eastern' AS "New York",
 -- total amount charged to passengers. Do the same with trip_distance and
 -- total_amount. Limit the query to rides that last three hours or less.
 
+-- Answer:
 SELECT
     round(
           corr(total_amount, (
@@ -632,7 +686,7 @@ WHERE tpep_dropoff_datetime - tpep_pickup_datetime <= '3 hours'::interval;
 -- Chapter 12
 --------------
 
--- 1. Revise the code in Listing 12-14 to dig deeper into the nuances of
+-- 1. Revise the code in Listing 12-15 to dig deeper into the nuances of
 -- Waikiki’s high temperatures. Limit the temps_collapsed table to the Waikiki
 -- maximum daily temperature observations. Then use the WHEN clauses in the
 -- CASE statement to reclassify the temperatures into seven groups that would
@@ -649,6 +703,7 @@ WHERE tpep_dropoff_datetime - tpep_pickup_datetime <= '3 hours'::interval;
 -- In which of those groups does Waikiki’s daily maximum temperature fall most
 -- often?
 
+-- Answer: Between 86 and 87 degrees. Nice.
 WITH temps_collapsed (station_name, max_temperature_group) AS
     (SELECT station_name,
            CASE WHEN max_temp >= 90 THEN '90 or more'
@@ -667,12 +722,16 @@ FROM temps_collapsed
 GROUP BY station_name, max_temperature_group
 ORDER BY max_temperature_group;
 
--- Answer: Between 86 and 87 degrees. Nice.
-
 -- 2. Revise the ice cream survey crosstab in Listing 12-10 to flip the table.
 -- In other words, make flavor the rows and office the columns. Which elements
 -- of the query do you need to change? Are the counts different?
 
+-- Answer: You need to re-order the columns in the first subquery so flavor is
+-- first and office is second. count(*) stays third. Then, you must change
+-- the second subquery to produce a grouped list of office. Finally, you must
+-- add the office names to the output list.
+
+-- The numbers don't change, just the order presented in the crosstab.
 SELECT *
 FROM crosstab('SELECT flavor,
                       office,
@@ -687,16 +746,10 @@ FROM crosstab('SELECT flavor,
                ORDER BY office')
 
 AS (flavor varchar(20),
-    Downtown bigint,
-    Midtown bigint,
-    Uptown bigint);
+    downtown bigint,
+    midtown bigint,
+    uptown bigint);
 
--- Answer: You need to re-order the columns in the first subquery so flavor is
--- first and office is second. count(*) stays third. Then, you must change
--- the second subquery to produce a grouped list of office. Finally, you must
--- add the office names to the output list.
-
--- The numbers don't change, just the order presented in the crosstab.
 
 --------------
 -- Chapter 13
@@ -710,12 +763,10 @@ AS (flavor varchar(20),
 
 -- Answer: You can use either the standard SQL replace() function or the
 -- PostgreSQL regexp_replace() function:
-
 SELECT replace('Williams, Sr.', ', ', ' ');
 SELECT regexp_replace('Williams, Sr.', ', ', ' ');
 
 -- Answer: To capture just the suffixes:
-
 SELECT (regexp_match('Williams, Sr.', '.*, (.*)'))[1];
 
 
@@ -741,19 +792,19 @@ ORDER BY count(*) DESC;
 -- change the results?
 
 -- Answer:
-
-SELECT president,
-       speech_date,
-       ts_rank_cd(search_speech_text, search_query, 2) AS "rank_score"
-FROM president_speeches,
-     to_tsquery('war & security & threat & enemy') search_query
-WHERE search_speech_text @@ search_query
-ORDER BY "rank_score" DESC
-LIMIT 5;
-
 -- The ranking does change, although the same speeches are generally
 -- represented. The change might be more or less pronounced given another set
 -- of texts.
+
+SELECT president,
+       speech_date,
+       ts_rank_cd(search_speech_text, search_query, 2) AS rank_score
+FROM president_speeches,
+     to_tsquery('war & security & threat & enemy') search_query
+WHERE search_speech_text @@ search_query
+ORDER BY rank_score DESC
+LIMIT 5;
+
 
 --------------
 -- Chapter 14
@@ -764,6 +815,9 @@ LIMIT 5;
 -- miles. (Use the statefp10 column in the us_counties_2010_shp table.)
 -- How many states are bigger than the Yukon-Koyukuk area?
 
+-- Answer: Just three states are bigger than Yukon-Koyukuk: Of course, 
+-- one is Alaska itself (FIPS 02). The other two are Texas (FIPS 48),
+-- and California (FIPS 06).
 SELECT statefp10 AS st,
        round (
               ( sum(ST_Area(geom::geography) / 2589988.110336))::numeric, 2
@@ -772,9 +826,6 @@ FROM us_counties_2010_shp
 GROUP BY statefp10
 ORDER BY square_miles DESC;
 
--- Answer: Just three states are bigger than Yukon-Koyukuk: Alaska (FIPS 02),
--- Texas (48), and California (06).
-
 -- 2. Using ST_Distance(), determine how many miles separate these two farmers’ markets:
 -- the Oakleaf Greenmarket (9700 Argyle Forest Blvd, Jacksonville, Florida) and
 -- Columbia Farmers Market (1701 West Ash Street, Columbia, Missouri). You’ll
@@ -782,8 +833,7 @@ ORDER BY square_miles DESC;
 -- Tip: you can also write this query using the Common Table Expression syntax
 -- you learned in Chapter 12.
 
--- Answer:
-
+-- Answer: About 851 miles
 WITH
     market_start (geog_point) AS
     (
@@ -800,8 +850,6 @@ WITH
 SELECT ST_Distance(market_start.geog_point, market_end.geog_point) / 1609.344 -- convert to meters to miles
 FROM market_start, market_end;
 
--- Answer: About 851 miles
-
 -- 3. More than 500 rows in the farmers_markets table are missing a value
 -- in the county column, an example of dirty government data. Using the
 -- us_counties_2010_shp table and the ST_Intersects() function, perform a
@@ -811,7 +859,6 @@ FROM market_start, market_end;
 -- table to the geography type and change its SRID using ST_SetSRID().
 
 -- Answer:
-
 SELECT census.name10,
        census.statefp10,
        markets.market_name,
@@ -821,7 +868,8 @@ FROM farmers_markets markets JOIN us_counties_2010_shp census
     ON ST_Intersects(markets.geog_point, ST_SetSRID(census.geom,4326)::geography)
     WHERE markets.county IS NULL
 ORDER BY census.statefp10, census.name10;
-
+-- Note that this query also highlights a farmer's market that is mis-geocoded.
+-- Can you spot it?
 
 --------------
 -- Chapter 15
@@ -830,6 +878,7 @@ ORDER BY census.statefp10, census.name10;
 -- 1. Create a view that displays the number of New York City taxi trips per
 -- hour. Use the taxi data in Chapter 11 and the query in Listing 11-8.
 
+-- Answer:
 CREATE VIEW nyc_taxi_trips_per_hour AS
     SELECT
          date_part('hour', tpep_pickup_datetime),
@@ -844,6 +893,7 @@ SELECT * FROM nyc_taxi_trips_per_hour;
 -- formula into a rates_per_thousand() function that takes three arguments
 -- to calculate the result: observed_number, base_number, and decimal_places.
 
+-- Answer: This uses PL/pgSQL, but you could use a SQL function as well.
 CREATE OR REPLACE FUNCTION
 rate_per_thousand(observed_number numeric,
                   base_number numeric,
@@ -857,6 +907,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- Test the function:
 SELECT rate_per_thousand(50, 11000, 2);
 
 -- 3. In Chapter 9, you worked with the meat_poultry_egg_inspect table that
@@ -866,25 +917,52 @@ SELECT rate_per_thousand(50, 11000, 2);
 -- months from the current date. You should be able to describe the steps needed
 -- to implement a trigger and how the steps relate to each other.
 
+-- Answer:
+-- a) Add the column
 ALTER TABLE meat_poultry_egg_inspect ADD COLUMN inspection_date date;
 
+-- b) Create the function that the trigger will execute.
 CREATE OR REPLACE FUNCTION add_inspection_date()
     RETURNS trigger AS $$
     BEGIN
        UPDATE meat_poultry_egg_inspect
-       SET inspection_date = now() + '6 months'::interval;
+       SET inspection_date = now() + '6 months'::interval; -- Here, we set the inspection date to six months in the future
     RETURN NEW;
     END;
 $$ LANGUAGE plpgsql;
 
+-- c) Create the trigger
 CREATE TRIGGER inspection_date_update
   AFTER INSERT
   ON meat_poultry_egg_inspect
   FOR EACH ROW
   EXECUTE PROCEDURE add_inspection_date();
 
+-- d) Test the insertion of a company and examine the result
 INSERT INTO meat_poultry_egg_inspect(est_number, company)
 VALUES ('test123', 'testcompany');
 
 SELECT * FROM meat_poultry_egg_inspect
 WHERE company = 'testcompany';
+
+--------------
+-- Chapter 16
+--------------
+
+-- For this chapter, use psql to review any of the exercises in the book.
+
+
+--------------
+-- Chapter 17
+--------------
+
+-- To back up the gis_analysis database, use the pg_dump utility at the command line:
+-- pg_dump -d gis_analysis -U [your-username] -Fc > gis_analysis_backup_custom.sql
+
+
+--------------
+-- Chapter 18
+--------------
+
+-- This is a non-coding exercise.
+
