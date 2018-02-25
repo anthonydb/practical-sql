@@ -5,7 +5,7 @@
 -- Chapter 11 Code Examples
 --------------------------------------------------------------
 
--- Listing 11-1: Extracting components of a timestamp using date_part()
+-- Listing 11-1: Extracting components of a timestamp value using date_part()
 
 SELECT
     date_part('year', '2019-12-01 18:37:12 EST'::timestamptz) AS "year",
