@@ -6,11 +6,15 @@ Practical SQL is available [now in PDF](https://www.nostarch.com/practicalSQL) w
 
 ## What's Here
 
-**Code**: All code listings from each chapter, organized in chapter folders.
+**Code**: All SQL code or command-line listings from each chapter, organized in chapter folders.
 
-**Data**: When needed, CSV files for you to import, also organized by chapter.
+**Data**: CSV files for you to import, also organized by chapter.
 
 **Exercises**: The "Try It Yourself" questions and answers for each chapter, listed separately. Try working through the questions before peeking at the answers!
+
+**FAQ**: Answers to frequently asked questions as well as updates to installation instructions at [faq-updates.md](https://github.com/anthonydb/practical-sql/blob/master/faq-updates.md).
+
+**Resources**: Updates to the book's Appendix on Additional PostgreSQL Resources at [resources.md](https://github.com/anthonydb/practical-sql/blob/master/resources.md).
 
 ## Chapters
 
@@ -48,11 +52,4 @@ You can obtain all the code and data at once by downloading this repository as a
 
 GitHub users may want to clone the repository locally and occasionally perform a `git pull` to receive any updates.
 
-## Installation and Exercises FAQ
-
-I'll collect answers to frequently asked questions as well as updates to installation instructions at [faq-updates.md](https://github.com/anthonydb/practical-sql/blob/master/faq-updates.md).
-
-## Resources
-
-I'm also maintaining updates to the book's Appendix on Additional PostgreSQL Resources at [resources.md](https://github.com/anthonydb/practical-sql/blob/master/resources.md).
 
