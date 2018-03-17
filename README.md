@@ -1,6 +1,8 @@
 ## Practical SQL: A Beginner's Guide to Storytelling with Data
 
-[PracticalSQL](https://www.nostarch.com/practicalSQL) by Anthony DeBarros focuses on learning SQL (Structured Query Language) to find the story your data tells, using the open-source database PostgreSQL and the pgAdmin interface as primary tools. I've written this book both for people new to programming as well as those with some SQL experience who'd like to go deeper. Practical SQL is scheduled to be published in paperback in February 2018 by [No Starch Press](https://www.nostarch.com), but Early Access in PDF is available now via No Starch.
+[PracticalSQL](https://www.nostarch.com/practicalSQL) by Anthony DeBarros focuses on learning SQL (Structured Query Language) to find the story your data tells, using the open-source database PostgreSQL and the pgAdmin interface as primary tools. This book aims to serve new programmers as well as people with some SQL experience who'd like to go deeper.
+
+Practical SQL is available [now in PDF](https://www.nostarch.com/practicalSQL) with the paperback on sale in May 2018.
 
 ## What's Here
 
@@ -10,10 +12,7 @@
 
 **Exercises**: The "Try It Yourself" questions and answers for each chapter, listed separately. Try working through the questions before peeking at the answers!
 
-
 ## Chapters
-
-**Note:** Exact titles may change prior to book publication in 2018.
 
 * Chapter 1: Creating Your First Database and Table
 * Chapter 2: Beginning Data Exploration with SELECT
@@ -32,15 +31,14 @@
 * Chapter 15: Saving Time with Views, Functions, and Triggers
 * Chapter 16: Using PostgreSQL from the Command Line
 * Chapter 17: Maintaining Your Database
-* Appendix A: Identifying and Telling the Story Behind Your Data
-* Appendix B: Additional PostgreSQL Resources
-
+* Chapter 18: Identifying and Telling the Story Behind Your Data
+* Appendix: Additional PostgreSQL Resources
 
 ## Getting the Code and Data on Your Computer
 
 **Non-GitHub Users**
 
-Easiest way to obtain all the code and data at once is to download this repository as a .zip file. To do that:
+You can obtain all the code and data at once by downloading this repository as a .zip file. To do that:
 
 * Select the **Clone or Download** button at top right.
 * Select **Download ZIP**
@@ -50,15 +48,11 @@ Easiest way to obtain all the code and data at once is to download this reposito
 
 GitHub users may want to clone the repository locally and occasionally perform a `git pull` to receive any updates.
 
-## Note to Early Access Users
-
-Editing and technical review of the book is in progress, so some code likely will change between now and publication in 2018. You can follow edits in the [commit history](https://github.com/anthonydb/practical-sql/commits/master).
-
 ## Installation and Exercises FAQ
 
 I'll collect answers to frequently asked questions as well as updates to installation instructions at [faq-updates.md](https://github.com/anthonydb/practical-sql/blob/master/faq-updates.md).
 
 ## Resources
 
-I'm also maintaining updates to the book's Appendix B on Additional PostgreSQL Resources at [resources.md](https://github.com/anthonydb/practical-sql/blob/master/resources.md).
+I'm also maintaining updates to the book's Appendix on Additional PostgreSQL Resources at [resources.md](https://github.com/anthonydb/practical-sql/blob/master/resources.md).
 
