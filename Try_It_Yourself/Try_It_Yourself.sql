@@ -776,14 +776,24 @@ SELECT (regexp_match('Williams, Sr.', '.*, (.*)'))[1];
 -- Bonus: remove commas and periods at the end of each word.
 
 -- Answer:
-SELECT replace(replace(split_text.word, ',', ''), '.', ''), count(*)
-FROM
-    (SELECT regexp_split_to_table(speech_text, '\s') AS word
-     FROM president_speeches
-     WHERE speech_date = '1974-01-30') AS split_text
-WHERE length(split_text.word) > 5
-GROUP BY split_text.word
+WITH 
+    word_list (word)
+AS
+    (
+        SELECT regexp_split_to_table(speech_text, '\s') AS word
+        FROM president_speeches
+        WHERE speech_date = '1974-01-30'
+    )
+
+SELECT lower(
+               replace(replace(replace(word, ',', ''), '.', ''), ':', '')
+             ) AS cleaned_word,
+       count(*)
+FROM word_list
+WHERE length(word) >= 5
+GROUP BY cleaned_word
 ORDER BY count(*) DESC;
+
 
 -- 3. Rewrite the query in Listing 13-25 using the ts_rank_cd() function
 -- instead of ts_rank(). According to th PostgreSQL documentation, ts_rank_cd()
