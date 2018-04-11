@@ -4,7 +4,11 @@
 
 This page contains answers to Frequently Asked Questions as well as additional information and clarifications on material in the book.
 
-### Chapter 14: Analyzing Spatial Data with PostGIS
+### Introduction
+
+#### Working with pgAdmin: Change in pgAdmin app
+
+Starting with version 3.0 of pgAdmin, released in April 2018, the app loads as a tab within your default web browser. Previous versions run as a standalone desktop application. All other functionality described in the book remains the same. 
 
 #### macOS PostGIS Shapefile and DBF Loader Exporter Unavailable
 
@@ -25,7 +29,3 @@ To remedy the situation:
 * When it finishes, open a File Explorer window and search for `python34.dll`.
 * Copy the file (not moving it) to `C:\Windows\System32`.
 * You then should be able to execute the command `CREATE EXTENSION plpython3u;` within your database.
-
-
-
-
