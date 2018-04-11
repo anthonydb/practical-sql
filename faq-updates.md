@@ -8,7 +8,9 @@ This page contains answers to Frequently Asked Questions as well as additional i
 
 #### Working with pgAdmin: Change in pgAdmin app
 
-Starting with version 3.0 of pgAdmin, released in April 2018, the app loads as a tab within your default web browser. Previous versions run as a standalone desktop application. All other functionality described in the book remains the same. 
+Starting with version 3.0 of pgAdmin, released in April 2018, the app loads as a tab within your default web browser. Previous versions run as a standalone desktop application. All other functionality described in the book remains the same.
+
+### Chapter 14: Analyzing Spatial Data with PostGIS
 
 #### macOS PostGIS Shapefile and DBF Loader Exporter Unavailable
 
