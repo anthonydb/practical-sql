@@ -152,6 +152,8 @@ SELECT CAST('4//2017' AS timestamp with time zone);
 COPY actors
 FROM 'movies.txt'
 WITH (FORMAT CSV, HEADER, DELIMITER ':', QUOTE '#');
+-- Note: You may never encounter a file that uses a colon as a delimiter and
+-- and pound sign for quoting, but anything is possible.
 
 -- 2. Using the table us_counties_2010, write SQL to export to CSV the 20
 -- counties in the United States that have the most housing units. Make sure
