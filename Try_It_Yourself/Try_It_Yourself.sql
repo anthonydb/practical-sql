@@ -17,18 +17,26 @@
 -- you include the columns you chose?
 
 -- Answer (yours will vary):
+-- Note that here I have added keywords on some columns that define constraints
+-- such as a PRIMARY KEY. You will learn about these in Chapters 6 and 7.
+
+-- The first table will hold the animal types and their conservation status:
 CREATE TABLE animal_types (
-   animal_type_id bigserial,
-   common_name varchar(100),
-   scientific_name varchar(100),
-   conservation_status varchar(50)
+   animal_type_id bigserial CONSTRAINT animal_types_key PRIMARY KEY,
+   common_name varchar(100) NOT NULL,
+   scientific_name varchar(100) NOT NULL,
+   conservation_status varchar(50) NOT NULL
 );
 
+-- The second table will hold data on individual animals. Note that the
+-- column animal_type_id references the column of the same name in the
+-- table animal types. This is a foreign key, which you will learn about in
+-- Chapter 7.
 CREATE TABLE menagerie (
-   animal_id bigserial,
-   animal_type_id integer,
-   date_acquired date,
-   gender char(1),
+   menagerie_id bigserial CONSTRAINT menagerie_key PRIMARY KEY,
+   animal_type_id bigint REFERENCES animal_types (animal_type_id),
+   date_acquired date NOT NULL,
+   gender varchar(1),
    acquired_from varchar(100),
    name varchar(100),
    notes text
@@ -47,6 +55,10 @@ INSERT INTO menagerie (animal_type_id, date_acquired, gender, acquired_from, nam
 VALUES
 (1, '3/12/1996', 'F', 'Dhaka Zoo', 'Ariel', 'Healthy coat at last exam.'),
 (2, '9/30/2000', 'F', 'National Zoo', 'Freddy', 'Strong appetite.');
+
+-- To view data via pgAdmin, in the object browser, right-click Tables and
+-- select Refresh. Then right-click the table name and select
+-- View/Edit Data > All Rows
 
 -- Create an additional INSERT statement for one of your tables. On purpose,
 -- leave out one of the required commas separating the entries in the VALUES
@@ -70,7 +82,7 @@ SELECT school, first_name, last_name
 FROM teachers
 ORDER BY school, last_name;
 
--- 2. Write a query that finds the one teacher whose first name starts 
+-- 2. Write a query that finds the one teacher whose first name starts
 -- with the letter 'S' and who earns more than $40,000.
 
 -- Answer:
@@ -198,7 +210,7 @@ SELECT geo_name,
        state_us_abbreviation,
        p0010001 AS total_population,
        p0010005 AS american_indian_alaska_native_alone,
-       (CAST (p0010005 AS numeric(8,1)) / p0010001) * 100 
+       (CAST (p0010005 AS numeric(8,1)) / p0010001) * 100
            AS percent_american_indian_alaska_native_alone
 FROM us_counties_2010
 WHERE state_us_abbreviation = 'NY'
@@ -229,7 +241,7 @@ WHERE state_us_abbreviation = 'CA';
 -- 3,141. That reflects the ongoing adjustments to county-level geographies that
 -- typically result from government decision making. Using appropriate joins and
 -- the NULL value, identify which counties don't exist in both tables. For fun,
--- search online to  nd out why they’re missing 
+-- search online to  nd out why they’re missing
 
 -- Answers:
 
@@ -244,7 +256,7 @@ ON c2010.state_fips = c2000.state_fips
 WHERE c2000.geo_name IS NULL;
 
 -- Counties that exist in 2000 data but not 2010 include three county equivalents
--- in Alaska plus Clifton Forge city, Virginia, which gave up its independent 
+-- in Alaska plus Clifton Forge city, Virginia, which gave up its independent
 -- city status in 2001:
 SELECT c2010.geo_name,
        c2000.geo_name,
@@ -352,7 +364,7 @@ CREATE TABLE songs (
 
 -- Answers:
 -- a) Both tables get a primary key using surrogate key id values that are
--- auto-generated via serial data types. 
+-- auto-generated via serial data types.
 
 -- b) The songs table references albums via a foreign key constraint.
 
@@ -360,7 +372,7 @@ CREATE TABLE songs (
 -- is specified via a NOT NULL constraint. We assume that every album and
 -- song should at minimum have that information.
 
--- d) In albums, the album_release_date column has a CHECK constraint 
+-- d) In albums, the album_release_date column has a CHECK constraint
 -- because it would be likely impossible for us to own an LP made before 1925.
 
 
@@ -529,7 +541,7 @@ SET poultry_processing = TRUE
 WHERE activities ILIKE '%poultry processing%'; -- case-insensitive match with wildcards
 
 -- c) view the updated table
-SELECT * FROM meat_poultry_egg_inspect; 
+SELECT * FROM meat_poultry_egg_inspect;
 
 -- d) Count meat and poultry processors
 SELECT count(meat_processing), count(poultry_processing)
@@ -555,7 +567,7 @@ WHERE meat_processing = TRUE AND
 -- The r value of pct_bachelors_higher and median_hh_income is about .57, which
 -- shows a lower connection between percent master's degree or higher and
 -- income than percent bachelor's degree or higher and income. One possible
--- explanation is that attaining a master's degree or higher may have a more 
+-- explanation is that attaining a master's degree or higher may have a more
 -- incremental impact on earnings than attaining a bachelor's degree.
 SELECT
     round(
@@ -568,7 +580,7 @@ FROM acs_2011_2015_stats;
 
 
 -- 2. In the FBI crime data, Which cities with a population of 500,000 or
--- more have the highest rates of motor vehicle thefts (column 
+-- more have the highest rates of motor vehicle thefts (column
 -- motor_vehicle_theft)? Which have the highest violent crime rates
 -- (column violent_crime)?
 
@@ -604,7 +616,7 @@ ORDER BY violent_crime_per_100000 DESC;
 -- of visits per 1,000 population (variable popu_lsa), and limit the query to
 -- agencies serving 250,000 people or more.
 
--- Answer: 
+-- Answer:
 -- Cuyahoga County Public Library tops the rankings with 12,963 visits per
 -- thousand people (or roughly 13 visits per person).
 SELECT
@@ -776,7 +788,7 @@ SELECT (regexp_match('Williams, Sr.', '.*, (.*)'))[1];
 -- Bonus: remove commas and periods at the end of each word.
 
 -- Answer:
-WITH 
+WITH
     word_list (word)
 AS
     (
@@ -825,7 +837,7 @@ LIMIT 5;
 -- miles. (Use the statefp10 column in the us_counties_2010_shp table.)
 -- How many states are bigger than the Yukon-Koyukuk area?
 
--- Answer: Just three states are bigger than Yukon-Koyukuk: Of course, 
+-- Answer: Just three states are bigger than Yukon-Koyukuk: Of course,
 -- one is Alaska itself (FIPS 02). The other two are Texas (FIPS 48),
 -- and California (FIPS 06).
 SELECT statefp10 AS st,
@@ -975,4 +987,3 @@ WHERE company = 'testcompany';
 --------------
 
 -- This is a non-coding exercise.
-
