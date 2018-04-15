@@ -7,7 +7,7 @@
 
 
 --------------------------------------------------------------
--- Chapter 1
+-- Chapter 1: Creating Your First Database and Table
 --------------------------------------------------------------
 
 -- 1. Imagine you're building a database to catalog all the animals at your
@@ -17,8 +17,6 @@
 -- you include the columns you chose?
 
 -- Answer (yours will vary):
--- Note that here I have added keywords on some columns that define constraints
--- such as a PRIMARY KEY. You will learn about these in Chapters 6 and 7.
 
 -- The first table will hold the animal types and their conservation status:
 CREATE TABLE animal_types (
@@ -27,6 +25,8 @@ CREATE TABLE animal_types (
    scientific_name varchar(100) NOT NULL,
    conservation_status varchar(50) NOT NULL
 );
+-- Note that I have added keywords on some columns that define constraints
+-- such as a PRIMARY KEY. You will learn about these in Chapters 6 and 7.
 
 -- The second table will hold data on individual animals. Note that the
 -- column animal_type_id references the column of the same name in the
@@ -45,11 +45,11 @@ CREATE TABLE menagerie (
 -- 2. Now create INSERT statements to load sample data into the tables.
 -- How can you view the data via the pgAdmin tool?
 
--- Answer (yours will vary):
+-- Answer (again, yours will vary):
 INSERT INTO animal_types (common_name, scientific_name, conservation_status)
 VALUES ('Bengal Tiger', 'Panthera tigris tigris', 'Endangered'),
        ('Arctic Wolf', 'Canis lupus arctos', 'Least Concern');
--- source: https://www.worldwildlife.org/species/directory?direction=desc&sort=extinction_status
+-- data source: https://www.worldwildlife.org/species/directory?direction=desc&sort=extinction_status
 
 INSERT INTO menagerie (animal_type_id, date_acquired, gender, acquired_from, name, notes)
 VALUES
@@ -60,7 +60,7 @@ VALUES
 -- select Refresh. Then right-click the table name and select
 -- View/Edit Data > All Rows
 
--- Create an additional INSERT statement for one of your tables. On purpose,
+-- 2b. Create an additional INSERT statement for one of your tables. On purpose,
 -- leave out one of the required commas separating the entries in the VALUES
 -- clause of the query. What is the error message? Does it help you find the
 -- error in the code?
@@ -70,7 +70,7 @@ INSERT INTO animal_types (common_name, scientific_name, conservation_status)
 VALUES ('Javan Rhino', 'Rhinoceros sondaicus' 'Critically Endangered');
 
 --------------------------------------------------------------
--- Chapter 2
+-- Chapter 2: Beginning Data Exploration with SELECT
 --------------------------------------------------------------
 
 -- 1. The school district superintendent asks for a list of teachers in each
@@ -88,7 +88,7 @@ ORDER BY school, last_name;
 -- Answer:
 SELECT first_name, last_name, school, salary
 FROM teachers
-WHERE first_name LIKE 'S%'
+WHERE first_name LIKE 'S%' -- remember that LIKE is case-sensitive!
       AND salary > 40000;
 
 -- 3. Rank teachers hired since Jan. 1, 2010, ordered by highest paid to lowest.
@@ -101,7 +101,7 @@ ORDER BY salary DESC;
 
 
 --------------------------------------------------------------
--- Chapter 3
+-- Chapter 3: Understanding Data Types
 --------------------------------------------------------------
 
 -- 1. Your company delivers fruit and vegetables to local grocery stores, and
@@ -111,11 +111,13 @@ ORDER BY salary DESC;
 -- table. Why?
 
 -- Answer:
-numeric(5,1)
--- numeric(5,1) provides five digits total (the precision) and one digit after
--- the decimal (the scale). Example: 1000.9.
--- Even though the question says drivers will never travel more than 999 miles
--- in a day, it may be wise to consider that assumptions may be broken.
+numeric(4,1)
+-- numeric(4,1) provides four digits total (the precision) and one digit after
+-- the decimal (the scale). That would allow you to store a value as large
+-- as 999.9.
+
+-- In practice, you may want to consider that the assumption on maximum miles
+-- in a day could conceivably exceed 999.9 and go with the larger numeric(5,1).
 
 -- 2. In the table listing each driver in your company, what are appropriate
 -- data types for the drivers’ first and last names? Why is it a good idea to
@@ -124,22 +126,22 @@ numeric(5,1)
 
 -- Answer:
 varchar(50)
--- 50 characters of text is a reasonable length for names, and varchar()
--- ensures we will not waste space.
--- Separating first and last names will allow you later to sort on each
--- independently.
+-- 50 characters is a reasonable length for names, and varchar() ensures you
+-- will not waste space when names are shorter. Separating first and last names
+-- into their own columns will let you later sort on each independently.
 
 -- 3. Assume you have a text column that includes strings formatted as dates.
 -- One of the strings is written as '4//2017'. What will happen when you try
 -- to convert that string to the timestamp data type?
 
--- Answer: The below operation returns an error because the string is an
--- invalid date format.
+-- Answer: Attempting to convert a string of text that does not conform to
+-- accepted date/time formats will result in an error. You can see this with
+-- the below example, which tries to cast the string as a timestamp.
 SELECT CAST('4//2017' AS timestamp with time zone);
 
 
 --------------------------------------------------------------
--- Chapter 4
+-- Chapter 4: Importing and Exporting Data
 --------------------------------------------------------------
 
 -- 1. Write a WITH statement to include with COPY to handle the import of an
@@ -155,11 +157,11 @@ WITH (FORMAT CSV, HEADER, DELIMITER ':', QUOTE '#');
 -- Note: You may never encounter a file that uses a colon as a delimiter and
 -- and pound sign for quoting, but anything is possible.
 
--- 2. Using the table us_counties_2010, write SQL to export to CSV the 20
--- counties in the United States that have the most housing units. Make sure
--- you export each county's name, state and number of housing units. Hint:
--- Housing units are totaled for each county in the column
--- housing_unit_count_100_percent.
+-- 2. Using the table us_counties_2010 you created and filled in this chapter,
+-- export to a CSV file the 20 counties in the United States that have the most
+-- housing units. Make sure you export only each county's name, state, and
+-- number of housing units. (Hint: Housing units are totaled for each county in
+-- the column housing_unit_count_100_percent.
 
 -- Answer:
 COPY (
@@ -168,6 +170,8 @@ COPY (
      )
 TO 'C:\YourDirectory\us_counties_housing_export.txt'
 WITH (FORMAT CSV, HEADER);
+-- Note: This COPY statement uses a SELECT statement to limit the output to
+-- only the desired columns and rows.
 
 -- 3. Imagine you're importing a file that contains a column with these values:
       -- 17519.668
@@ -179,31 +183,30 @@ WITH (FORMAT CSV, HEADER);
 -- Answer:
 -- No, it won't. In fact, you won't even be able to create a column with that
 -- data type because the precision must be larger than the scale. The correct
--- type is numeric(8,3).
+-- type for the example data is numeric(8,3).
 
 
 --------------------------------------------------------------
--- Chapter 5
+-- Chapter 5: Basic Math and Stats with SQL
 --------------------------------------------------------------
 
 -- 1. Write a SQL statement for calculating the area of a circle whose radius is
 -- 5 inches. Do you need parentheses in your calculation? Why or why not?
 
 -- Answer:
--- (Formula for the area of a circle is: pi * radius squared.)
+-- (The formula for the area of a circle is: pi * radius squared.)
 SELECT 3.14 * 5 ^ 2;
-
--- Area is 78.5 square inches.
--- You do not need parentheses because exponents and roots take precedence over
--- multiplication. However, you could include them for clarity. This produces
--- the same result:
+-- The result is an area of 78.5 square inches.
+-- Note: You do not need parentheses because exponents and roots take precedence
+-- over multiplication. However, you could include parentheses for clarity. This
+-- statement produces the same result:
 SELECT 3.14 * (5 ^ 2);
 
--- 2. Using the 2010 Census county data, find out which New York state county has
--- the highest percentage of the population that identified as "American
+-- 2. Using the 2010 Census county data, find out which New York state county
+-- has the highest percentage of the population that identified as "American
 -- Indian/Alaska Native Alone." What can you learn about that county from online
--- research that explains the relatively large proportion of American Indian population
--- compared with other New York counties?
+-- research that explains the relatively large proportion of American Indian
+-- population compared with other New York counties?
 
 -- Answer:
 -- Franklin County, N.Y., with 7.4%. The county contains the St. Regis Mohawk
@@ -217,7 +220,6 @@ SELECT geo_name,
 FROM us_counties_2010
 WHERE state_us_abbreviation = 'NY'
 ORDER BY percent_american_indian_alaska_native_alone DESC;
-
 
 -- 3. Was the 2010 median county population higher in California or New York?
 
@@ -236,7 +238,7 @@ WHERE state_us_abbreviation = 'CA';
 
 
 --------------------------------------------------------------
--- Chapter 6
+-- Chapter 6: Joining Tables in a Relational Database
 --------------------------------------------------------------
 
 -- 1. The table us_counties_2010 contains 3,143 rows, and us_counties_2000 has
@@ -248,7 +250,7 @@ WHERE state_us_abbreviation = 'CA';
 -- Answers:
 
 -- Counties that exist in 2010 data but not 2000 include five county equivalents
--- in Alaska plus Broomfield County, Colorado.
+-- in Alaska (called boroughs) plus Broomfield County, Colorado.
 SELECT c2010.geo_name,
        c2010.state_us_abbreviation,
        c2000.geo_name
@@ -257,9 +259,9 @@ ON c2010.state_fips = c2000.state_fips
    AND c2010.county_fips = c2000.county_fips
 WHERE c2000.geo_name IS NULL;
 
--- Counties that exist in 2000 data but not 2010 include three county equivalents
--- in Alaska plus Clifton Forge city, Virginia, which gave up its independent
--- city status in 2001:
+-- Counties that exist in 2000 data but not 2010 include three county
+-- equivalents in Alaska (called boroughs) plus Clifton Forge city, Virginia,
+-- which gave up its independent city status in 2001:
 SELECT c2010.geo_name,
        c2000.geo_name,
        c2000.state_us_abbreviation
@@ -269,7 +271,7 @@ ON c2010.state_fips = c2000.state_fips
 WHERE c2010.geo_name IS NULL;
 
 -- 2. Using either the median() or percentile_cont() functions in Chapter 5,
--- determine the median percent change in county population.
+-- determine the median of the percent change in county population.
 
 -- Answer: 3.2%
 
@@ -287,6 +289,9 @@ SELECT percentile_cont(.5)
 FROM us_counties_2010 c2010 INNER JOIN us_counties_2000 c2000
 ON c2010.state_fips = c2000.state_fips
    AND c2010.county_fips = c2000.county_fips;
+-- Note: In both examples, you're finding the median of all the
+-- county population percent change values.
+
 
 -- 3. Which county had the greatest percentage loss of population between 2000
 -- and 2010? Do you have any idea why? Hint: a weather event happened in 2005.
@@ -308,7 +313,7 @@ ON c2010.state_fips = c2000.state_fips
 ORDER BY pct_change ASC;
 
 --------------------------------------------------------------
--- Chapter 7
+-- Chapter 7: Table Design that Works for You
 --------------------------------------------------------------
 
 -- Consider the following two tables from a database you’re making to keep
@@ -400,9 +405,9 @@ CREATE TABLE songs (
 -- to perform many queries that include date ranges.
 
 
---------------------------------------------------------------
--- Chapter 8
---------------------------------------------------------------
+----------------------------------------------------------------
+-- Chapter 8: Extracting Information by Grouping and Summarizing
+----------------------------------------------------------------
 
 -- 1. We saw that library visits have declined in most places. But what is the
 -- pattern in the use of technology in libraries? Both the 2014 and 2009 library
@@ -412,7 +417,8 @@ CREATE TABLE songs (
 -- the sum of each column over time. Watch out for negative values!
 
 -- Answer:
--- Use sum() on gpterms (computer terminals) by state, find percent change, and sort
+-- Use sum() on gpterms (computer terminals) by state, find percent change, and
+-- then sort.
 SELECT pls14.stabr,
        sum(pls14.gpterms) AS gpterms_2014,
        sum(pls09.gpterms) AS gpterms_2009,
@@ -423,9 +429,11 @@ ON pls14.fscskey = pls09.fscskey
 WHERE pls14.gpterms >= 0 AND pls09.gpterms >= 0
 GROUP BY pls14.stabr
 ORDER BY pct_change DESC;
+-- The query results show a consistent increase in the number of internet
+-- computers used by the public in most states.
 
--- Use sum() on pitusr (uses of public internet computers per year) by state, add
--- percent change, and sort
+-- Use sum() on pitusr (uses of public internet computers per year) by state,
+-- add percent change, and sort.
 SELECT pls14.stabr,
        sum(pls14.pitusr) AS pitusr_2014,
        sum(pls09.pitusr) AS pitusr_2009,
@@ -436,7 +444,8 @@ ON pls14.fscskey = pls09.fscskey
 WHERE pls14.pitusr >= 0 AND pls09.pitusr >= 0
 GROUP BY pls14.stabr
 ORDER BY pct_change DESC;
-
+-- The query results show most states have seen a decrease in the total uses
+-- of public internet computers per year.
 
 -- 2. Both library survey tables contain a column called obereg, a two-digit
 -- Bureau of Economic Analysis Code that classifies each library agency
@@ -499,15 +508,17 @@ ORDER BY pct_change DESC;
 -- match? Write such a query and add an IS NULL filter in a WHERE clause to
 -- show agencies not included in one or the other table.
 
--- Answer:
+-- Answer: a FULL OUTER JOIN will show all rows in both tables.
 SELECT pls14.libname, pls14.city, pls14.stabr, pls14.statstru, pls14.c_admin, pls14.branlib,
        pls09.libname, pls09.city, pls09.stabr, pls09.statstru, pls09.c_admin, pls09.branlib
 FROM pls_fy2014_pupld14a pls14 FULL OUTER JOIN pls_fy2009_pupld09a pls09
 ON pls14.fscskey = pls09.fscskey
-WHERE pls09.libname IS NULL; -- this shows libraries in 2014 not in the 2009 table
+WHERE pls14.fscskey IS NULL OR pls09.fscskey IS NULL;
+-- Note: The IS NULL statements in the WHERE clause limit results to those
+-- that do not appear in both tables.
 
 --------------------------------------------------------------
--- Chapter 9
+-- Chapter 9: Inspecting and Modifying Data
 --------------------------------------------------------------
 
 -- In this exercise, you’ll turn the meat_poultry_egg_inspect table into useful
@@ -556,7 +567,7 @@ WHERE meat_processing = TRUE AND
       poultry_processing = TRUE;
 
 --------------------------------------------------------------
--- Chapter 10
+-- Chapter 10: Statistical Functions in SQL
 --------------------------------------------------------------
 
 -- 1. In Listing 10-2, the correlation coefficient, or r value, of the
@@ -587,7 +598,8 @@ FROM acs_2011_2015_stats;
 -- (column violent_crime)?
 
 -- Answer:
--- a) In 2015, Milwaukee and Albuquerque had the two highest rates of motor vehicle theft:
+-- a) In 2015, Milwaukee and Albuquerque had the two highest rates of motor
+-- vehicle theft:
 SELECT
     city,
     st,
@@ -635,7 +647,7 @@ WHERE popu_lsa >= 250000;
 
 
 --------------------------------------------------------------
--- Chapter 11
+-- Chapter 11: Working with Dates and Times
 --------------------------------------------------------------
 
 -- 1. Using the New York City taxi data, calculate the length of each ride using
@@ -644,9 +656,9 @@ WHERE popu_lsa >= 250000;
 -- trips that you might want to ask city officials about?
 
 -- Answer: More than 480 of the trips last more than 10 hours, which seems
--- excessive. Moreover, two records have drop-off times before the pickup time, and
--- several have pickup and drop-off times that are the same. It's worth asking
--- whether these records have timestamp errors.
+-- excessive. Moreover, two records have drop-off times before the pickup time,
+-- and several have pickup and drop-off times that are the same. It's worth
+-- asking whether these records have timestamp errors.
 SELECT
     trip_id,
     tpep_pickup_datetime,
@@ -694,10 +706,11 @@ SELECT
     ) AS amount_distance_r2
 FROM nyc_yellow_taxi_trips_2016_06_01
 WHERE tpep_dropoff_datetime - tpep_pickup_datetime <= '3 hours'::interval;
-
+-- Note: Both correlations are strong, with r values of 0.80 or higher. We'd
+-- expect this given that cost of a taxi ride is based on both time and distance.
 
 --------------------------------------------------------------
--- Chapter 12
+-- Chapter 12: Advanced Query Techniques
 --------------------------------------------------------------
 
 -- 1. Revise the code in Listing 12-15 to dig deeper into the nuances of
@@ -736,7 +749,7 @@ FROM temps_collapsed
 GROUP BY station_name, max_temperature_group
 ORDER BY max_temperature_group;
 
--- 2. Revise the ice cream survey crosstab in Listing 12-10 to flip the table.
+-- 2. Revise the ice cream survey crosstab in Listing 12-11 to flip the table.
 -- In other words, make flavor the rows and office the columns. Which elements
 -- of the query do you need to change? Are the counts different?
 
@@ -766,7 +779,7 @@ AS (flavor varchar(20),
 
 
 -------------------------------------------------------------
--- Chapter 13
+-- Chapter 13: Mining Text to Find Meaningful Data
 --------------------------------------------------------------
 
 -- 1. The style guide of a publishing company you're writing for wants you to
@@ -780,7 +793,8 @@ AS (flavor varchar(20),
 SELECT replace('Williams, Sr.', ', ', ' ');
 SELECT regexp_replace('Williams, Sr.', ', ', ' ');
 
--- Answer: To capture just the suffixes:
+-- Answer: To capture just the suffixes, search for characters after a comma
+-- and space and place those inside a match group:
 SELECT (regexp_match('Williams, Sr.', '.*, (.*)'))[1];
 
 
@@ -807,6 +821,12 @@ FROM word_list
 WHERE length(word) >= 5
 GROUP BY cleaned_word
 ORDER BY count(*) DESC;
+-- Note: This query uses a Common Table Expression to first separate each word
+-- in the text into a separate row in a table named word_list. Then the SELECT
+-- statement counts the words, which are cleaned up with two operations. First,
+-- several nested replace functions remove commas, periods, and colons. Second,
+-- all words are converted to lowercase so that when we count we group words
+-- that may appear with various cases (e.g., "Military" and "military").
 
 
 -- 3. Rewrite the query in Listing 13-25 using the ts_rank_cd() function
@@ -831,7 +851,7 @@ LIMIT 5;
 
 
 --------------------------------------------------------------
--- Chapter 14
+-- Chapter 14: Analyzing Spatial Data with PostGIS
 --------------------------------------------------------------
 
 -- 1. Earlier, you found which US county has the largest area. Now,
@@ -850,10 +870,11 @@ FROM us_counties_2010_shp
 GROUP BY statefp10
 ORDER BY square_miles DESC;
 
--- 2. Using ST_Distance(), determine how many miles separate these two farmers’ markets:
--- the Oakleaf Greenmarket (9700 Argyle Forest Blvd, Jacksonville, Florida) and
--- Columbia Farmers Market (1701 West Ash Street, Columbia, Missouri). You’ll
--- need to first find the coordinates for both in the farmers_markets table.
+-- 2. Using ST_Distance(), determine how many miles separate these two farmers’
+-- markets: the Oakleaf Greenmarket (9700 Argyle Forest Blvd, Jacksonville,
+-- Florida) and Columbia Farmers Market (1701 West Ash Street, Columbia,
+-- Missouri). You’ll need to first find the coordinates for both in the
+-- farmers_markets table.
 -- Tip: you can also write this query using the Common Table Expression syntax
 -- you learned in Chapter 12.
 
@@ -896,7 +917,7 @@ ORDER BY census.statefp10, census.name10;
 -- Can you spot it?
 
 --------------------------------------------------------------
--- Chapter 15
+-- Chapter 15: Saving Time with Views, Functions, and Triggers
 --------------------------------------------------------------
 
 -- 1. Create a view that displays the number of New York City taxi trips per
@@ -970,22 +991,22 @@ SELECT * FROM meat_poultry_egg_inspect
 WHERE company = 'testcompany';
 
 --------------------------------------------------------------
--- Chapter 16
+-- Chapter 16: Using PostgreSQL From the Command Line
 --------------------------------------------------------------
 
 -- For this chapter, use psql to review any of the exercises in the book.
 
 
 --------------------------------------------------------------
--- Chapter 17
+-- Chapter 17: Maintaining Your Database
 --------------------------------------------------------------
 
 -- To back up the gis_analysis database, use the pg_dump utility at the command line:
 -- pg_dump -d gis_analysis -U [your-username] -Fc > gis_analysis_backup_custom.sql
 
 
---------------------------------------------------------------
--- Chapter 18
---------------------------------------------------------------
+-----------------------------------------------------------------
+-- Chapter 18: Identifying and Telling the Story Behind Your Data
+-----------------------------------------------------------------
 
--- This is a non-coding exercise.
+-- This is a non-coding chapter.
