@@ -19,12 +19,14 @@
 -- Answer (yours will vary):
 
 -- The first table will hold the animal types and their conservation status:
+
 CREATE TABLE animal_types (
    animal_type_id bigserial CONSTRAINT animal_types_key PRIMARY KEY,
    common_name varchar(100) NOT NULL,
    scientific_name varchar(100) NOT NULL,
    conservation_status varchar(50) NOT NULL
 );
+
 -- Note that I have added keywords on some columns that define constraints
 -- such as a PRIMARY KEY. You will learn about these in Chapters 6 and 7.
 
@@ -32,6 +34,7 @@ CREATE TABLE animal_types (
 -- column animal_type_id references the column of the same name in the
 -- table animal types. This is a foreign key, which you will learn about in
 -- Chapter 7.
+
 CREATE TABLE menagerie (
    menagerie_id bigserial CONSTRAINT menagerie_key PRIMARY KEY,
    animal_type_id bigint REFERENCES animal_types (animal_type_id),
@@ -46,6 +49,7 @@ CREATE TABLE menagerie (
 -- How can you view the data via the pgAdmin tool?
 
 -- Answer (again, yours will vary):
+
 INSERT INTO animal_types (common_name, scientific_name, conservation_status)
 VALUES ('Bengal Tiger', 'Panthera tigris tigris', 'Endangered'),
        ('Arctic Wolf', 'Canis lupus arctos', 'Least Concern');
@@ -66,6 +70,7 @@ VALUES
 -- error in the code?
 
 -- Answer: In this case, the error message points to the missing comma.
+
 INSERT INTO animal_types (common_name, scientific_name, conservation_status)
 VALUES ('Javan Rhino', 'Rhinoceros sondaicus' 'Critically Endangered');
 
@@ -78,6 +83,7 @@ VALUES ('Javan Rhino', 'Rhinoceros sondaicus' 'Critically Endangered');
 -- with teachers ordered by last name A-Z.
 
 -- Answer:
+
 SELECT school, first_name, last_name
 FROM teachers
 ORDER BY school, last_name;
@@ -86,6 +92,7 @@ ORDER BY school, last_name;
 -- with the letter 'S' and who earns more than $40,000.
 
 -- Answer:
+
 SELECT first_name, last_name, school, salary
 FROM teachers
 WHERE first_name LIKE 'S%' -- remember that LIKE is case-sensitive!
@@ -94,6 +101,7 @@ WHERE first_name LIKE 'S%' -- remember that LIKE is case-sensitive!
 -- 3. Rank teachers hired since Jan. 1, 2010, ordered by highest paid to lowest.
 
 -- Answer:
+
 SELECT last_name, first_name, school, hire_date, salary
 FROM teachers
 WHERE hire_date >= '2010-01-01'
@@ -111,7 +119,9 @@ ORDER BY salary DESC;
 -- table. Why?
 
 -- Answer:
+
 numeric(4,1)
+
 -- numeric(4,1) provides four digits total (the precision) and one digit after
 -- the decimal (the scale). That would allow you to store a value as large
 -- as 999.9.
@@ -125,7 +135,9 @@ numeric(4,1)
 -- larger name column?
 
 -- Answer:
+
 varchar(50)
+
 -- 50 characters is a reasonable length for names, and varchar() ensures you
 -- will not waste space when names are shorter. Separating first and last names
 -- into their own columns will let you later sort on each independently.
@@ -137,6 +149,7 @@ varchar(50)
 -- Answer: Attempting to convert a string of text that does not conform to
 -- accepted date/time formats will result in an error. You can see this with
 -- the below example, which tries to cast the string as a timestamp.
+
 SELECT CAST('4//2017' AS timestamp with time zone);
 
 
@@ -151,9 +164,11 @@ SELECT CAST('4//2017' AS timestamp with time zone);
 -- 50:#Mission: Impossible#:Tom Cruise
 
 -- Answer:
+
 COPY actors
 FROM 'movies.txt'
 WITH (FORMAT CSV, HEADER, DELIMITER ':', QUOTE '#');
+
 -- Note: You may never encounter a file that uses a colon as a delimiter and
 -- and pound sign for quoting, but anything is possible.
 
@@ -164,12 +179,14 @@ WITH (FORMAT CSV, HEADER, DELIMITER ':', QUOTE '#');
 -- the column housing_unit_count_100_percent.
 
 -- Answer:
+
 COPY (
     SELECT geo_name, state_us_abbreviation, housing_unit_count_100_percent
     FROM us_counties_2010 ORDER BY housing_unit_count_100_percent DESC LIMIT 20
      )
 TO 'C:\YourDirectory\us_counties_housing_export.txt'
 WITH (FORMAT CSV, HEADER);
+
 -- Note: This COPY statement uses a SELECT statement to limit the output to
 -- only the desired columns and rows.
 
@@ -195,11 +212,14 @@ WITH (FORMAT CSV, HEADER);
 
 -- Answer:
 -- (The formula for the area of a circle is: pi * radius squared.)
+
 SELECT 3.14 * 5 ^ 2;
+
 -- The result is an area of 78.5 square inches.
 -- Note: You do not need parentheses because exponents and roots take precedence
 -- over multiplication. However, you could include parentheses for clarity. This
 -- statement produces the same result:
+
 SELECT 3.14 * (5 ^ 2);
 
 -- 2. Using the 2010 Census county data, find out which New York state county
@@ -211,6 +231,7 @@ SELECT 3.14 * (5 ^ 2);
 -- Answer:
 -- Franklin County, N.Y., with 7.4%. The county contains the St. Regis Mohawk
 -- Reservation. https://en.wikipedia.org/wiki/St._Regis_Mohawk_Reservation
+
 SELECT geo_name,
        state_us_abbreviation,
        p0010001 AS total_population,
@@ -226,6 +247,7 @@ ORDER BY percent_american_indian_alaska_native_alone DESC;
 -- Answer:
 -- California had a median county population of 179,140.5 in 2010, almost double
 -- that of New York, at 91,301.
+
 SELECT percentile_cont(.5)
         WITHIN GROUP (ORDER BY p0010001)
 FROM us_counties_2010
@@ -251,6 +273,7 @@ WHERE state_us_abbreviation = 'CA';
 
 -- Counties that exist in 2010 data but not 2000 include five county equivalents
 -- in Alaska (called boroughs) plus Broomfield County, Colorado.
+
 SELECT c2010.geo_name,
        c2010.state_us_abbreviation,
        c2000.geo_name
@@ -262,6 +285,7 @@ WHERE c2000.geo_name IS NULL;
 -- Counties that exist in 2000 data but not 2010 include three county
 -- equivalents in Alaska (called boroughs) plus Clifton Forge city, Virginia,
 -- which gave up its independent city status in 2001:
+
 SELECT c2010.geo_name,
        c2000.geo_name,
        c2000.state_us_abbreviation
@@ -276,6 +300,7 @@ WHERE c2010.geo_name IS NULL;
 -- Answer: 3.2%
 
 -- Using median():
+
 SELECT median(round( (CAST(c2010.p0010001 AS numeric(8,1)) - c2000.p0010001)
            / c2000.p0010001 * 100, 1 )) AS median_pct_change
 FROM us_counties_2010 c2010 INNER JOIN us_counties_2000 c2000
@@ -283,12 +308,14 @@ ON c2010.state_fips = c2000.state_fips
    AND c2010.county_fips = c2000.county_fips;
 
 -- Using percentile_cont():
+
 SELECT percentile_cont(.5)
        WITHIN GROUP (ORDER BY round( (CAST(c2010.p0010001 AS numeric(8,1)) - c2000.p0010001)
            / c2000.p0010001 * 100, 1 )) AS percentile_50th
 FROM us_counties_2010 c2010 INNER JOIN us_counties_2000 c2000
 ON c2010.state_fips = c2000.state_fips
    AND c2010.county_fips = c2000.county_fips;
+
 -- Note: In both examples, you're finding the median of all the
 -- county population percent change values.
 
@@ -419,6 +446,7 @@ CREATE TABLE songs (
 -- Answer:
 -- Use sum() on gpterms (computer terminals) by state, find percent change, and
 -- then sort.
+
 SELECT pls14.stabr,
        sum(pls14.gpterms) AS gpterms_2014,
        sum(pls09.gpterms) AS gpterms_2009,
@@ -429,11 +457,13 @@ ON pls14.fscskey = pls09.fscskey
 WHERE pls14.gpterms >= 0 AND pls09.gpterms >= 0
 GROUP BY pls14.stabr
 ORDER BY pct_change DESC;
+
 -- The query results show a consistent increase in the number of internet
 -- computers used by the public in most states.
 
 -- Use sum() on pitusr (uses of public internet computers per year) by state,
 -- add percent change, and sort.
+
 SELECT pls14.stabr,
        sum(pls14.pitusr) AS pitusr_2014,
        sum(pls09.pitusr) AS pitusr_2009,
@@ -444,6 +474,7 @@ ON pls14.fscskey = pls09.fscskey
 WHERE pls14.pitusr >= 0 AND pls09.pitusr >= 0
 GROUP BY pls14.stabr
 ORDER BY pct_change DESC;
+
 -- The query results show most states have seen a decrease in the total uses
 -- of public internet computers per year.
 
@@ -460,6 +491,7 @@ ORDER BY pct_change DESC;
 -- Answer:
 
 -- a) sum() visits by region.
+
 SELECT pls14.obereg,
        sum(pls14.visits) AS visits_2014,
        sum(pls09.visits) AS visits_2009,
@@ -472,6 +504,7 @@ GROUP BY pls14.obereg
 ORDER BY pct_change DESC;
 
 -- b) Bonus: creating the regions lookup table and adding it to the query.
+
 CREATE TABLE obereg_codes (
     obereg varchar(2) CONSTRAINT obereg_key PRIMARY KEY,
     region varchar(50)
@@ -489,6 +522,7 @@ VALUES ('01', 'New England (CT ME MA NH RI VT)'),
        ('09', 'Outlying Areas (AS GU MP PR VI)');
 
 -- sum() visits by region.
+
 SELECT obereg_codes.region,
        sum(pls14.visits) AS visits_2014,
        sum(pls09.visits) AS visits_2009,
@@ -509,11 +543,13 @@ ORDER BY pct_change DESC;
 -- show agencies not included in one or the other table.
 
 -- Answer: a FULL OUTER JOIN will show all rows in both tables.
+
 SELECT pls14.libname, pls14.city, pls14.stabr, pls14.statstru, pls14.c_admin, pls14.branlib,
        pls09.libname, pls09.city, pls09.stabr, pls09.statstru, pls09.c_admin, pls09.branlib
 FROM pls_fy2014_pupld14a pls14 FULL OUTER JOIN pls_fy2009_pupld09a pls09
 ON pls14.fscskey = pls09.fscskey
 WHERE pls14.fscskey IS NULL OR pls09.fscskey IS NULL;
+
 -- Note: The IS NULL statements in the WHERE clause limit results to those
 -- that do not appear in both tables.
 
@@ -539,12 +575,14 @@ WHERE pls14.fscskey IS NULL OR pls09.fscskey IS NULL;
 
 -- Answer:
 -- a) Add the columns
+
 ALTER TABLE meat_poultry_egg_inspect ADD COLUMN meat_processing boolean;
 ALTER TABLE meat_poultry_egg_inspect ADD COLUMN poultry_processing boolean;
 
 SELECT * FROM meat_poultry_egg_inspect; -- view table with new empty columns
 
 -- b) Update the columns
+
 UPDATE meat_poultry_egg_inspect
 SET meat_processing = TRUE
 WHERE activities ILIKE '%meat processing%'; -- case-insensitive match with wildcards
@@ -554,13 +592,16 @@ SET poultry_processing = TRUE
 WHERE activities ILIKE '%poultry processing%'; -- case-insensitive match with wildcards
 
 -- c) view the updated table
+
 SELECT * FROM meat_poultry_egg_inspect;
 
 -- d) Count meat and poultry processors
+
 SELECT count(meat_processing), count(poultry_processing)
 FROM meat_poultry_egg_inspect;
 
 -- e) Count those who do both
+
 SELECT count(*)
 FROM meat_poultry_egg_inspect
 WHERE meat_processing = TRUE AND
@@ -582,6 +623,7 @@ WHERE meat_processing = TRUE AND
 -- income than percent bachelor's degree or higher and income. One possible
 -- explanation is that attaining a master's degree or higher may have a more
 -- incremental impact on earnings than attaining a bachelor's degree.
+
 SELECT
     round(
       corr(median_hh_income, pct_bachelors_higher)::numeric, 2
@@ -600,6 +642,7 @@ FROM acs_2011_2015_stats;
 -- Answer:
 -- a) In 2015, Milwaukee and Albuquerque had the two highest rates of motor
 -- vehicle theft:
+
 SELECT
     city,
     st,
@@ -613,6 +656,7 @@ WHERE population >= 500000
 ORDER BY vehicle_theft_per_100000 DESC;
 
 -- b) In 2015, Detroit and Memphis had the two highest rates of violent crime.
+
 SELECT
     city,
     st,
@@ -633,6 +677,7 @@ ORDER BY violent_crime_per_100000 DESC;
 -- Answer:
 -- Cuyahoga County Public Library tops the rankings with 12,963 visits per
 -- thousand people (or roughly 13 visits per person).
+
 SELECT
     libname,
     stabr,
@@ -659,6 +704,7 @@ WHERE popu_lsa >= 250000;
 -- excessive. Moreover, two records have drop-off times before the pickup time,
 -- and several have pickup and drop-off times that are the same. It's worth
 -- asking whether these records have timestamp errors.
+
 SELECT
     trip_id,
     tpep_pickup_datetime,
@@ -672,6 +718,7 @@ ORDER BY length_of_ride DESC;
 -- 2100, arrives in New York City.
 
 -- Answer:
+
 SELECT '2100-01-01 00:00:00-05' AT TIME ZONE 'US/Eastern' AS new_york,
        '2100-01-01 00:00:00-05' AT TIME ZONE 'Europe/London' AS london,
        '2100-01-01 00:00:00-05' AT TIME ZONE 'Africa/Johannesburg' AS johannesburg,
@@ -685,6 +732,7 @@ SELECT '2100-01-01 00:00:00-05' AT TIME ZONE 'US/Eastern' AS new_york,
 -- total_amount. Limit the query to rides that last three hours or less.
 
 -- Answer:
+
 SELECT
     round(
           corr(total_amount, (
@@ -706,6 +754,7 @@ SELECT
     ) AS amount_distance_r2
 FROM nyc_yellow_taxi_trips_2016_06_01
 WHERE tpep_dropoff_datetime - tpep_pickup_datetime <= '3 hours'::interval;
+
 -- Note: Both correlations are strong, with r values of 0.80 or higher. We'd
 -- expect this given that cost of a taxi ride is based on both time and distance.
 
@@ -731,6 +780,7 @@ WHERE tpep_dropoff_datetime - tpep_pickup_datetime <= '3 hours'::interval;
 -- often?
 
 -- Answer: Between 86 and 87 degrees. Nice.
+
 WITH temps_collapsed (station_name, max_temperature_group) AS
     (SELECT station_name,
            CASE WHEN max_temp >= 90 THEN '90 or more'
@@ -759,6 +809,7 @@ ORDER BY max_temperature_group;
 -- add the office names to the output list.
 
 -- The numbers don't change, just the order presented in the crosstab.
+
 SELECT *
 FROM crosstab('SELECT flavor,
                       office,
@@ -790,11 +841,13 @@ AS (flavor varchar(20),
 
 -- Answer: You can use either the standard SQL replace() function or the
 -- PostgreSQL regexp_replace() function:
+
 SELECT replace('Williams, Sr.', ', ', ' ');
 SELECT regexp_replace('Williams, Sr.', ', ', ' ');
 
 -- Answer: To capture just the suffixes, search for characters after a comma
 -- and space and place those inside a match group:
+
 SELECT (regexp_match('Williams, Sr.', '.*, (.*)'))[1];
 
 
@@ -804,6 +857,7 @@ SELECT (regexp_match('Williams, Sr.', '.*, (.*)'))[1];
 -- Bonus: remove commas and periods at the end of each word.
 
 -- Answer:
+
 WITH
     word_list (word)
 AS
@@ -821,6 +875,7 @@ FROM word_list
 WHERE length(word) >= 5
 GROUP BY cleaned_word
 ORDER BY count(*) DESC;
+
 -- Note: This query uses a Common Table Expression to first separate each word
 -- in the text into a separate row in a table named word_list. Then the SELECT
 -- statement counts the words, which are cleaned up with two operations. First,
@@ -862,6 +917,7 @@ LIMIT 5;
 -- Answer: Just three states are bigger than Yukon-Koyukuk: Of course,
 -- one is Alaska itself (FIPS 02). The other two are Texas (FIPS 48),
 -- and California (FIPS 06).
+
 SELECT statefp10 AS st,
        round (
               ( sum(ST_Area(geom::geography) / 2589988.110336))::numeric, 2
@@ -878,7 +934,8 @@ ORDER BY square_miles DESC;
 -- Tip: you can also write this query using the Common Table Expression syntax
 -- you learned in Chapter 12.
 
--- Answer: About 851 miles
+-- Answer: About 851 miles.
+
 WITH
     market_start (geog_point) AS
     (
@@ -904,6 +961,7 @@ FROM market_start, market_end;
 -- table to the geography type and change its SRID using ST_SetSRID().
 
 -- Answer:
+
 SELECT census.name10,
        census.statefp10,
        markets.market_name,
@@ -913,6 +971,7 @@ FROM farmers_markets markets JOIN us_counties_2010_shp census
     ON ST_Intersects(markets.geog_point, ST_SetSRID(census.geom,4326)::geography)
     WHERE markets.county IS NULL
 ORDER BY census.statefp10, census.name10;
+
 -- Note that this query also highlights a farmer's market that is mis-geocoded.
 -- Can you spot it?
 
@@ -924,6 +983,7 @@ ORDER BY census.statefp10, census.name10;
 -- hour. Use the taxi data in Chapter 11 and the query in Listing 11-8.
 
 -- Answer:
+
 CREATE VIEW nyc_taxi_trips_per_hour AS
     SELECT
          date_part('hour', tpep_pickup_datetime),
@@ -939,6 +999,7 @@ SELECT * FROM nyc_taxi_trips_per_hour;
 -- to calculate the result: observed_number, base_number, and decimal_places.
 
 -- Answer: This uses PL/pgSQL, but you could use a SQL function as well.
+
 CREATE OR REPLACE FUNCTION
 rate_per_thousand(observed_number numeric,
                   base_number numeric,
@@ -953,6 +1014,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Test the function:
+
 SELECT rate_per_thousand(50, 11000, 2);
 
 -- 3. In Chapter 9, you worked with the meat_poultry_egg_inspect table that
@@ -964,9 +1026,11 @@ SELECT rate_per_thousand(50, 11000, 2);
 
 -- Answer:
 -- a) Add the column
+
 ALTER TABLE meat_poultry_egg_inspect ADD COLUMN inspection_date date;
 
 -- b) Create the function that the trigger will execute.
+
 CREATE OR REPLACE FUNCTION add_inspection_date()
     RETURNS trigger AS $$
     BEGIN
@@ -977,6 +1041,7 @@ CREATE OR REPLACE FUNCTION add_inspection_date()
 $$ LANGUAGE plpgsql;
 
 -- c) Create the trigger
+
 CREATE TRIGGER inspection_date_update
   AFTER INSERT
   ON meat_poultry_egg_inspect
@@ -984,6 +1049,7 @@ CREATE TRIGGER inspection_date_update
   EXECUTE PROCEDURE add_inspection_date();
 
 -- d) Test the insertion of a company and examine the result
+
 INSERT INTO meat_poultry_egg_inspect(est_number, company)
 VALUES ('test123', 'testcompany');
 
