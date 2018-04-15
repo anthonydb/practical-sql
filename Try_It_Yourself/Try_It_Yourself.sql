@@ -6,9 +6,9 @@
 --------------------------------------------------------------
 
 
---------------
+--------------------------------------------------------------
 -- Chapter 1
---------------
+--------------------------------------------------------------
 
 -- 1. Imagine you're building a database to catalog all the animals at your
 -- local zoo. You want one table for tracking all the kinds of animals and
@@ -69,9 +69,9 @@ VALUES
 INSERT INTO animal_types (common_name, scientific_name, conservation_status)
 VALUES ('Javan Rhino', 'Rhinoceros sondaicus' 'Critically Endangered');
 
---------------
+--------------------------------------------------------------
 -- Chapter 2
---------------
+--------------------------------------------------------------
 
 -- 1. The school district superintendent asks for a list of teachers in each
 -- school. Write a query that lists the schools in alphabetical order along
@@ -100,9 +100,9 @@ WHERE hire_date >= '2010-01-01'
 ORDER BY salary DESC;
 
 
---------------
+--------------------------------------------------------------
 -- Chapter 3
---------------
+--------------------------------------------------------------
 
 -- 1. Your company delivers fruit and vegetables to local grocery stores, and
 -- you need to track the mileage driven by each driver each day to a tenth
@@ -138,9 +138,9 @@ varchar(50)
 SELECT CAST('4//2017' AS timestamp with time zone);
 
 
---------------
+--------------------------------------------------------------
 -- Chapter 4
---------------
+--------------------------------------------------------------
 
 -- 1. Write a WITH statement to include with COPY to handle the import of an
 -- imaginary text file that has a first couple of rows that look like this:
@@ -182,9 +182,9 @@ WITH (FORMAT CSV, HEADER);
 -- type is numeric(8,3).
 
 
---------------
+--------------------------------------------------------------
 -- Chapter 5
---------------
+--------------------------------------------------------------
 
 -- 1. Write a SQL statement for calculating the area of a circle whose radius is
 -- 5 inches. Do you need parentheses in your calculation? Why or why not?
@@ -235,9 +235,9 @@ FROM us_counties_2010
 WHERE state_us_abbreviation = 'CA';
 
 
---------------
+--------------------------------------------------------------
 -- Chapter 6
---------------
+--------------------------------------------------------------
 
 -- 1. The table us_counties_2010 contains 3,143 rows, and us_counties_2000 has
 -- 3,141. That reflects the ongoing adjustments to county-level geographies that
@@ -307,9 +307,9 @@ ON c2010.state_fips = c2000.state_fips
    AND c2010.county_fips = c2000.county_fips
 ORDER BY pct_change ASC;
 
---------------
+--------------------------------------------------------------
 -- Chapter 7
---------------
+--------------------------------------------------------------
 
 -- Consider the following two tables from a database you’re making to keep
 -- track of your vinyl LP collection. Start by reviewing these CREATE TABLE
@@ -400,9 +400,9 @@ CREATE TABLE songs (
 -- to perform many queries that include date ranges.
 
 
---------------
+--------------------------------------------------------------
 -- Chapter 8
---------------
+--------------------------------------------------------------
 
 -- 1. We saw that library visits have declined in most places. But what is the
 -- pattern in the use of technology in libraries? Both the 2014 and 2009 library
@@ -506,9 +506,9 @@ FROM pls_fy2014_pupld14a pls14 FULL OUTER JOIN pls_fy2009_pupld09a pls09
 ON pls14.fscskey = pls09.fscskey
 WHERE pls09.libname IS NULL; -- this shows libraries in 2014 not in the 2009 table
 
---------------
+--------------------------------------------------------------
 -- Chapter 9
---------------
+--------------------------------------------------------------
 
 -- In this exercise, you’ll turn the meat_poultry_egg_inspect table into useful
 -- information. You needed to answer two questions: How many of the companies
@@ -555,9 +555,9 @@ FROM meat_poultry_egg_inspect
 WHERE meat_processing = TRUE AND
       poultry_processing = TRUE;
 
---------------
+--------------------------------------------------------------
 -- Chapter 10
---------------
+--------------------------------------------------------------
 
 -- 1. In Listing 10-2, the correlation coefficient, or r value, of the
 -- variables pct_bachelors_higher and median_hh_income was about .68.
@@ -634,9 +634,9 @@ FROM pls_fy2014_pupld14a
 WHERE popu_lsa >= 250000;
 
 
---------------
+--------------------------------------------------------------
 -- Chapter 11
---------------
+--------------------------------------------------------------
 
 -- 1. Using the New York City taxi data, calculate the length of each ride using
 -- the pickup and drop-off timestamps. Sort the query results from the longest
@@ -696,9 +696,9 @@ FROM nyc_yellow_taxi_trips_2016_06_01
 WHERE tpep_dropoff_datetime - tpep_pickup_datetime <= '3 hours'::interval;
 
 
---------------
+--------------------------------------------------------------
 -- Chapter 12
---------------
+--------------------------------------------------------------
 
 -- 1. Revise the code in Listing 12-15 to dig deeper into the nuances of
 -- Waikiki’s high temperatures. Limit the temps_collapsed table to the Waikiki
@@ -765,9 +765,9 @@ AS (flavor varchar(20),
     uptown bigint);
 
 
---------------
+-------------------------------------------------------------
 -- Chapter 13
---------------
+--------------------------------------------------------------
 
 -- 1. The style guide of a publishing company you're writing for wants you to
 -- avoid commas before suffixes in names. But there are several names like
@@ -830,9 +830,9 @@ ORDER BY rank_score DESC
 LIMIT 5;
 
 
---------------
+--------------------------------------------------------------
 -- Chapter 14
---------------
+--------------------------------------------------------------
 
 -- 1. Earlier, you found which US county has the largest area. Now,
 -- aggregate the county data to find the area of each state in square
@@ -895,9 +895,9 @@ ORDER BY census.statefp10, census.name10;
 -- Note that this query also highlights a farmer's market that is mis-geocoded.
 -- Can you spot it?
 
---------------
+--------------------------------------------------------------
 -- Chapter 15
---------------
+--------------------------------------------------------------
 
 -- 1. Create a view that displays the number of New York City taxi trips per
 -- hour. Use the taxi data in Chapter 11 and the query in Listing 11-8.
@@ -969,23 +969,23 @@ VALUES ('test123', 'testcompany');
 SELECT * FROM meat_poultry_egg_inspect
 WHERE company = 'testcompany';
 
---------------
+--------------------------------------------------------------
 -- Chapter 16
---------------
+--------------------------------------------------------------
 
 -- For this chapter, use psql to review any of the exercises in the book.
 
 
---------------
+--------------------------------------------------------------
 -- Chapter 17
---------------
+--------------------------------------------------------------
 
 -- To back up the gis_analysis database, use the pg_dump utility at the command line:
 -- pg_dump -d gis_analysis -U [your-username] -Fc > gis_analysis_backup_custom.sql
 
 
---------------
+--------------------------------------------------------------
 -- Chapter 18
---------------
+--------------------------------------------------------------
 
 -- This is a non-coding exercise.
