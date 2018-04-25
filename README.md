@@ -2,7 +2,9 @@
 
 [PracticalSQL](https://www.nostarch.com/practicalSQL) by Anthony DeBarros focuses on learning SQL (Structured Query Language) to find the story your data tells, using the open-source database PostgreSQL and the pgAdmin interface as primary tools. This book aims to serve new programmers as well as people with some SQL experience who'd like to go deeper.
 
-Practical SQL is [available now in PDF](https://www.nostarch.com/practicalSQL) with the paperback on sale in May 2018.
+Practical SQL is [available in PDF, .mobi, .epub, and classic print formats](https://www.nostarch.com/practicalSQL).
+
+Questions? Feel free to email [practicalsqlbook@gmail.com](mailto:practicalsqlbook@gmail.com)
 
 ## What's Here
 
