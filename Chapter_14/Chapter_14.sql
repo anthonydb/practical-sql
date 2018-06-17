@@ -190,7 +190,7 @@ FROM us_counties_2010_shp
 ORDER BY square_miles DESC
 LIMIT 5;
 
--- Listing 14-16: Find the county belonging to a pair of coordinates with ST_Within()
+-- Listing 14-16: Using ST_Within() to find the county belonging to a pair of coordinates
 
 SELECT name10,
        statefp10
@@ -219,7 +219,7 @@ WHERE ST_Within('SRID=4269;POINT(-118.3419063 34.0977076)'::geometry, geom);
 -- https://www.census.gov/geo/reference/mtfcc.html
 -- Here, H3010: A natural flowing waterway
 
--- Listing 14-17: Use ST_GeometryType() to determine geometry
+-- Listing 14-17: Using ST_GeometryType() to determine geometry
 
 SELECT ST_GeometryType(geom)
 FROM santafe_linearwater_2016
@@ -239,7 +239,7 @@ FROM santafe_linearwater_2016 water JOIN santafe_roads_2016 roads
 WHERE water.fullname = 'Santa Fe Riv'
 ORDER BY roads.fullname;
 
--- Listing 14-19: Use ST_Intersection() to show where roads cross the river
+-- Listing 14-19: Using ST_Intersection() to show where roads cross the river
 
 SELECT water.fullname AS waterway,
        roads.rttyp,
