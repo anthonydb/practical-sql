@@ -10,7 +10,7 @@ Questions? Feel free to email [practicalsqlbook@gmail.com](mailto:practicalsqlbo
 
 **Code**: All SQL code or command-line listings from each chapter, organized in chapter folders.
 
-**Data**: CSV files for you to import, also organized by chapter.
+**Data**: CSV files for you to import, also organized by chapter. **Warning!** If you wish to view the contents of a CSV file, only do so with a plain-text editor such as Notepad (on Windows), Sublime Text, Visual Studio Code, etc. Do not use Excel, which will potentially alter numbers with leading zeros that are intended to be stored as text.
 
 **Exercises**: The "Try It Yourself" questions and answers for each chapter, listed separately. Try working through the questions before peeking at the answers!
 
