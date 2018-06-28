@@ -10,7 +10,7 @@ Questions? Feel free to email [practicalsqlbook@gmail.com](mailto:practicalsqlbo
 
 **Code**: All SQL code or command-line listings from each chapter, organized in chapter folders.
 
-**Data**: CSV files for you to import, also organized by chapter. **Warning!** If you wish to view the contents of a CSV file, only do so with a plain-text editor such as Notepad (on Windows), Sublime Text, Visual Studio Code, etc. Do not use Excel, which will potentially alter numbers with leading zeros that are intended to be stored as text.
+**Data**: CSV files for you to import, also organized by chapter. **NOTE!** See the warning below about opening CSV files in Excel and text editors in the section on Getting the Code and Data.
 
 **Exercises**: The "Try It Yourself" questions and answers for each chapter, listed separately. Try working through the questions before peeking at the answers!
 
@@ -50,8 +50,8 @@ You can obtain all the code and data at once by downloading this repository as a
 * Select **Download ZIP**
 * Unzip the file on your computer. Place it in a directory that's easy to remember so you can reference it during the exercises that include importing data to PostgreSQL.
 
+**Warning about CSV files!**: Opening CSV files with Excel could lead to data loss. Excel will remove leading zeros from numbers that are intended to be stored as text, such as zip codes. If you wish to view the contents of a CSV file, only do so with a plain-text editor and be careful not to save the file in an encoding other than UTF-8 (e.g., `Notepad.exe` on Windows defaults to ANSI).
+
 **GitHub Users**
 
 GitHub users may want to clone the repository locally and occasionally perform a `git pull` to receive any updates.
-
-
