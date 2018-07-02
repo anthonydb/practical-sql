@@ -20,14 +20,13 @@ As noted on page 257 of the book, the shapefile GUI tool that's available for Wi
 
 #### PL/Python Extension Windows Installation Error
 
-When attempting to run the command `CREATE EXTENSION plpythonu;` from Listing 15-14 on page 281, Windows users may receive the error `could not access file "$libdir/plpython2": No such file or directory`. This means PostgreSQL was unable to find the necessary Python language files on your system. It seems the Language Pack from the Enterprise DB installer doesn't always place the Python language support files where needed.
+When attempting to run the command `CREATE EXTENSION plpythonu;` from Listing 15-14 on page 281, Windows users may receive the error `could not access file "$libdir/plpython2": No such file or directory`. This means PostgreSQL was unable to find the necessary Python language files on your system.
 
-After some investigation, I discovered that the file `plpython3.dll` included with PostgreSQL during the EnterpriseDB Windows installation has a dependency of `python34.dll`, which is not present unless you have Python 3.4 installed on your system.
+Upon investigation, I discovered that the file `plpython3.dll` included with PostgreSQL during the EnterpriseDB Windows installation is looking for the file `python34.dll` to be present in the `C:\Windows\System32` directory. This file is included with the EDB Language Pack but not placed in that directory.
 
-To remedy the situation:
+Here's how to remedy the situation. Note that you must have installed the EDB Language Pack as described on page xxx of the introduction to "Practical SQL":
 
-* Download the latest 32-bit Python 3.4 installer from the [Python site](https://www.python.org/downloads/windows/).
-* Run the installer.
-* When it finishes, open a File Explorer window and search for `python34.dll`.
-* Copy the file (not moving it) to `C:\Windows\System32`.
-* You then should be able to execute the command `CREATE EXTENSION plpython3u;` within your database.
+* Using your File Explorer, navigate to `C:\edb\languagepack-10\x64\Python-3.4`
+* Copy the file `python34.dll` (right-click and select Copy).
+* Using File Explorer, navigate to `C:\Windows\System32` and paste the file.
+* You then should be able to execute the command `CREATE EXTENSION plpython3u;` within your database. Note that this command is slightly different than in the book. You're naming `plpython3u` instead of `plpythonu`.
