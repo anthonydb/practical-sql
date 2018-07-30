@@ -246,8 +246,10 @@ ORDER BY percent_american_indian_alaska_native_alone DESC;
 
 -- Answer:
 -- California had a median county population of 179,140.5 in 2010, almost double
--- that of New York, at 91,301.
+-- that of New York, at 91,301. Here are two solutions:
 
+-- First, you can find the median for each state one at a time:
+              
 SELECT percentile_cont(.5)
         WITHIN GROUP (ORDER BY p0010001)
 FROM us_counties_2010
@@ -258,6 +260,23 @@ SELECT percentile_cont(.5)
 FROM us_counties_2010
 WHERE state_us_abbreviation = 'CA';
 
+-- Second, here is a solution by GitHub user tomyfalgui
+-- that finds both medians with one query:
+  
+SELECT
+  percentile_cont(.5)
+  WITHIN GROUP (ORDER BY (
+    SELECT
+      p0010001
+    WHERE state_us_abbreviation = 'CA'
+  )) AS "CA State Median",
+  percentile_cont(.5)
+  WITHIN GROUP (ORDER BY (
+    SELECT p0010001
+    WHERE state_us_abbreviation = 'NY'
+  )) AS "NY State Median"
+FROM us_counties_2010;         
+              
 
 --------------------------------------------------------------
 -- Chapter 6: Joining Tables in a Relational Database
