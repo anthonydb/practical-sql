@@ -1,14 +1,36 @@
 ## Practical SQL: A Beginner's Guide to Storytelling with Data
 
-### FAQ and Updates
+### FAQ, Updates, and Errata
 
-This page contains answers to Frequently Asked Questions as well as additional information and clarifications on material in the book.
+This page contains answers to Frequently Asked Questions, additional information, and errata related to material in Practical SQL.
 
 ### Introduction
 
 #### Working with pgAdmin: Change in pgAdmin app
 
 Figure 1 on page xxxiii of the Introduction shows the pgAdmin app's opening screen. Beginning with version 3.0 of pgAdmin, released in April 2018, the application loads as a tab within your default web browser. Previous versions of pgAdmin run as a standalone desktop application. All other functionality for pgAdmin described in the book remains the same.
+
+### Chapter 12: Advanced Query Techniques
+
+**Errata**:
+
+Page 195: The results shown for Listing 12-3 are correct. However, the first sentence after the results has an incorrect number. It should read, "The difference between the median and average, 72,376, is nearly three times the size of the median."
+
+### Chapter 13: Mining Text to Find Meaningful Data
+
+**Errata**:
+
+Page 230: The final line in Listing 13-13 should have a space instead of a comma between the quote marks in the second argument. It should read:
+
+`SELECT regexp_split_to_array('Phil Mike Tony Steve', ' ');`
+
+It's correct in the code listing on GitHub [here](https://github.com/anthonydb/practical-sql/blob/master/Chapter_13/Chapter_13.sql#L223).
+
+Page 238: The final line of Listing 13-25 is missing a semi-colon. It should read:
+
+`LIMIT 5;`
+
+It's correct in the code listing on GitHub [here](https://github.com/anthonydb/practical-sql/blob/master/Chapter_13/Chapter_13.sql#L349).
 
 ### Chapter 14: Analyzing Spatial Data with PostGIS
 

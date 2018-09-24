@@ -14,7 +14,7 @@ Questions? Feel free to email [practicalsqlbook@gmail.com](mailto:practicalsqlbo
 
 **Exercises**: The "Try It Yourself" questions and answers for each chapter, listed separately. Try working through the questions before peeking at the answers!
 
-**FAQ**: Answers to frequently asked questions as well as updates to installation instructions at [faq-updates.md](https://github.com/anthonydb/practical-sql/blob/master/faq-updates.md).
+**FAQ, Updates, and Errata**: Answers to frequently asked questions,  updates, and corrections are noted at [faq-updates.md](https://github.com/anthonydb/practical-sql/blob/master/faq-updates-errata.md).
 
 **Resources**: Updates to the book's Appendix on Additional PostgreSQL Resources at [resources.md](https://github.com/anthonydb/practical-sql/blob/master/resources.md).
 

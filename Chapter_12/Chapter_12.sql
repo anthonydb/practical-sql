@@ -92,6 +92,50 @@ WHERE (p0010001 - (SELECT percentile_cont(.5) WITHIN GROUP (ORDER BY p0010001)
                    FROM us_counties_2010))
        BETWEEN -1000 AND 1000;
 
+            
+-- BONUS: Subquery expressions
+-- If you'd like to try the IN, EXISTS, and NOT EXISTS expressions on pages 199-200,
+-- here's the code to create a retirees table. The queries below are similar
+-- to the hypothetical examples on pages 199 and 200. You will need the
+-- employees table you created in Chapter 6.
+              
+-- Create table and insert data
+CREATE TABLE retirees (
+    id int,
+    first_name varchar(50),
+    last_name varchar(50)
+);
+
+INSERT INTO retirees 
+VALUES (2, 'Lee', 'Smith'),
+       (4, 'Janet', 'King');
+
+-- Generating values for the IN operator
+SELECT first_name, last_name
+FROM employees
+WHERE emp_id IN (
+    SELECT id
+    FROM retirees);
+
+-- Checking whether values exist (returns all rows from employees
+-- if the expression evaluates as true)
+SELECT first_name, last_name
+FROM employees
+WHERE EXISTS (
+    SELECT id
+    FROM retirees);
+
+-- Using a correlated subquery to find matching values from employees
+-- in retirees.
+SELECT first_name, last_name
+FROM employees
+WHERE EXISTS (
+    SELECT id
+    FROM retirees
+    WHERE id = employees.emp_id);
+
+                   
+                   
 -- Listing 12-7: Using a simple CTE to find large counties
 
 WITH
