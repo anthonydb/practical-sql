@@ -163,11 +163,21 @@ SELECT CAST('4//2017' AS timestamp with time zone);
 -- id:movie:actor
 -- 50:#Mission: Impossible#:Tom Cruise
 
--- Answer:
+-- Answer: The WITH statement will need the options seen here:
 
 COPY actors
-FROM 'movies.txt'
+FROM 'C:\YourDirectory\movies.txt'
 WITH (FORMAT CSV, HEADER, DELIMITER ':', QUOTE '#');
+
+-- If you'd like to try actually importing this data, save the data in a file
+-- called movies.txt and create the actors table below. You can then run the COPY
+-- statement.
+
+CREATE TABLE actors (
+    id integer,
+    movie text,
+    actor text    
+);
 
 -- Note: You may never encounter a file that uses a colon as a delimiter and
 -- and pound sign for quoting, but anything is possible.
