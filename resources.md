@@ -40,6 +40,8 @@ You can expand the capabilities of PostgreSQL via numerous third-party utilities
 
 [SciPy](https://www.scipy.org/): A collection of Python science and engineering libraries you can use with the PL/Python procedural language in PostgreSQL.
 
+[TimescaleDB](https://www.timescale.com/): A PostgreSQL-based database that specializes in handling time-series data. 
+
 ### PostgreSQL News
 
 Here’s a collection of online resources you can use to stay informed:
