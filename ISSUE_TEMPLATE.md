@@ -2,6 +2,8 @@
 
 Having trouble with data, code, or exercises in Practical SQL? I'm glad to help. Please answer these questions, and I'll typically reply within one business day.
 
+Please include the chapter number in your issue title. For example: "Chapter 13: Regular Expression Question"
+
 ### General
 
 **What's your operating system (e.g. Windows 10, macOS Mojave, Ubuntu, etc.)?**
