@@ -121,7 +121,7 @@ CREATE TABLE us_counties_2010 (
     h0010003 integer    -- Vacant
 );
 
-SELECT * from us_counties_2010;
+SELECT * FROM us_counties_2010;
 
 -- Listing 4-3: Importing Census data using COPY
 
