@@ -176,7 +176,7 @@ WITH (FORMAT CSV, HEADER, DELIMITER ':', QUOTE '#');
 CREATE TABLE actors (
     id integer,
     movie text,
-    actor text    
+    actor text
 );
 
 -- Note: You may never encounter a file that uses a colon as a delimiter and
@@ -259,7 +259,7 @@ ORDER BY percent_american_indian_alaska_native_alone DESC;
 -- that of New York, at 91,301. Here are two solutions:
 
 -- First, you can find the median for each state one at a time:
-              
+
 SELECT percentile_cont(.5)
         WITHIN GROUP (ORDER BY p0010001)
 FROM us_counties_2010
@@ -272,7 +272,7 @@ WHERE state_us_abbreviation = 'CA';
 
 -- Second, here is a solution by GitHub user tomyfalgui
 -- that finds both medians with one query:
-  
+
 SELECT
   percentile_cont(.5)
   WITHIN GROUP (ORDER BY (
@@ -285,8 +285,16 @@ SELECT
     SELECT p0010001
     WHERE state_us_abbreviation = 'NY'
   )) AS "NY State Median"
-FROM us_counties_2010;         
-              
+FROM us_counties_2010;
+
+-- Finally, this query shows the median for each state:
+
+SELECT state_us_abbreviation,
+       percentile_cont(0.5)
+          WITHIN GROUP (ORDER BY p0010001) AS median
+FROM us_counties_2010
+GROUP BY state_us_abbreviation;
+
 
 --------------------------------------------------------------
 -- Chapter 6: Joining Tables in a Relational Database
