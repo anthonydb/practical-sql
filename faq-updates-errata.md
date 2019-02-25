@@ -10,6 +10,10 @@ This page contains answers to Frequently Asked Questions, additional information
 
 Figure 1 on page xxxiii of the Introduction shows the pgAdmin app's opening screen. Beginning with version 3.0 of pgAdmin, released in April 2018, the application loads as a tab within your default web browser. Previous versions of pgAdmin run as a standalone desktop application. All other functionality for pgAdmin described in the book remains the same.
 
+### Chapter 9: Inspecting and Modifying Data
+
+As of February 24, 2019, this repository contains a revised version of the CSV file `MPI_Directory_by_Establishment_Name.csv'. The only difference between it and the original is the format of the dates in the `grant_date` column. They are now in ISO 8601 international standard format, `YYYY-MM-DD`. I made the change to accommodate international translation of Practical SQL. This change affects none of the exercises. If you would like to use the original CSV for some reason, I moved it to the [Misc folder](https://github.com/anthonydb/practical-sql/blob/master/Misc/).
+
 ### Chapter 12: Advanced Query Techniques
 
 **Errata**:
