@@ -6,9 +6,11 @@ This page contains answers to Frequently Asked Questions, additional information
 
 ### Introduction
 
-#### Working with pgAdmin: Change in pgAdmin app
+#### Working with pgAdmin: Changes to pgAdmin app
 
-Figure 1 on page xxxiii of the Introduction shows the pgAdmin app's opening screen. Beginning with version 3.0 of pgAdmin, released in April 2018, the application loads as a tab within your default web browser. Previous versions of pgAdmin run as a standalone desktop application. All other functionality for pgAdmin described in the book remains the same.
+**Browser app:** Figure 1 on page xxxiii of the Introduction shows the pgAdmin app's opening screen. Beginning with version 3.0 of pgAdmin, released in April 2018, the application loads as a tab within your default web browser. Previous versions of pgAdmin run as a standalone desktop application. All other functionality for pgAdmin described in the book remains the same. Early copies of the book show pgAdmin as a standalone app. This has been updated in more recent printings. 
+
+**Master password:** Beginning with version 4.7 of pgAdmin, released in May 2019, the application asks you to set a "master password" that's used in addition to the database password set on installation.
 
 ### Chapter 9: Inspecting and Modifying Data
 
