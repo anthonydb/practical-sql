@@ -18,7 +18,7 @@ This page contains answers to Frequently Asked Questions, additional information
 
 Be sure to download the data files and code examples from this repo using the steps outlined on page xxvii of the book's Introduction. That is, on the [main GitHub page for this repo](https://github.com/anthonydb/practical-sql), click the `Clone or Download` button and download a ZIP file with all the materials. Trying to copy/paste from GitHub often creates problems because HTML coding can get added to the data.
 
-In addition, avoid opening or changing CSV files with Excel or a text editor, which can lead to data loss or encoding changes.
+In addition, avoid opening or changing CSV files with Excel or a text editor, which can lead to data loss or encoding changes. See page 135 of the book for details.
 
 ### Chapter 9: Inspecting and Modifying Data
 
