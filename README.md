@@ -1,6 +1,6 @@
 ## Practical SQL: A Beginner's Guide to Storytelling with Data
 
-[PracticalSQL](https://www.nostarch.com/practicalSQL) shows how to use the database programming language SQL (Structured Query Language) to find the story in your data. Author Anthony DeBarros, a longtime data analyst, journalist and coder, starts readers off with SQL basics, using the open-source database PostgreSQL and its visual interface, pgAdmin. You’ll  cover the fundamentals of databases and the SQL language, then build skills by analyzing data from the U.S. Census and other government agencies. With exercises and real-world examples in each chapter, this book is appropriate for beginners as well as those who know some SQL and want to go deeper.
+[PracticalSQL](https://www.nostarch.com/practicalSQL) teaches you how to use the database programming language SQL (Structured Query Language) to find the story in your data. Author [Anthony DeBarros](https://www.anthonydebarros.com), a longtime data analyst, journalist and coder, starts readers off with SQL basics, using the open-source database PostgreSQL and its visual interface, pgAdmin. You’ll cover the fundamentals of databases and the SQL language, then build skills by analyzing data from the U.S. Census and other government agencies. With exercises and real-world examples in each chapter, this book is appropriate for beginners as well as those who know some SQL and want to go deeper.
 
 Practical SQL is [available in PDF, .mobi, .epub, and classic print formats](https://www.nostarch.com/practicalSQL).
 
