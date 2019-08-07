@@ -124,6 +124,9 @@ CREATE TABLE us_counties_2010 (
 SELECT * FROM us_counties_2010;
 
 -- Listing 4-3: Importing Census data using COPY
+-- Note! If you run into an import error here, be sure you downloaded the code and
+-- data for the book according to the steps listed on page xxvii in the Introduction.
+-- Windows users: Please check the Note on page xxvii as well.
 
 COPY us_counties_2010
 FROM 'C:\YourDirectory\us_counties_2010.csv'
