@@ -12,7 +12,17 @@ This page contains answers to Frequently Asked Questions, additional information
 
 **Master password:** Beginning with version 4.7 of pgAdmin, released in May 2019, the application asks you to set a "master password" that's used in addition to the database password set on installation.
 
+### Chapter 4: Importing and Exporting Data
+
+**Avoiding common import errors**:
+
+Be sure to download the data files and code examples from this repo using the steps outlined on page xxvii of the book's Introduction. That is, on the [main GitHub page for this repo](https://github.com/anthonydb/practical-sql), click the `Clone or Download` button and download a ZIP file with all the materials. Trying to copy/paste from GitHub often creates problems because HTML coding can get added to the data.
+
+In addition, avoid opening or changing CSV files with Excel or a text editor, which can lead to data loss or encoding changes.
+
 ### Chapter 9: Inspecting and Modifying Data
+
+**Updated data file**:
 
 As of February 24, 2019, this repository contains a revised version of the CSV file `MPI_Directory_by_Establishment_Name.csv'`. The only difference between it and the original is the format of the dates in the `grant_date` column. They are now in ISO 8601 international standard format, `YYYY-MM-DD`. I made the change to accommodate international translation of Practical SQL. This change affects none of the exercises. If you would like to use the original CSV for some reason, I moved it to the [Misc folder](https://github.com/anthonydb/practical-sql/blob/master/Misc/).
 
