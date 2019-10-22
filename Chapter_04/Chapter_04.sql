@@ -5,7 +5,8 @@
 -- Chapter 4 Code Examples
 --------------------------------------------------------------
 
--- Listing 4-1: Using COPY for data import (example syntax)
+-- Listing 4-1: Using COPY for data import
+-- This is example syntax only; running it will produce an error
 
 COPY table_name
 FROM 'C:\YourDirectory\your_file.csv'
