@@ -241,7 +241,7 @@ ORDER BY count(*) DESC;
 SELECT stabr, count(*)
 FROM pls_fy2014_pupld14a
 GROUP BY stabr
-ORDER BY count(stabr) DESC;
+ORDER BY count(*) DESC;
 
 -- Listing 8-10: GROUP BY with count() on the stabr and stataddr columns
 
