@@ -1,6 +1,6 @@
 ---
 name: Practical SQL Issue or Question
-about: Support
+about: Get help with the code exercises or setup.
 title: ''
 labels: help wanted
 assignees: anthonydb
