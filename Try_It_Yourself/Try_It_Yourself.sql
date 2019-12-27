@@ -270,7 +270,7 @@ SELECT percentile_cont(.5)
 FROM us_counties_2010
 WHERE state_us_abbreviation = 'CA';
 
--- or both in on query
+-- or both in one query
 SELECT state_us_abbreviation,
        percentile_cont(0.5)
           WITHIN GROUP (ORDER BY p0010001) AS median
