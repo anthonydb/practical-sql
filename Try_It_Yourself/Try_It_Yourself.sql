@@ -270,23 +270,14 @@ SELECT percentile_cont(.5)
 FROM us_counties_2010
 WHERE state_us_abbreviation = 'CA';
 
--- Second, here is a solution by GitHub user tomyfalgui
--- that finds both medians with one query:
-
-SELECT
-  percentile_cont(.5)
-  WITHIN GROUP (ORDER BY (
-    SELECT
-      p0010001
-    WHERE state_us_abbreviation = 'CA'
-  )) AS "CA State Median",
-  percentile_cont(.5)
-  WITHIN GROUP (ORDER BY (
-    SELECT p0010001
-    WHERE state_us_abbreviation = 'NY'
-  )) AS "NY State Median"
-FROM us_counties_2010;
-
+-- or both in on query
+SELECT state_us_abbreviation,
+       percentile_cont(0.5)
+          WITHIN GROUP (ORDER BY p0010001) AS median
+FROM us_counties_2010
+WHERE state_us_abbreviation IN ('NY', 'CA')
+GROUP BY state_us_abbreviation;
+              
 -- Finally, this query shows the median for each state:
 
 SELECT state_us_abbreviation,
