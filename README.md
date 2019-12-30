@@ -1,6 +1,6 @@
 ## Practical SQL: A Beginner's Guide to Storytelling with Data
 
-[Practical SQL](https://www.nostarch.com/practicalSQL) from No Starch Press is a beginner-friendly guide to the database programming language SQL. Author [Anthony DeBarros](https://www.anthonydebarros.com), a longtime data analyst, journalist and coder, starts readers with SQL basics, using the open-source database PostgreSQL and the visual interface pgAdmin, and moves through advanced topics including statistics, GIS and automating tasks. Along the way, you'll analyze data from the U.S. Census and other government agencies and learn the fundamentals of good database design. This book is ideal for beginners as well as those who know some SQL and want to go deeper.
+[Practical SQL](https://www.nostarch.com/practicalSQL) from No Starch Press is a beginner-friendly guide to the database programming language SQL. Journalist and data analyst  [Anthony DeBarros](https://www.anthonydebarros.com) begins with SQL basics, using the free open-source database PostgreSQL and interface pgAdmin, and walks through intermediate and advanced topics including statistics, aggregation, cleaning data, GIS and automating tasks. Along the way, you'll use real-world data from the U.S. Census and other government agencies and learn the fundamentals of good database design. This book is ideal for beginners as well as those who know some SQL and want to go deeper.
 
 Practical SQL is [available in PDF, .mobi, .epub, and classic print formats](https://www.nostarch.com/practicalSQL).
 
