@@ -28,7 +28,7 @@ As of February 24, 2019, this repository contains a revised version of the CSV f
 
 ### Chapter 11: Working With Dates and Times
 
-**New URL for taxi data data dictionary**
+**New data dictionary URL for taxi trip times data**
 
 Page 182: The PDF of the data dictionary describing the columns and codes for the New York City taxi data has moved. It is now at [https://www1.nyc.gov/assets/tlc/downloads/pdf/data_dictionary_trip_records_yellow.pdf](https://www1.nyc.gov/assets/tlc/downloads/pdf/data_dictionary_trip_records_yellow.pdf)
 
