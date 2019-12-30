@@ -12,6 +12,14 @@ This page contains answers to Frequently Asked Questions, additional information
 
 **Master password:** Beginning with version 4.7 of pgAdmin, released in May 2019, the application asks you to set a "master password" that's used in addition to the database password set on installation.
 
+**Execute/refresh button icon:** Beginning with version 4.15 of pgAdmin, the icon for the button that executes a SQL statement was changed from a lightning bolt to a "play" symbol.
+
+### Chapter 1: Creating Your First Database and Table
+
+**Updated execute/refresh button icon:**
+
+Step 7 on page 4 and Step 3 on page 7 both refer to clicking a lightning bolt icon to execute your SQL statements. Starting with version 4.15 of pgAdmin, the icon for the button that executes a SQL statement was changed from a lightning bolt to a "play" symbol.
+
 ### Chapter 4: Importing and Exporting Data
 
 **Avoiding common import errors**:
