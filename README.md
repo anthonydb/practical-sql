@@ -4,13 +4,13 @@
 
 Practical SQL is [available in PDF, .mobi, .epub, and classic print formats](https://www.nostarch.com/practicalSQL).
 
-Questions? Feel free to email [practicalsqlbook@gmail.com](mailto:practicalsqlbook@gmail.com)
+Questions? Please email [practicalsqlbook@gmail.com](mailto:practicalsqlbook@gmail.com)
 
 ## What's Here
 
-**Code**: All SQL code or command-line listings from each chapter, organized in chapter folders.
+**Code**: All the SQL statements and command-line listings used in each chapter, organized by chapter folders.
 
-**Data**: CSV files for you to import, also organized by chapter. **NOTE!** See the warning below about opening CSV files in Excel and text editors in the section on Getting the Code and Data.
+**Data**: CSV files and GIS shapefiles for you to import, also organized by chapter. **NOTE!** See the warning below about opening CSV files with Excel or text editors in the section on Getting the Code and Data.
 
 **Exercises**: The "Try It Yourself" questions and answers for each chapter, listed separately. Try working through the questions before peeking at the answers!
 

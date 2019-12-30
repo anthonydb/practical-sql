@@ -26,6 +26,12 @@ In addition, avoid opening or changing CSV files with Excel or a text editor, wh
 
 As of February 24, 2019, this repository contains a revised version of the CSV file `MPI_Directory_by_Establishment_Name.csv'`. The only difference between it and the original is the format of the dates in the `grant_date` column. They are now in ISO 8601 international standard format, `YYYY-MM-DD`. I made the change to accommodate international translation of Practical SQL. This change affects none of the exercises. If you would like to use the original CSV for some reason, I moved it to the [Misc folder](https://github.com/anthonydb/practical-sql/blob/master/Misc/).
 
+### Chapter 11: Working With Dates and Times
+
+**New URL for taxi data data dictionary**
+
+Page 182: The PDF of the data dictionary describing the columns and codes for the New York City taxi data has moved. It is now at [https://www1.nyc.gov/assets/tlc/downloads/pdf/data_dictionary_trip_records_yellow.pdf](https://www1.nyc.gov/assets/tlc/downloads/pdf/data_dictionary_trip_records_yellow.pdf)
+
 ### Chapter 12: Advanced Query Techniques
 
 **Errata**:
