@@ -18,7 +18,7 @@ This page contains answers to Frequently Asked Questions, additional information
 
 **Updated execute/refresh button icon:**
 
-Step 7 on page 4 and Step 3 on page 7 both refer to clicking a lightning bolt icon to execute your SQL statements. Starting with version 4.15 of pgAdmin, the icon for the button that executes a SQL statement was changed from a lightning bolt to a "play" symbol.
+Step 7 on page 4 and Step 3 on page 7 both refer to clicking a lightning bolt icon in pgAdmin to execute your SQL statements. Starting with version 4.15 of pgAdmin, the icon for the button that executes a SQL statement was changed from a lightning bolt to a "play" symbol.
 
 ### Chapter 4: Importing and Exporting Data
 
