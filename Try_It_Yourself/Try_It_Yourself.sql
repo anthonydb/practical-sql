@@ -180,7 +180,7 @@ CREATE TABLE actors (
 );
 
 -- Note: You may never encounter a file that uses a colon as a delimiter and
--- and pound sign for quoting, but anything is possible.
+-- pound sign for quoting, but anything is possible.
 
 -- 2. Using the table us_counties_2010 you created and filled in this chapter,
 -- export to a CSV file the 20 counties in the United States that have the most
@@ -278,7 +278,7 @@ SELECT state_us_abbreviation,
 FROM us_counties_2010
 WHERE state_us_abbreviation IN ('NY', 'CA')
 GROUP BY state_us_abbreviation;
-              
+
 -- Finally, this query shows the median for each state:
 
 SELECT state_us_abbreviation,

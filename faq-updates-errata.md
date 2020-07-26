@@ -8,17 +8,17 @@ This page contains answers to Frequently Asked Questions, additional information
 
 #### Working with pgAdmin: Changes to pgAdmin app
 
-**Browser app:** Figure 1 on page xxxiii of the Introduction shows the pgAdmin app's opening screen. Beginning with version 3.0 of pgAdmin, released in April 2018, the application loads as a tab within your default web browser. Previous versions of pgAdmin run as a standalone desktop application. All other functionality for pgAdmin described in the book remains the same. Early copies of the book show pgAdmin as a standalone app. This has been updated in more recent printings. 
+**Browser app:** Figure 1 on page xxxiii of the Introduction shows the pgAdmin app's opening screen. Beginning with version 3.0 of pgAdmin, released in April 2018, the application loads as a tab within your default web browser. Previous versions of pgAdmin run as a standalone desktop application. All other functionality for pgAdmin described in the book remains the same. Early copies of the book show pgAdmin as a standalone app. This has been updated in more recent printings.
 
 **Master password:** Beginning with version 4.7 of pgAdmin, released in May 2019, the application asks you to set a "master password" that's used in addition to the database password set on installation.
 
-**Execute/refresh button icon:** Beginning with version 4.15 of pgAdmin, the icon for the button that executes a SQL statement was changed from a lightning bolt to a "play" symbol.
+**Execute/refresh button icon:** Beginning with version 4.15 of pgAdmin, the icon for the button that executes a SQL statement was changed from a lightning bolt to a right arrow (e.g., a "play" symbol) and named Execute/Refresh.
 
 ### Chapter 1: Creating Your First Database and Table
 
 **Updated execute/refresh button icon:**
 
-Step 7 on page 4 and Step 3 on page 7 both refer to clicking a lightning bolt icon in pgAdmin to execute your SQL statements. Starting with version 4.15 of pgAdmin, the icon for the button that executes a SQL statement was changed from a lightning bolt to a "play" symbol.
+Step 7 on page 4 and Step 3 on page 7 both refer to clicking a lightning bolt icon in pgAdmin to execute your SQL statements. Starting with version 4.15 of pgAdmin, the icon for the button that executes a SQL statement was changed from a lightning bolt to a right arrow (e.g., a "play" symbol) and named Execute/Refresh.
 
 ### Chapter 4: Importing and Exporting Data
 
@@ -56,7 +56,7 @@ Page 230: The final line in Listing 13-13 should have a space instead of a comma
 
 It's correct in the code listing on GitHub [here](https://github.com/anthonydb/practical-sql/blob/master/Chapter_13/Chapter_13.sql#L223).
 
-Page 238: The final line of Listing 13-25 is missing a semi-colon. It should read:
+Page 238: In early printings of the book, the final line of Listing 13-25 is missing a semi-colon. It should read:
 
 `LIMIT 5;`
 
