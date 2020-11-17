@@ -30,6 +30,11 @@ In addition, avoid opening or changing CSV files with Excel or a text editor, wh
 
 ### Chapter 9: Inspecting and Modifying Data
 
+**Errata**:
+
+Page 133: The first sentence below the query results at the top of the page should read:
+"However, the row at the bottom of the list has a `NULL` value in the `st` column and a `3` in `st_count`."
+
 **Updated data file**:
 
 As of February 24, 2019, this repository contains a revised version of the CSV file `MPI_Directory_by_Establishment_Name.csv'`. The only difference between it and the original is the format of the dates in the `grant_date` column. They are now in ISO 8601 international standard format, `YYYY-MM-DD`. I made the change to accommodate international translation of Practical SQL. This change affects none of the exercises. If you would like to use the original CSV for some reason, I moved it to the [Misc folder](https://github.com/anthonydb/practical-sql/blob/master/Misc/).
