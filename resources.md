@@ -12,15 +12,15 @@ Throughout the book, we’ve used the graphical user interface [pgAdmin](https:/
 
 The following list contains information on several tools I’ve tried, including free and paid options. The free tools work well for general analysis work. But if you wade deeper into database development, you might want to upgrade to the paid options, which typically offer advanced features and support:
 
+[Beekeeper Studio](https://www.beekeeperstudio.io): For Windows, macOS, and Linux, "a straightforward and approachable cross-platform SQL client," according to its developers. Free and relatively new.
+
 [DataGrip](http://www.jetbrains.com/datagrip/): A SQL development environment that offers code completion, bug detection, and suggestions for streamlining code, among many other features. It’s a paid product, but the company, JetBrains, offers discounts and free versions for students, educators, and nonprofits.
 
 [Navicat](https://www.navicat.com/): A richly featured SQL development environment with ver- sions that support PostgreSQL as well as other databases, including MySQL, Oracle, and Microsoft SQL Server. Navicat is a paid version only, but the company offers a 14-day free trial.
 
-[pgManage](https://github.com/pgManage/pgManage/): A free, open source GUI client for Windows, macOS, and Linux, formerly known as Postage.
-
 [Postico](https://eggerapps.at/postico/): A macOS-only client from the maker of Postgres.app that looks like it takes its cues from Apple design. The full version is paid, but a restricted-feature version is available with no time limit.
 
-[PSequel](http://www.psequel.com/): Also macOS-only, PSequel is a free PostgreSQL client that is decidedly minimalist.
+[PSequel](http://www.psequel.com/): Also macOS-only, PSequel is a free PostgreSQL client that is decidedly minimalist. Appears to not have been updated in some time, however.
 
 A trial version can help you decide whether the product is right for you.
 
@@ -32,7 +32,7 @@ You can expand the capabilities of PostgreSQL via numerous third-party utilities
 
 [MADlib](http://madlib.apache.org/): A machine learning and analytics library for large data sets.
 
-[pgAgent](https://www.pgadmin.org/docs/pgadmin4/dev/pgagent.html): A job manager that lets you run queries at scheduled times, among other tasks.
+[pgAgent](https://www.pgadmin.org/docs/pgadmin4/latest/pgagent.html): A job manager that lets you run queries at scheduled times, among other tasks.
 
 [pgcli](https://github.com/dbcli/pgcli/): A replacement for psql that includes improved formatting when writing queries and viewing output.
 

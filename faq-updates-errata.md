@@ -8,7 +8,7 @@ This page contains answers to Frequently Asked Questions, additional information
 
 #### Working with pgAdmin: Changes to pgAdmin app
 
-**Browser app:** Figure 1 on page xxxiii of the Introduction shows the pgAdmin app's opening screen. Beginning with version 3.0 of pgAdmin, released in April 2018, the application loads as a tab within your default web browser. Previous versions of pgAdmin run as a standalone desktop application. All other functionality for pgAdmin described in the book remains the same. Early copies of the book show pgAdmin as a standalone app. This has been updated in more recent printings.
+**Browser/web app:** Figure 1 on page xxxiii of the Introduction shows the pgAdmin app's opening screen. Beginning with version 5.0, released in February 2021, pgAdmin loads as a standalone application. From version 3.0 to version 4.30, pgAdmin loaded as a tab within your default web browser. All other functionality for pgAdmin described in the book remains the same. Various printings of the book reference the different ways the application loads.
 
 **Master password:** Beginning with version 4.7 of pgAdmin, released in May 2019, the application asks you to set a "master password" that's used in addition to the database password set on installation.
 
@@ -33,7 +33,7 @@ In addition, avoid opening or changing CSV files with Excel or a text editor, wh
 **Errata**:
 
 Page 133: The first sentence below the query results at the top of the page should read:
-"However, the row at the bottom of the list has a `NULL` value in the `st` column and a `3` in `st_count`."
+"However, the row at the bottom of the list has a `NULL` value in the `st` column and a `3` in `st_count`." This has been corrected in later printings.
 
 **Updated data file**:
 
@@ -49,7 +49,7 @@ Page 182: The PDF of the data dictionary describing the columns and codes for th
 
 **Errata**:
 
-Page 195: The results shown for Listing 12-3 are correct. However, the first sentence after the results has an incorrect number. It should read, "The difference between the median and average, 72,376, is nearly three times the size of the median."
+Page 195: The results shown for Listing 12-3 are correct. However, the first sentence after the results in some printings has an incorrect number. It should read, "The difference between the median and average, 72,376, is nearly three times the size of the median."
 
 ### Chapter 13: Mining Text to Find Meaningful Data
 

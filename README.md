@@ -1,10 +1,12 @@
 ## Practical SQL: A Beginner's Guide to Storytelling with Data
 
-[Practical SQL](https://www.nostarch.com/practicalSQL) from No Starch Press is a beginner-friendly guide to the database programming language SQL. Journalist and data analyst  [Anthony DeBarros](https://www.anthonydebarros.com) begins with SQL basics, using the free open-source database PostgreSQL and interface pgAdmin, and walks through intermediate and advanced topics including statistics, aggregation, cleaning data, GIS and automating tasks. Along the way, you'll use real-world data from the U.S. Census and other government agencies and learn the fundamentals of good database design. This book is ideal for beginners as well as those who know some SQL and want to go deeper.
+[Practical SQL](https://www.nostarch.com/practicalSQL) by journalist and data analyst [Anthony DeBarros](https://www.anthonydebarros.com) is a beginner-friendly guide to the database programming language SQL. Starting with SQL basics, you'll work through intermediate and advanced topics including statistics, aggregation, cleaning data, GIS and automating tasks. Along the way, you'll use real-world data from the U.S. Census and other government agencies and learn the fundamentals of good database design. This book is ideal for beginners as well as those who know some SQL and want to go deeper.
 
-Practical SQL is [available in PDF, .mobi, .epub, and classic print formats](https://www.nostarch.com/practicalSQL).
+Practical SQL uses the free, open-source database [PostgreSQL](https://www.postgresql.org), the [pgAdmin](https://www.pgadmin.org) GUI, and the [PostGIS](https://postgis.net) extension -- technologies used by developers around the world. Much of the SQL syntax and concepts are transferable to other database systems such as MySQL, SQLite, and Microsoft's SQL Server. The book notes when syntax or a function is PostgreSQL-specific.
 
-Questions? Please email [practicalsqlbook@gmail.com](mailto:practicalsqlbook@gmail.com)
+Practical SQL is published by No Starch Press and [available in PDF, .mobi, .epub, and classic print formats](https://www.nostarch.com/practicalSQL).
+
+Questions? I love to hear from readers. Please email [practicalsqlbook@gmail.com](mailto:practicalsqlbook@gmail.com)
 
 ## What's Here
 
