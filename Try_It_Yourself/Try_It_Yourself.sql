@@ -1063,8 +1063,7 @@ ALTER TABLE meat_poultry_egg_inspect ADD COLUMN inspection_date date;
 CREATE OR REPLACE FUNCTION add_inspection_date()
     RETURNS trigger AS $$
     BEGIN
-       UPDATE meat_poultry_egg_inspect
-       SET inspection_date = now() + '6 months'::interval; -- Here, we set the inspection date to six months in the future
+       NEW.inspection_date = now() + '6 months'::interval; -- Here, we set the inspection date to six months in the future
     RETURN NEW;
     END;
 $$ LANGUAGE plpgsql;
@@ -1072,7 +1071,7 @@ $$ LANGUAGE plpgsql;
 -- c) Create the trigger
 
 CREATE TRIGGER inspection_date_update
-  AFTER INSERT
+  BEFORE INSERT
   ON meat_poultry_egg_inspect
   FOR EACH ROW
   EXECUTE PROCEDURE add_inspection_date();
