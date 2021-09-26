@@ -2,13 +2,19 @@
 
 [Practical SQL](https://www.nostarch.com/practicalSQL) by journalist and data analyst [Anthony DeBarros](https://www.anthonydebarros.com) is a beginner-friendly guide to the database programming language SQL. Starting with SQL basics, you'll work through intermediate and advanced topics including statistics, aggregation, cleaning data, GIS and automating tasks. Along the way, you'll use real-world data from the U.S. Census and other government agencies and learn the fundamentals of good database design. This book is ideal for beginners as well as those who know some SQL and want to go deeper.
 
-Practical SQL uses the free, open-source database [PostgreSQL](https://www.postgresql.org), the [pgAdmin](https://www.pgadmin.org) GUI, and the [PostGIS](https://postgis.net) extension -- technologies used by developers around the world. Much of the SQL syntax and concepts are transferable to other database systems such as MySQL, SQLite, and Microsoft's SQL Server. The book notes when syntax or a function is PostgreSQL-specific.
+## A Note About Editions
 
-Practical SQL is published by No Starch Press and [available in PDF, .mobi, .epub, and classic print formats](https://www.nostarch.com/practicalSQL).
+This repository is for the First Edition of Practical SQL, published in 2018. If you're reading the [Second Edition](https://nostarch.com/practical-sql-2nd-edition/), scheduled for publication in 2022, you must [use the code and data in the second edition repository](https://github.com/anthonydb/practical-sql2/). If the cover of your copy does not say, "2nd Edition," then you're using the first edition. 
 
-Questions? I love to hear from readers. Please email [practicalsqlbook@gmail.com](mailto:practicalsqlbook@gmail.com)
+## Who Is This Book For?
 
-## What's Here
+Practical SQL is ideal for beginners as well as those who know some SQL and want to go deeper. 
+
+## Which Database Does The Book Use?
+
+We use [PostgreSQL](https://www.postgresql.org), which is free and open source. PostgreSQL is used by some of the world's largest companies. Its SQL syntax adheres closely to the ANSI SQL standard, and the concepts you learn will apply to most database management systems, including MySQL, Oracle, SQLite, and others. Note that Microsoft SQL Server employs a variant of SQL called T-SQL, which is not covered by Practical SQL.
+
+## What's In This Repository?
 
 **Code**: All the SQL statements and command-line listings used in each chapter, organized by chapter folders.
 
@@ -57,3 +63,12 @@ You can obtain all the code and data at once by downloading this repository as a
 **GitHub Users**
 
 GitHub users may want to clone the repository locally and occasionally perform a `git pull` to receive any updates.
+
+# Where Can I Buy the Book?
+
+Practical SQL is published by No Starch Press and [available in PDF, .mobi, .epub, and classic print formats](https://www.nostarch.com/practicalSQL).
+
+# How Can I Get Help?
+
+Questions? Please email [practicalsqlbook@gmail.com](mailto:practicalsqlbook@gmail.com). You can also open an issue in this repository.
+
