@@ -28,6 +28,12 @@ Be sure to download the data files and code examples from this repo using the st
 
 In addition, avoid opening or changing CSV files with Excel or a text editor, which can lead to data loss or encoding changes. See page 135 of the book for details.
 
+### Chapter 5: Basic Math and Stats with SQL
+
+**median() function incompatible with PostgreSQL 14 and later**:
+
+An update to the `array_append()` function in PostgreSQL 14 breaks the user-defined `median()` function described on pages 69-70. This function has been removed from the 2nd Edition of the book, and users should focus on the `percentile_cont()` function for calculating medians and percentiles.
+
 ### Chapter 9: Inspecting and Modifying Data
 
 **Errata**:
