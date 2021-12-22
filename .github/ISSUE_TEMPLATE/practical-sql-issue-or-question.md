@@ -7,7 +7,7 @@ assignees: anthonydb
 
 ---
 
-Having trouble with data, code, or exercises in Practical SQL? I'm glad to help. Please answer these questions, and I'll typically reply within one to two business days.
+Having trouble with data, code, or exercises in Practical SQL, 1st Edition? I'm glad to help. Please answer these questions, and I'll typically reply within one to two business days.
 
 Please include the chapter number in your issue title. For example: "Chapter 13: Regular Expression Question"
 
