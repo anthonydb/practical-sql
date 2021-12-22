@@ -20,11 +20,12 @@ SELECT CAST(11 AS numeric(3,1)) / 6;
 
 -- Listing 5-3: Exponents, roots and factorials with SQL
 
-SELECT 3 ^ 4;    -- exponentiation
-SELECT |/ 10;    -- square root (operator)
-SELECT sqrt(10); -- square root (function)
-SELECT ||/ 10;   -- cube root
-SELECT 4 !;      -- factorial
+SELECT 3 ^ 4;         -- exponentiation
+SELECT |/ 10;         -- square root (operator)
+SELECT sqrt(10);      -- square root (function)
+SELECT ||/ 10;        -- cube root
+SELECT 4 !;           -- factorial (operator; PostgreSQL 13 and earlier only)
+SELECT factorial(4);  -- factorial (function)
 
 -- Order of operations
 

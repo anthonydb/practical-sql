@@ -30,9 +30,13 @@ In addition, avoid opening or changing CSV files with Excel or a text editor, wh
 
 ### Chapter 5: Basic Math and Stats with SQL
 
+**Factorial operator (!) deprecated in PostgreSQL version 14 and later**
+
+Page 58: Beginning with PostgreSQL version 14, the factorial operator (!) described in Listing 5-3 has been deprecated. Please use the `factorial()` function instead. The code listing in this repo has been updated to reflect the change, and the operator is removed from the [2nd Edition](https://github.com/anthonydb/practical-sql-2) of the book.
+
 **median() function incompatible with PostgreSQL 14 and later**:
 
-An update to the `array_append()` function in PostgreSQL 14 breaks the user-defined `median()` function described on pages 69-70. This function has been removed from the 2nd Edition of the book, and users should focus on the `percentile_cont()` function for calculating medians and percentiles.
+Pages 69-70: An update to the `array_append()` function in PostgreSQL 14 breaks the user-defined `median()` function described in Listing 5-14. This function has been removed from the 2nd Edition of the book, and users should focus on the `percentile_cont()` function for calculating medians and percentiles.
 
 ### Chapter 9: Inspecting and Modifying Data
 
