@@ -20,12 +20,11 @@ SELECT CAST(11 AS numeric(3,1)) / 6;
 
 -- Listing 5-3: Exponents, roots and factorials with SQL
 
-SELECT 3 ^ 4;         -- exponentiation
-SELECT |/ 10;         -- square root (operator)
-SELECT sqrt(10);      -- square root (function)
-SELECT ||/ 10;        -- cube root
-SELECT 4 !;           -- factorial (operator; PostgreSQL 13 and earlier only)
-SELECT factorial(4);  -- factorial (function)
+SELECT 3 ^ 4;    -- exponentiation
+SELECT |/ 10;    -- square root (operator)
+SELECT sqrt(10); -- square root (function)
+SELECT ||/ 10;   -- cube root
+SELECT 4 !;      -- factorial
 
 -- Order of operations
 
@@ -160,6 +159,10 @@ SELECT unnest(
 FROM us_counties_2010;
 
 -- Listing 5-14: Creating a median() aggregate function in PostgreSQL
+-- NOTE: As of PostgreSQL 14, this function no longer works, and for that
+-- reason it was not included in the 2nd Edition of Practical SQL.
+-- Use percentile_cont(.5) to find the median.
+
 -- Source: https://wiki.postgresql.org/wiki/Aggregate_Median
 
 CREATE OR REPLACE FUNCTION _final_median(anyarray)

@@ -30,13 +30,9 @@ In addition, avoid opening or changing CSV files with Excel or a text editor, wh
 
 ### Chapter 5: Basic Math and Stats with SQL
 
-**Factorial operator (!) deprecated in PostgreSQL version 14 and later**
+**median() function no longer works in PostgreSQL version 14 and up**:
 
-Page 58: Beginning with PostgreSQL version 14, the factorial operator (!) described in Listing 5-3 has been deprecated. Please use the `factorial()` function instead. The code listing in this repo has been updated to reflect the change, and the operator is removed from the [2nd Edition](https://github.com/anthonydb/practical-sql-2) of the book.
-
-**median() function incompatible with PostgreSQL 14 and later**:
-
-Pages 69-70: An update to the `array_append()` function in PostgreSQL 14 breaks the user-defined `median()` function described in Listing 5-14. This function has been removed from the 2nd Edition of the book, and users should focus on the `percentile_cont()` function for calculating medians and percentiles.
+As of PostgreSQL 14, the code to generate a `median()` function no longer works, and for that reason I have removed it from the 2nd Edition of Practical SQL. As explained earlier in the chapter, use `percentile_cont(.5)` to find the median.
 
 ### Chapter 9: Inspecting and Modifying Data
 
@@ -85,6 +81,15 @@ As noted on page 257 of the book, the shapefile GUI tool that's available for Wi
 
 ### Chapter 15: Saving Time with Views, Functions, and Triggers
 
-#### PL/Python Extension Installation
+#### PL/Python Extension Windows Installation Error
 
-The methodology for installing Python has evolved since the initial release of Practical SQL in 2018. Please see the [tracking issue](https://github.com/anthonydb/practical-sql/issues/38) for the most recent details for macOS and Windows.
+When attempting to run the command `CREATE EXTENSION plpythonu;` from Listing 15-14 on page 281, Windows users may receive the error `could not access file "$libdir/plpython2": No such file or directory`. This means PostgreSQL was unable to find the necessary Python language files on your system.
+
+Upon investigation, I discovered that the file `plpython3.dll` included with PostgreSQL during the EnterpriseDB Windows installation is looking for the file `python34.dll` to be present in the `C:\Windows\System32` directory. This file is included with the EDB Language Pack but not placed in that directory.
+
+Here's how to remedy the situation. Note that you must have installed the EDB Language Pack as described on page xxx of the introduction to "Practical SQL":
+
+* Using your File Explorer, navigate to `C:\edb\languagepack-10\x64\Python-3.4`
+* Copy the file `python34.dll` (right-click and select Copy).
+* Using File Explorer, navigate to `C:\Windows\System32` and paste the file.
+* You then should be able to execute the command `CREATE EXTENSION plpython3u;` within your database. Note that this command is slightly different than in the book. You're naming `plpython3u` instead of `plpythonu`.
