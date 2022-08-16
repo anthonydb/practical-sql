@@ -4,7 +4,7 @@
 
 ## A Note About Editions
 
-This repository is for the First Edition of Practical SQL, published in 2018. If you're reading the [Second Edition](https://nostarch.com/practical-sql-2nd-edition/), scheduled for publication in 2022, you must [use the code and data in the second edition repository](https://github.com/anthonydb/practical-sql-2/). If the cover of your copy does not say, "2nd Edition," then you're using the first edition. 
+This repository is for the First Edition of Practical SQL, published in 2018. If you're reading the [Second Edition](https://nostarch.com/practical-sql-2nd-edition/), published in 2022, you must [use the code and data in the second edition repository](https://github.com/anthonydb/practical-sql-2/). If the cover of your copy does not say, "2nd Edition," then you're using the first edition. 
 
 ## Who Is This Book For?
 
