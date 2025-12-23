@@ -296,7 +296,7 @@ GROUP BY state_us_abbreviation;
 -- 3,141. That reflects the ongoing adjustments to county-level geographies that
 -- typically result from government decision making. Using appropriate joins and
 -- the NULL value, identify which counties don't exist in both tables. For fun,
--- search online to  nd out why they’re missing
+-- search online to find out why they’re missing.
 
 -- Answers:
 
@@ -322,6 +322,18 @@ FROM us_counties_2010 c2010 RIGHT JOIN us_counties_2000 c2000
 ON c2010.state_fips = c2000.state_fips
    AND c2010.county_fips = c2000.county_fips
 WHERE c2010.geo_name IS NULL;
+
+-- Counties that exist in either the 2000 data or the 2010 data, but not both,
+-- can also be retrieved in a single query using a FULL OUTER JOIN.
+
+SELECT c2010.geo_name AS county_2010,
+       c2010.state_us_abbreviation AS state_2010,
+       c2000.geo_name AS county_2000,
+       c2000.state_us_abbreviation as state_2000
+FROM us_counties_2010 AS c2010 FULL OUTER JOIN us_counties_2000 AS c2000
+ON c2010.state_fips = c2000.state_fips
+    AND c2010.county_fips = c2000.county_fips
+WHERE c2000.geo_name IS NULL OR c2010.geo_name IS NULL;
 
 -- 2. Using either the median() or percentile_cont() functions in Chapter 5,
 -- determine the median of the percent change in county population.
