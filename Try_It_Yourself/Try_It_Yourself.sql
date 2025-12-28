@@ -325,6 +325,8 @@ WHERE c2010.geo_name IS NULL;
 
 -- Counties that exist in either the 2000 data or the 2010 data, but not both,
 -- can also be retrieved in a single query using a FULL OUTER JOIN.
+-- The results are the same as the two previous queries combined.
+-- Thank you to GitHub user upsideone for this solution!
 
 SELECT c2010.geo_name AS county_2010,
        c2010.state_us_abbreviation AS state_2010,
